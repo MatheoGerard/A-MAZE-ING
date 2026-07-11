@@ -1,5 +1,6 @@
 from rich.console import Console, Group
 from rich.panel import Panel
+import parsing
 
 console = Console()
 
@@ -12,13 +13,31 @@ lab_test: list[str] = [
     "         ",
 ]
 
-to_display: list[str] = []
-for line in lab_test:
-    tmp: str = line.replace("#", "[purple]██")
-    tmp = tmp.replace(" ", "[orchid]██")
-    to_display.append(tmp)
 
-final_lab = Group(*to_display)
+def visualizatoin_format(to_display: str) -> None:
+    tmp: str = to_display.replace("#", "[purple]██")
+    final = tmp.replace(" ", "[orchid]██")
+    my_panel = Panel(final, expand=False, border_style="purple")
+    console.print(my_panel)
 
-my_panel = Panel(final_lab, expand=False, border_style="purple")
-console.print(my_panel)
+
+def draw_lab_size(size: list[int]) -> str:
+    buffer: str = ""
+    is_wall: bool = True
+    for loop in range(0, size[1]):
+        for _ in range(0, size[0]):
+            if is_wall:
+                buffer = buffer + "#"
+                is_wall = False
+            else:
+                buffer = buffer + " "
+                is_wall = True
+        if not loop == size[1] - 1:
+            buffer += "\n"
+    return buffer
+
+
+if __name__ == "__main__":
+    size: list[int] = parsing.ps("config.txt")
+    display: str = draw_lab_size(size)
+    visualizatoin_format(display)
