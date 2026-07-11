@@ -38,6 +38,9 @@ def draw_lab_size(size: list[int]) -> str:
 
 
 if __name__ == "__main__":
-    size: list[int] = parsing.ps("config.txt")
-    display: str = draw_lab_size(size)
-    visualizatoin_format(display)
+    try:
+        size: list[int] = parsing.ps("config.txt")
+        display: str = draw_lab_size(size)
+        visualizatoin_format(display)
+    except Exception as e:
+        print(e)
