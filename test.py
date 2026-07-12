@@ -1,3 +1,4 @@
+from typing import Generator
 from rich.console import Console, Group
 from rich.panel import Panel
 import parsing
@@ -23,17 +24,34 @@ def visualizatoin_format(to_display: str) -> None:
 
 def draw_lab_size(size: list[int]) -> str:
     buffer: str = ""
-    is_wall: bool = True
-    for loop in range(0, size[1]):
-        for _ in range(0, size[0]):
-            if is_wall:
-                buffer = buffer + "#"
-                is_wall = False
+    width_total: int = size[0] * 2
+    height_total: int = (size[1] * 2) + 2
+
+    range_width = range(0, width_total)
+    range_height = range(0, height_total - 1)
+
+    is_finish: bool = False
+
+    while not is_finish:
+        for x in range_height:
+            buffer += "#"
+            if x == 0:
+                for _ in range_width:
+                    buffer += "#"
+                buffer += "\n"
+                continue
+            if x % 2 == 0:
+                for _ in range_width:
+                    buffer += "#"
             else:
-                buffer = buffer + " "
-                is_wall = True
-        if not loop == size[1] - 1:
+                for y in range_width:
+                    if y % 2 != 0:
+                        buffer += "#"
+                    else:
+                        buffer += " "
             buffer += "\n"
+        is_finish = True
+
     return buffer
 
 
