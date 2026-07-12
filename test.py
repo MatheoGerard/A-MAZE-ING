@@ -17,6 +17,7 @@ lab_test: list[str] = [
 
 def visualizatoin_format(to_display: str) -> None:
     tmp: str = to_display.replace("#", "[purple]██")
+    tmp: str = tmp.replace(".", "[blue]██")
     final = tmp.replace(" ", "[orchid]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
@@ -38,20 +39,33 @@ def draw_lab_size(size: list[int]) -> str:
 
     while not is_finish:
         for x in range_height:
-            buffer += "#"
+            buffer += "."
             if x == 0:
                 for _ in range_width:
-                    buffer += "#"
+                    buffer += "."
                 buffer += "\n"
                 continue
+
+            if x == height_total - 2:
+                for _ in range_width:
+                    buffer += "."
+                buffer += "\n"
+                continue
+
             if x % 2 == 0:
                 for j in range_width:
+                    if j == width_total - 1:
+                        buffer += "."
+                        break
                     new_cell: Cells = Cells(True, j, x - 1)
                     print(new_cell.position)
                     cells_list.append(new_cell)
                     buffer += new_cell.char
             else:
                 for y in range_width:
+                    if y == width_total - 1:
+                        buffer += "."
+                        break
                     if y % 2 != 0:
                         new_cell: Cells = Cells(True, y, x - 1)
                         print(new_cell.position)
