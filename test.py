@@ -15,10 +15,21 @@ lab_test: list[str] = [
 ]
 
 
-def visualizatoin_format(to_display: str) -> None:
-    tmp: str = to_display.replace("#", "[purple]██")
-    tmp: str = tmp.replace(".", "[blue]██")
-    final = tmp.replace(" ", "[orchid]██")
+def input_panel() -> None:
+    inputs: str = "Change color: 0\nRegenerate maze: \nExit: 9"
+    input_panel = Panel(inputs, expand=False, border_style="green")
+    console.print(input_panel)
+
+
+def change_colors() -> None:
+    color_set: list[str] = ["purple-orchid-blue", "bright_red-grey0-bright_blue"]
+
+
+def visualizatoin_format(to_display: str, color_set: str) -> None:
+    colors: list[str] = color_set.split("-")
+    tmp: str = to_display.replace("#", f"[{colors[0]}]██")
+    tmp: str = tmp.replace(".", f"[{colors[2]}]██")
+    final = tmp.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
 
@@ -33,9 +44,6 @@ def draw_lab_size(size: list[int]) -> str:
     range_height = range(0, height_total - 1)
 
     is_finish: bool = False
-
-    # FIXME: supp les debug
-    debug_len: int = 0
 
     while not is_finish:
         for x in range_height:
@@ -58,7 +66,6 @@ def draw_lab_size(size: list[int]) -> str:
                         buffer += "."
                         break
                     new_cell: Cells = Cells(True, j, x - 1)
-                    print(new_cell.position)
                     cells_list.append(new_cell)
                     buffer += new_cell.char
             else:
@@ -68,32 +75,53 @@ def draw_lab_size(size: list[int]) -> str:
                         break
                     if y % 2 != 0:
                         new_cell: Cells = Cells(True, y, x - 1)
-                        print(new_cell.position)
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
                         new_cell: Cells = Cells(False, y, x - 1)
-                        print(new_cell.position)
                         cells_list.append(new_cell)
                         buffer += new_cell.char
-
-                        # FIXME: supp les debug
-                        debug_len += 1
 
             buffer += "\n"
         is_finish = True
 
-        # FIXME: supp les debug
-        print(debug_len)
-        print(len(cells_list))
-
     return buffer
 
 
+def init_lab(index: int, color_set: list[str]) -> None:
+    console.clear()
+    size: list[int] = parsing.ps("config.txt")
+    display: str = draw_lab_size(size)
+    visualizatoin_format(display, color_set[index])
+    input_panel()
+
+
+def loop_gameplay() -> None:
+    color_set: list[str] = [
+        "purple-orchid-blue",
+        "bright_red-grey0-bright_blue",
+        "grey3-grey46-grey85",
+    ]
+
+    is_exit: bool = False
+    color_index: int = 0
+
+    init_lab(color_index, color_set)
+    while not is_exit:
+        key: str = input("Input: ")
+        match key:
+            case "9":
+                is_exit = True
+                print("Exit...")
+            case "0":
+                if color_index == len(color_set) - 1:
+                    color_index = 0
+                else:
+                    color_index += 1
+                init_lab(color_index, color_set)
+            case _:
+                print("This choice is not supported!")
+
+
 if __name__ == "__main__":
-    try:
-        size: list[int] = parsing.ps("config.txt")
-        display: str = draw_lab_size(size)
-        visualizatoin_format(display)
-    except Exception as e:
-        print(e)
+    loop_gameplay()
