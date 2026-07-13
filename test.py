@@ -124,4 +124,7 @@ def loop_gameplay() -> None:
 
 
 if __name__ == "__main__":
-    loop_gameplay()
+    try:
+        loop_gameplay()
+    except KeyboardInterrupt as e:
+        print(e)
