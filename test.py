@@ -2,6 +2,7 @@ from rich.console import Console
 from rich.panel import Panel
 import parsing
 from classes import Cells
+from typing import Any
 
 console = Console()
 
@@ -24,13 +25,14 @@ def input_panel() -> None:
 def visualizatoin_format(to_display: str, color_set: str) -> None:
     colors: list[str] = color_set.split("-")
     tmp: str = to_display.replace("#", f"[{colors[0]}]██")
-    tmp: str = tmp.replace(".", f"[{colors[2]}]██")
-    final = tmp.replace(" ", f"[{colors[1]}]██")
+    tmp2: str = tmp.replace(".", f"[{colors[2]}]██")
+    tmp3: str = tmp2.replace("E", "[green]██")
+    final = tmp3.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
 
 
-def draw_lab_size(size: list[int]) -> str:
+def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) -> str:
     cells_list: list[Cells] = []
     buffer: str = ""
     width_total: int = size[0] * 2
@@ -62,6 +64,9 @@ def draw_lab_size(size: list[int]) -> str:
                         buffer += "."
                         break
                     new_cell: Cells = Cells(True, j, x - 1)
+                    if new_cell.position == entry_val or new_cell.position == exit_val:
+                        print(new_cell.position)
+                        new_cell.char = "E"
                     cells_list.append(new_cell)
                     buffer += new_cell.char
             else:
@@ -71,10 +76,22 @@ def draw_lab_size(size: list[int]) -> str:
                         break
                     if y % 2 != 0:
                         new_cell: Cells = Cells(True, y, x - 1)
+                        if (
+                            new_cell.position == entry_val
+                            or new_cell.position == exit_val
+                        ):
+                            print(new_cell.position)
+                            new_cell.char = "E"
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
                         new_cell: Cells = Cells(False, y, x - 1)
+                        if (
+                            new_cell.position == entry_val
+                            or new_cell.position == exit_val
+                        ):
+                            print(new_cell.position)
+                            new_cell.char = "E"
                         cells_list.append(new_cell)
                         buffer += new_cell.char
 
@@ -85,10 +102,15 @@ def draw_lab_size(size: list[int]) -> str:
 
 
 def init_lab(index: int, color_set: list[str]) -> None:
+    parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
+    parsing.validate_config(parse_data)
+    size_values: list[int] = parsing.validate_size_value(parse_data)
+    entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
+    parsing.validate_perfect(parse_data)
+    parsing.validate_output_name(parse_data)
     console.clear()
-    size: list[int] = parsing.ps("config.txt")
-    display: str = draw_lab_size(size)
-    visualizatoin_format(display, color_set[index])
+    lab_data: str = draw_lab_size(size_values, entry_exit[0], entry_exit[1])
+    visualizatoin_format(lab_data, color_set[index])
     input_panel()
 
 
@@ -122,5 +144,7 @@ def loop_gameplay() -> None:
 if __name__ == "__main__":
     try:
         loop_gameplay()
+    except ValueError as e:
+        print(e)
     except KeyboardInterrupt as e:
         print(e)

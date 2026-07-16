@@ -1,9 +1,18 @@
 class Cells:
-    def __init__(self, is_wall: bool, x: int, y: int) -> None:
+    def __init__(
+        self,
+        is_wall: bool,
+        x: int,
+        y: int,
+        is_entry: bool = False,
+        is_exit: bool = False,
+    ) -> None:
         self.char: str = ""
         self.set_char(is_wall)
         self.position: list[int] = []
         self.set_position(x, y)
+        self.is_entry = is_entry
+        self.is_exit = is_exit
 
     def set_char(self, is_wall: bool) -> None:
         if is_wall:

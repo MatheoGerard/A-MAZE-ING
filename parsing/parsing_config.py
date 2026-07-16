@@ -48,7 +48,7 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
     return size
 
 
-def validate_entry_exit(data: dict[str, Any], size: list[int]) -> None:
+def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]]:
     entry_point: list[int] = []
     if "," not in data["ENTRY"]:
         raise ValueError("wrong data format for ENTRY point")
@@ -72,6 +72,11 @@ def validate_entry_exit(data: dict[str, Any], size: list[int]) -> None:
         raise ValueError("Exit width not in maze!")
     if exit_point[1] < 0 or exit_point[1] > size[1] - 1:
         raise ValueError("Exit height not in maze!")
+
+    return [
+        [entry_point[0] * 2, entry_point[1] * 2],
+        [exit_point[0] * 2, exit_point[1] * 2],
+    ]
 
 
 def validate_perfect(data: dict[str, Any]) -> None:
