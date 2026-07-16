@@ -74,11 +74,24 @@ def validate_entry_exit(data: dict[str, Any], size: list[int]) -> None:
         raise ValueError("Exit height not in maze!")
 
 
+def validate_perfect(data: dict[str, Any]) -> None:
+    if data["PERFECT"] != "True" and data["PERFECT"] != "False":
+        raise ValueError("PERFECT must be 'True' or 'False'")
+
+
+def validate_output_name(data: dict[str, Any]) -> None:
+    if data["OUTPUT_FILE"] != "maze.txt":
+        raise ValueError("OUTPUT_FILE must be maze.txt")
+
+
 if __name__ == "__main__":
     try:
         parse_data: dict[str, Any] = parsing_config("../config.txt")
-        print(validate_config(parse_data))
+        validate_config(parse_data)
         size_values: list[int] = validate_size_value(parse_data)
         validate_entry_exit(parse_data, size_values)
+        validate_perfect(parse_data)
+        validate_output_name(parse_data)
+        print("MAZE GENERATE")
     except Exception as e:
         print(e)
