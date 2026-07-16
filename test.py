@@ -21,10 +21,6 @@ def input_panel() -> None:
     console.print(input_panel)
 
 
-def change_colors() -> None:
-    color_set: list[str] = ["purple-orchid-blue", "bright_red-grey0-bright_blue"]
-
-
 def visualizatoin_format(to_display: str, color_set: str) -> None:
     colors: list[str] = color_set.split("-")
     tmp: str = to_display.replace("#", f"[{colors[0]}]██")

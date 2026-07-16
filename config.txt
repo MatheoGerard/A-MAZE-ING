@@ -1,7 +1,8 @@
-#KEY=VALUE
-
-HEIGHT=4
-WIDTH=8
+#KEY=value
+               
+hjzex=vfjdxsvfikjdzbvh
+WIDTH==20
+HEIGHT=15
 ENTRY=0,0
 EXIT=19,14
 OUTPUT_FILE=maze.txt
