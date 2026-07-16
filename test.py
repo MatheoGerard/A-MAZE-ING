@@ -6,15 +6,6 @@ from typing import Any
 
 console = Console()
 
-lab_test: list[str] = [
-    "##### ###",
-    "##    ###",
-    "## ## ###",
-    "##       ",
-    "######## ",
-    "         ",
-]
-
 
 def input_panel() -> None:
     inputs: str = "Change color: 0\nRegenerate maze: \nExit: 9"
