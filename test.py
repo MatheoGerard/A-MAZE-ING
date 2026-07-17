@@ -107,9 +107,11 @@ def init_lab(index: int, color_set: list[str]) -> None:
         size_values, entry_exit[0], entry_exit[1]
     )
     lab_data_str: str = lab_data[0]
+    print(lab_data_str)
     active_cell: list[Cells] = lab_data[1]
     lab_data_lst: list[str] = list(lab_data_str)
     algo.change_state(active_cell[1], lab_data_lst)
+    print(active_cell[0].index_str)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 
