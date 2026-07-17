@@ -2,6 +2,7 @@ class Cells:
     def __init__(
         self,
         is_wall: bool,
+        index: int,
         x: int,
         y: int,
         is_entry: bool = False,
@@ -11,8 +12,11 @@ class Cells:
         self.set_char(is_wall)
         self.position: list[int] = []
         self.set_position(x, y)
-        self.is_entry = is_entry
-        self.is_exit = is_exit
+        self.is_entry: bool = is_entry
+        self.is_exit: bool = is_exit
+        self.is_used: bool = False
+        self.ways: int = 15
+        self.index_str: int = index
 
     def set_char(self, is_wall: bool) -> None:
         if is_wall:
@@ -28,3 +32,7 @@ class Cells:
 
         self.position.append(x)
         self.position.append(y)
+
+
+#    def define_ways(self) -> None:
+#       if self.position[0] == 0:

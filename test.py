@@ -3,6 +3,7 @@ from rich.panel import Panel
 import parsing
 from classes import Cells
 from typing import Any
+import algo
 
 console = Console()
 
@@ -23,7 +24,9 @@ def visualizatoin_format(to_display: str, color_set: str) -> None:
     console.print(my_panel)
 
 
-def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) -> str:
+def draw_lab_size(
+    size: list[int], entry_val: list[int], exit_val: list[int]
+) -> tuple[str, list[Cells]]:
     cells_list: list[Cells] = []
     buffer: str = ""
     width_total: int = size[0] * 2
@@ -54,7 +57,7 @@ def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) ->
                     if j == width_total - 1:
                         buffer += "."
                         break
-                    new_cell: Cells = Cells(True, j, x - 1)
+                    new_cell: Cells = Cells(True, len(buffer), j, x - 1)
                     if new_cell.position == entry_val or new_cell.position == exit_val:
                         print(new_cell.position)
                         new_cell.char = "E"
@@ -66,7 +69,7 @@ def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) ->
                         buffer += "."
                         break
                     if y % 2 != 0:
-                        new_cell: Cells = Cells(True, y, x - 1)
+                        new_cell: Cells = Cells(True, len(buffer), y, x - 1)
                         if (
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
@@ -76,7 +79,7 @@ def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) ->
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
-                        new_cell: Cells = Cells(False, y, x - 1)
+                        new_cell: Cells = Cells(False, len(buffer), y, x - 1)
                         if (
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
@@ -89,7 +92,7 @@ def draw_lab_size(size: list[int], entry_val: list[int], exit_val: list[int]) ->
             buffer += "\n"
         is_finish = True
 
-    return buffer
+    return (buffer, cells_list)
 
 
 def init_lab(index: int, color_set: list[str]) -> None:
@@ -100,8 +103,14 @@ def init_lab(index: int, color_set: list[str]) -> None:
     parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
     console.clear()
-    lab_data: str = draw_lab_size(size_values, entry_exit[0], entry_exit[1])
-    visualizatoin_format(lab_data, color_set[index])
+    lab_data: tuple[str, list[Cells]] = draw_lab_size(
+        size_values, entry_exit[0], entry_exit[1]
+    )
+    lab_data_str: str = lab_data[0]
+    active_cell: list[Cells] = lab_data[1]
+    lab_data_lst: list[str] = list(lab_data_str)
+    algo.change_state(active_cell[1], lab_data_lst)
+    visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 
 
