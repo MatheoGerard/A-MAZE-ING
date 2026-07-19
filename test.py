@@ -57,7 +57,7 @@ def draw_lab_size(
                     if j == width_total - 1:
                         buffer += "."
                         break
-                    new_cell: Cells = Cells(True, len(buffer), j, x - 1)
+                    new_cell: Cells = Cells(True, len(buffer), j, x - 1, size)
                     if new_cell.position == entry_val or new_cell.position == exit_val:
                         print(new_cell.position)
                         new_cell.char = "E"
@@ -69,7 +69,7 @@ def draw_lab_size(
                         buffer += "."
                         break
                     if y % 2 != 0:
-                        new_cell: Cells = Cells(True, len(buffer), y, x - 1)
+                        new_cell: Cells = Cells(True, len(buffer), y, x - 1, size)
                         if (
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
@@ -79,7 +79,7 @@ def draw_lab_size(
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
-                        new_cell: Cells = Cells(False, len(buffer), y, x - 1)
+                        new_cell: Cells = Cells(False, len(buffer), y, x - 1, size)
                         if (
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
@@ -109,9 +109,10 @@ def init_lab(index: int, color_set: list[str]) -> None:
     lab_data_str: str = lab_data[0]
     print(lab_data_str)
     active_cell: list[Cells] = lab_data[1]
+    print(active_cell[26].position)
+    print(active_cell[0].walls)
     lab_data_lst: list[str] = list(lab_data_str)
     algo.change_state(active_cell[1], lab_data_lst)
-    print(active_cell[0].index_str)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 

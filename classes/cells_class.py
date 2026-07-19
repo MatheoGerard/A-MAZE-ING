@@ -5,6 +5,7 @@ class Cells:
         index: int,
         x: int,
         y: int,
+        size: list[int],
         is_entry: bool = False,
         is_exit: bool = False,
     ) -> None:
@@ -16,7 +17,9 @@ class Cells:
         self.is_exit: bool = is_exit
         self.is_used: bool = False
         self.ways: int = 15
+        self.walls: dict[str, bool] = {"N": True, "E": True, "S": True, "W": True}
         self.index_str: int = index
+        self.define_walls(is_wall, size)
 
     def set_char(self, is_wall: bool) -> None:
         if is_wall:
@@ -33,6 +36,13 @@ class Cells:
         self.position.append(x)
         self.position.append(y)
 
-
-#    def define_ways(self) -> None:
-#       if self.position[0] == 0:
+    def define_walls(self, is_wall: bool, size: list[int]) -> None:
+        if not is_wall:
+            if self.position[1] == 0:
+                self.walls["N"] = False
+            if self.position[0] == 0:
+                self.walls["W"] = False
+            if self.position[1] == size[1]:
+                self.walls["S"] = False
+            if self.position[0] == size[0]:
+                self.walls["E"] = False
