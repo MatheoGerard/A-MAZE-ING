@@ -37,12 +37,17 @@ class Cells:
         self.position.append(y)
 
     def define_walls(self, is_wall: bool, size: list[int]) -> None:
-        if not is_wall:
+        if is_wall:
+            for dir in self.walls:
+                self.walls[dir] = False
+        else:
             if self.position[1] == 0:
                 self.walls["N"] = False
             if self.position[0] == 0:
                 self.walls["W"] = False
-            if self.position[1] == size[1]:
+            if self.position[1] == size[1] + (size[1] - 1):
+                print(size[1] + (size[1] - 1))
                 self.walls["S"] = False
-            if self.position[0] == size[0]:
+            if self.position[0] == size[0] + (size[0] - 1):
+                print(size[0] + (size[0] - 1))
                 self.walls["E"] = False
