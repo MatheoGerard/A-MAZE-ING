@@ -104,6 +104,14 @@ def set_cells_index(cells_list: list[Cells]) -> None:
         index += 1
 
 
+def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -> None:
+    for c in cells_list:
+        if c.position == entry_exit[0]:
+            raise ValueError("Entry in middle symbol")
+        elif c.position == entry_exit[1]:
+            raise ValueError("Exit in middle symbol")
+
+
 def init_lab(index: int, color_set: list[str]) -> None:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
@@ -129,7 +137,8 @@ def init_lab(index: int, color_set: list[str]) -> None:
     lab_data_lst: list[str] = list(lab_data_str)
     # algo.change_state(active_cell[1], lab_data_lst)
     # print(algo.find_center(size_values))
-    algo.symbol_logic(active_cell, size_values, lab_data_lst)
+    symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
+    entry_exit_in_symbol(entry_exit, symbol_lst)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 

@@ -17,7 +17,7 @@ def center_symbol(
     center: tuple[int, int],
     size_values: list[int],
     lab_str: list[str],
-) -> None:
+) -> list[Cells]:
     cell_center: Cells = cells_list[0]
     change_line: int = (size_values[0] * 2) - 1
 
@@ -50,9 +50,12 @@ def center_symbol(
     for case in symbole_42:
         change_state(case, lab_str, True)
 
+    return symbole_42
+
 
 def symbol_logic(
     cells_list: list[Cells], size_values: list[int], lab_str: list[str]
-) -> None:
+) -> list[Cells]:
     center: tuple[int, int] = find_center(size_values)
-    center_symbol(cells_list, center, size_values, lab_str)
+
+    return center_symbol(cells_list, center, size_values, lab_str)
