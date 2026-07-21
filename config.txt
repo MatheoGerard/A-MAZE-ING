@@ -1,9 +1,9 @@
 #KEY=value
                
 hjzex=vfjdxsvfikjdzbvh
-WIDTH=5
-HEIGHT=3
+WIDTH=9
+HEIGHT=11
 ENTRY=0,0
-EXIT=4,1
+EXIT=3,1
 OUTPUT_FILE=maze.txt
 PERFECT=False

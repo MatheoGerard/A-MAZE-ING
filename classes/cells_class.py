@@ -19,6 +19,7 @@ class Cells:
         self.ways: int = 15
         self.walls: dict[str, bool] = {"N": True, "E": True, "S": True, "W": True}
         self.index_str: int = index
+        self.index_list: int = 0
         self.define_walls(is_wall, size)
 
     def set_char(self, is_wall: bool) -> None:

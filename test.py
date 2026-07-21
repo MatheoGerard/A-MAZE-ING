@@ -19,7 +19,8 @@ def visualizatoin_format(to_display: str, color_set: str) -> None:
     tmp: str = to_display.replace("#", f"[{colors[0]}]██")
     tmp2: str = tmp.replace(".", f"[{colors[2]}]██")
     tmp3: str = tmp2.replace("E", "[green]██")
-    final = tmp3.replace(" ", f"[{colors[1]}]██")
+    tmp4: str = tmp3.replace("L", "[red]██")
+    final = tmp4.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
 
@@ -95,6 +96,14 @@ def draw_lab_size(
     return (buffer, cells_list)
 
 
+def set_cells_index(cells_list: list[Cells]) -> None:
+    index: int = 0
+
+    for c in cells_list:
+        c.index_list = index
+        index += 1
+
+
 def init_lab(index: int, color_set: list[str]) -> None:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
@@ -111,13 +120,16 @@ def init_lab(index: int, color_set: list[str]) -> None:
     lab_data_str: str = lab_data[0]
     print(lab_data_str)
     active_cell: list[Cells] = lab_data[1]
+    set_cells_index(active_cell)
     for c in active_cell:
         if not c.char == "#":
             print(c.position)
             print(c.walls)
     print(size_values[0])
     lab_data_lst: list[str] = list(lab_data_str)
-    algo.change_state(active_cell[1], lab_data_lst)
+    # algo.change_state(active_cell[1], lab_data_lst)
+    # print(algo.find_center(size_values))
+    algo.symbol_logic(active_cell, size_values, lab_data_lst)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 
