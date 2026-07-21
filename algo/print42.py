@@ -50,7 +50,21 @@ def center_symbol(
     for case in symbole_42:
         change_state(case, lab_str, True)
 
+    change_wall_cell(cells_list, symbole_42, size_values)
+
     return symbole_42
+
+
+def change_wall_cell(
+    cells_list: list[Cells], symbol_lst: list[Cells], size_values: list[int]
+) -> None:
+    change_line: int = (size_values[0] * 2) - 1
+
+    for c in symbol_lst:
+        cells_list[c.index_list - 1].walls["E"] = False
+        cells_list[c.index_list + 1].walls["W"] = False
+        cells_list[c.index_list - change_line].walls["S"] = False
+        cells_list[c.index_list + change_line].walls["N"] = False
 
 
 def symbol_logic(

@@ -116,8 +116,6 @@ def init_lab(index: int, color_set: list[str]) -> None:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
-    print(size_values[0])
-    print(size_values[1])
     entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
     parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
@@ -126,18 +124,14 @@ def init_lab(index: int, color_set: list[str]) -> None:
         size_values, entry_exit[0], entry_exit[1]
     )
     lab_data_str: str = lab_data[0]
-    print(lab_data_str)
     active_cell: list[Cells] = lab_data[1]
     set_cells_index(active_cell)
+    lab_data_lst: list[str] = list(lab_data_str)
+    symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
     for c in active_cell:
         if not c.char == "#":
             print(c.position)
             print(c.walls)
-    print(size_values[0])
-    lab_data_lst: list[str] = list(lab_data_str)
-    # algo.change_state(active_cell[1], lab_data_lst)
-    # print(algo.find_center(size_values))
-    symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
     entry_exit_in_symbol(entry_exit, symbol_lst)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
