@@ -99,6 +99,8 @@ def init_lab(index: int, color_set: list[str]) -> None:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
+    print(size_values[0])
+    print(size_values[1])
     entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
     parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
@@ -110,8 +112,9 @@ def init_lab(index: int, color_set: list[str]) -> None:
     print(lab_data_str)
     active_cell: list[Cells] = lab_data[1]
     for c in active_cell:
-        print(c.position)
-        print(c.walls)
+        if not c.char == "#":
+            print(c.position)
+            print(c.walls)
     print(size_values[0])
     lab_data_lst: list[str] = list(lab_data_str)
     algo.change_state(active_cell[1], lab_data_lst)

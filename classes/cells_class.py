@@ -45,9 +45,7 @@ class Cells:
                 self.walls["N"] = False
             if self.position[0] == 0:
                 self.walls["W"] = False
-            if self.position[1] == size[1] + (size[1] - 1):
-                print(size[1] + (size[1] - 1))
+            if self.position[1] >= size[1]:
                 self.walls["S"] = False
-            if self.position[0] == size[0] + (size[0] - 1):
-                print(size[0] + (size[0] - 1))
+            if self.position[0] == size[0] + (size[0] - 2):
                 self.walls["E"] = False
