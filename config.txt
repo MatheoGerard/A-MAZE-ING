@@ -3,7 +3,7 @@
 hjzex=vfjdxsvfikjdzbvh
 WIDTH=9
 HEIGHT=11
-ENTRY=5,5
-EXIT=6,5
+ENTRY=0,0
+EXIT=8,10
 OUTPUT_FILE=maze.txt
 PERFECT=False

@@ -49,6 +49,9 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
 
 
 def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]]:
+    if data["ENTRY"] == data["EXIT"]:
+        raise ValueError("Entry and exit in same place")
+
     entry_point: list[int] = []
     if "," not in data["ENTRY"]:
         raise ValueError("wrong data format for ENTRY point")
