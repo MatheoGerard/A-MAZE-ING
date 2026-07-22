@@ -60,7 +60,6 @@ def draw_lab_size(
                         break
                     new_cell: Cells = Cells(True, len(buffer), j, x - 1, size)
                     if new_cell.position == entry_val or new_cell.position == exit_val:
-                        print(new_cell.position)
                         new_cell.char = "E"
                     cells_list.append(new_cell)
                     buffer += new_cell.char
@@ -75,7 +74,6 @@ def draw_lab_size(
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
                         ):
-                            print(new_cell.position)
                             new_cell.char = "E"
                         cells_list.append(new_cell)
                         buffer += new_cell.char
@@ -85,7 +83,6 @@ def draw_lab_size(
                             new_cell.position == entry_val
                             or new_cell.position == exit_val
                         ):
-                            print(new_cell.position)
                             new_cell.char = "E"
                         cells_list.append(new_cell)
                         buffer += new_cell.char
@@ -132,7 +129,7 @@ def init_lab(index: int, color_set: list[str]) -> None:
     #   if not c.char == "#":
     #      print(c.position)
     #     print(c.walls)
-    print(algo.gen_maze(active_cell))
+    algo.gen_maze(active_cell, size_values, lab_data_lst)
     entry_exit_in_symbol(entry_exit, symbol_lst)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()

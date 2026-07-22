@@ -21,6 +21,7 @@ class Cells:
         self.index_str: int = index
         self.index_list: int = 0
         self.define_walls(is_wall, size)
+        self.is_used = False
 
     def set_char(self, is_wall: bool) -> None:
         if is_wall:
