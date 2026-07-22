@@ -128,10 +128,11 @@ def init_lab(index: int, color_set: list[str]) -> None:
     set_cells_index(active_cell)
     lab_data_lst: list[str] = list(lab_data_str)
     symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
-    for c in active_cell:
-        if not c.char == "#":
-            print(c.position)
-            print(c.walls)
+    # for c in active_cell:
+    #   if not c.char == "#":
+    #      print(c.position)
+    #     print(c.walls)
+    print(algo.gen_maze(active_cell))
     entry_exit_in_symbol(entry_exit, symbol_lst)
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
@@ -139,6 +140,7 @@ def init_lab(index: int, color_set: list[str]) -> None:
 
 def loop_gameplay() -> None:
     color_set: list[str] = [
+        "dark_red-dark_goldenrod-dark_orange3",
         "purple-orchid-blue",
         "bright_red-grey0-bright_blue",
         "grey3-grey46-grey85",
