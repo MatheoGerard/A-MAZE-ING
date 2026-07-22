@@ -17,6 +17,14 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
     return False
 
 
+def back_track(cells_list: list[Cells], cell: Cells, direction_history: list[str], size_values: list[int]) -> Cells:
+    while check_back(cells_list, cell, size_values):
+        
+
+
+
+
+
 def choice_direction(cell: Cells) -> str:
     is_ok: bool = False
     dir: str = ""
@@ -73,10 +81,10 @@ def gen_maze(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
     current: Cells = cells_list[0]
-    print(current.position)
+    direction_history: list[str] = []
 
-    for _ in range(0, 5):
-        direction: str = choice_direction(current)
-        change_cell_state(current, direction, size_values, cells_list, lab_lst)
-        current = change_current_cell(current, cells_list, size_values, direction)
-        print(current.position)
+    direction: str = choice_direction(current)
+    direction_history.append(direction)
+
+    change_cell_state(current, direction, size_values, cells_list, lab_lst)
+    current = change_current_cell(current, cells_list, size_values, direction)
