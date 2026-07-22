@@ -3,6 +3,20 @@ from classes import Cells
 import random
 
 
+def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> bool:
+    change_line: int = (size_values[0] * 2) - 1
+
+    if (
+        cells_list[cell.index_list + 1].is_used
+        and cells_list[cell.index_list - 1].is_used
+        and cells_list[cell.index_list + change_line].is_used
+        and cells_list[cell.index_list - change_line].is_used
+    ):
+        return True
+
+    return False
+
+
 def choice_direction(cell: Cells) -> str:
     is_ok: bool = False
     dir: str = ""
