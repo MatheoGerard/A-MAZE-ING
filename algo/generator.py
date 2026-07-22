@@ -61,7 +61,8 @@ def gen_maze(
     current: Cells = cells_list[0]
     print(current.position)
 
-    direction: str = choice_direction(current)
-    change_cell_state(current, direction, size_values, cells_list, lab_lst)
-    current = change_current_cell(current, cells_list, size_values, direction)
-    print(current.position)
+    for _ in range(0, 5):
+        direction: str = choice_direction(current)
+        change_cell_state(current, direction, size_values, cells_list, lab_lst)
+        current = change_current_cell(current, cells_list, size_values, direction)
+        print(current.position)
