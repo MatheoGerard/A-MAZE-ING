@@ -7,7 +7,7 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
     change_line: int = (size_values[0] * 2) - 2
     vertical_size: int = (size_values[1] * 2) - 2
 
-    # NOTE: corners
+    # corners
     if cell.position[1] == 0 and cell.position[0] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
@@ -32,7 +32,7 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
             and cells_list[cell.index_list - change_line].is_used
         ):
             return True
-    # NOTE: haut/bas
+    # haut/bas
     elif cell.position[1] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
@@ -47,7 +47,7 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
             and cells_list[cell.index_list - change_line].is_used
         ):
             return True
-    # NOTE: droite/gauche
+    # droite/gauche
     elif cell.position[0] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
@@ -62,7 +62,7 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
             and cells_list[cell.index_list + change_line].is_used
         ):
             return True
-    # NOTE: normal
+    # normal
     else:
         if (
             cells_list[cell.index_list + 2].is_used
@@ -84,9 +84,7 @@ def back_track(
     change_line: int = (size_values[0] * 2) - 2
     current_cell: Cells = cell
 
-    print(check_back(cells_list, cell, size_values))
-    while check_back(cells_list, current_cell, size_values):
-        print(current_cell.position)
+    while check_back(cells_list, cell, size_values):
         if len(direction_history) == 0:
             print("no direction in history")
             break
@@ -118,7 +116,7 @@ def debug_number_cells(cell_list: list[Cells]):
             nb_cell += 1
 
     total_cell: int = len(active_cells)
-    # print(f"{total_cell} vs {nb_cell}")
+    print(f"{total_cell} vs {nb_cell}")
 
 
 def choice_direction(cell: Cells) -> str:
@@ -145,15 +143,19 @@ def change_cell_state(
     change_line: int = (size_values[0] * 2) - 1
 
     if dir == "N":
+        print("north")
         cells_list[cell.index_list - change_line].char = " "
-        lab_lst[cell.index_str - change_line - 3] = " "
+        lab_lst[cell.index_str - change_line - 1] = " "
     elif dir == "E":
+        print("est")
         cells_list[cell.index_list + 1].char = " "
         lab_lst[cell.index_str + 1] = " "
     elif dir == "S":
+        print("sud")
         cells_list[cell.index_list - change_line].char = " "
         lab_lst[cell.index_str + change_line + 3] = " "
     elif dir == "W":
+        print("west")
         cells_list[cell.index_list - 1].char = " "
         lab_lst[cell.index_str - 1] = " "
 
@@ -190,7 +192,7 @@ def gen_maze(
     current.is_used = True
 
     while not finish_check(cells_list):
-        print(direction_history, flush=True)
+        print(current.position)
         back_track(cells_list, current, direction_history, size_values)
         direction: str = choice_direction(current)
         direction_history.append(direction)
