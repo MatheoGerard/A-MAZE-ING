@@ -17,12 +17,26 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
     return False
 
 
-def back_track(cells_list: list[Cells], cell: Cells, direction_history: list[str], size_values: list[int]) -> Cells:
+def back_track(
+    cells_list: list[Cells],
+    cell: Cells,
+    direction_history: list[str],
+    size_values: list[int],
+) -> Cells:
+    change_line: int = (size_values[0] * 2) - 1
+    current_cell: Cells = cell
+
     while check_back(cells_list, cell, size_values):
-        
+        if direction_history.pop() == "N":
+            current_cell = cells_list[cell.index_list - change_line]
+        elif direction_history.pop() == "S":
+            current_cell = cells_list[cell.index_list + change_line]
+        elif direction_history.pop() == "E":
+            current_cell = cells_list[cell.index_list + 1]
+        else:
+            current_cell = cells_list[cell.index_list - 1]
 
-
-
+    return current_cell
 
 
 def choice_direction(cell: Cells) -> str:
