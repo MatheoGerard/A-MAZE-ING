@@ -130,7 +130,9 @@ def init_lab(index: int, color_set: list[str]) -> None:
     #      print(c.position)
     #     print(c.walls)
     algo.gen_maze(active_cell, size_values, lab_data_lst)
+    print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
+
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
 
