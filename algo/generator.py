@@ -84,7 +84,6 @@ def back_track(
     change_line: int = (size_values[0] * 2) - 2
     current_cell: Cells = cell
 
-    print(check_back(cells_list, cell, size_values))
     while check_back(cells_list, current_cell, size_values):
         print(current_cell.position)
         if len(direction_history) == 0:
@@ -121,16 +120,46 @@ def debug_number_cells(cell_list: list[Cells]):
     # print(f"{total_cell} vs {nb_cell}")
 
 
-def choice_direction(cell: Cells) -> str:
-    is_ok: bool = False
+def choice_direction(
+    reverse_dict: dict[str, str],
+    cells_list: list[Cells],
+    cell: Cells,
+    direction_history: list[str],
+    size_values: list[int],
+) -> str:
     dir: str = ""
+    dir_list: list[str] = []
 
-    while not is_ok:
-        dir_list: list[str] = ["N", "W", "S", "E"]
-        dir: str = dir_list[random.randint(0, len(dir_list) - 1)]
+    change_line: int = (size_values[0] * 2) - 2
+
+    dir_list = ["N", "E", "S", "W"]
+
+    for dir in dir_list:
         if not cell.walls[dir]:
-            continue
-        is_ok = True
+            print(f"remove {dir} to cell:{cell.index_list}")
+            dir_list.remove(dir)
+
+    for dir in dir_list:
+        if len(direction_history) != 0 and dir == direction_history[-1]:
+            dir_list.remove(reverse_dict[dir])
+
+    if "N" in dir_list:
+        if cells_list[cell.index_list - change_line].is_used:
+            dir_list.remove("N")
+
+    if "S" in dir_list:
+        if cells_list[cell.index_list + change_line].is_used:
+            dir_list.remove("S")
+
+    if "E" in dir_list:
+        if cells_list[cell.index_list + 2].is_used:
+            dir_list.remove("E")
+
+    if "W" in dir_list:
+        if cells_list[cell.index_list - 2].is_used:
+            dir_list.remove("W")
+
+    dir: str = dir_list[random.randint(0, len(dir_list) - 1)]
 
     return dir
 
@@ -188,11 +217,13 @@ def gen_maze(
     current: Cells = cells_list[0]
     direction_history: list[str] = []
     current.is_used = True
+    direction_reverse: dict[str, str] = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
     while not finish_check(cells_list):
-        print(direction_history, flush=True)
         back_track(cells_list, current, direction_history, size_values)
-        direction: str = choice_direction(current)
+        direction: str = choice_direction(
+            direction_reverse, cells_list, current, direction_history, size_values
+        )
         direction_history.append(direction)
         change_cell_state(current, direction, size_values, cells_list, lab_lst)
         current = change_current_cell(current, cells_list, size_values, direction)

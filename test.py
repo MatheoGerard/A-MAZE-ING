@@ -125,6 +125,7 @@ def init_lab(index: int, color_set: list[str]) -> None:
     set_cells_index(active_cell)
     lab_data_lst: list[str] = list(lab_data_str)
     symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
+    print(active_cell[-1].walls)
     # for c in active_cell:
     #   if not c.char == "#":
     #      print(c.position)
