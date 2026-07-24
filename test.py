@@ -1,5 +1,6 @@
 from rich.console import Console
 from rich.panel import Panel
+from algo.print42 import symbol_logic
 import parsing
 from classes import Cells
 from typing import Any
@@ -9,7 +10,7 @@ console = Console()
 
 
 def input_panel() -> None:
-    inputs: str = "Change color: 0\nRegenerate maze: \nExit: 9"
+    inputs: str = "Change color: 0\nChane center: 1\nRegenerate maze: 2\nExit: 9"
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
 
@@ -20,7 +21,8 @@ def visualizatoin_format(to_display: str, color_set: str) -> None:
     tmp2: str = tmp.replace(".", f"[{colors[2]}]██")
     tmp3: str = tmp2.replace("E", "[green]██")
     tmp4: str = tmp3.replace("L", "[blue]██")
-    final = tmp4.replace(" ", f"[{colors[1]}]██")
+    tmp5: str = tmp4.replace("Y", "[white]██")
+    final = tmp5.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
 
@@ -109,7 +111,7 @@ def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -
             raise ValueError("Exit in middle symbol")
 
 
-def init_lab(index: int, color_set: list[str]) -> None:
+def init_lab(index: int, color_set: list[str], symbol_index: int) -> None:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
@@ -124,9 +126,11 @@ def init_lab(index: int, color_set: list[str]) -> None:
     active_cell: list[Cells] = lab_data[1]
     set_cells_index(active_cell)
     lab_data_lst: list[str] = list(lab_data_str)
-    symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
+    symbol_lst: list[Cells] = algo.symbol_logic(
+        active_cell, size_values, lab_data_lst, symbol_index
+    )
     print(active_cell[-1].walls)
-    algo.gen_maze(active_cell, size_values, lab_data_lst)
+    print(f"{algo.gen_maze(active_cell, size_values, lab_data_lst)} is the way")
     print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
 
@@ -144,20 +148,27 @@ def loop_gameplay() -> None:
 
     is_exit: bool = False
     color_index: int = 0
+    symbol_index: int = 0
+    symbol_nb: int = 2
 
-    init_lab(color_index, color_set)
+    init_lab(color_index, color_set, symbol_index)
     while not is_exit:
         key: str = input("Input: ")
         match key:
             case "9":
                 is_exit = True
                 print("Exit...")
+            case "1":
+                symbol_index = algo.change_symbole(symbol_index, symbol_nb)
+                init_lab(color_index, color_set, symbol_index)
+            case "2":
+                init_lab(color_index, color_set, symbol_index)
             case "0":
                 if color_index == len(color_set) - 1:
                     color_index = 0
                 else:
                     color_index += 1
-                init_lab(color_index, color_set)
+                init_lab(color_index, color_set, symbol_index)
             case _:
                 print("This choice is not supported!")
 

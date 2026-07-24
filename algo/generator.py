@@ -225,7 +225,7 @@ def change_current_cell(
 
 def gen_maze(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
-) -> None:
+) -> list[str]:
     current: Cells = cells_list[0]
     direction_history: list[str] = []
     current.is_used = True
@@ -247,3 +247,4 @@ def gen_maze(
         current = change_current_cell(current, cells_list, size_values, direction)
         current.is_used = True
         debug_number_cells(cells_list)
+    return direction_history
