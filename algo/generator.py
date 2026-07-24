@@ -11,25 +11,25 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
     if cell.position[1] == 0 and cell.position[0] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list + change_line].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
         ):
             return True
     elif cell.position[1] == 0 and cell.position[0] == change_line:
         if (
             cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
         ):
             return True
     elif cell.position[1] == vertical_size and cell.position[0] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - change_line].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
         ):
             return True
     elif cell.position[1] == vertical_size and cell.position[0] == change_line:
         if (
             cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
         ):
             return True
     # NOTE: haut/bas
@@ -37,29 +37,29 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
         if (
             cells_list[cell.index_list + 2].is_used
             and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
         ):
             return True
     elif cell.position[1] == vertical_size:
         if (
             cells_list[cell.index_list + 2].is_used
             and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
         ):
             return True
     # NOTE: droite/gauche
     elif cell.position[0] == 0:
         if (
             cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - change_line].is_used
-            and cells_list[cell.index_list + change_line].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
         ):
             return True
     elif cell.position[0] == change_line:
         if (
             cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line].is_used
-            and cells_list[cell.index_list + change_line].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
         ):
             return True
     # NOTE: normal
@@ -67,8 +67,8 @@ def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> 
         if (
             cells_list[cell.index_list + 2].is_used
             and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line].is_used
-            and cells_list[cell.index_list - change_line].is_used
+            and cells_list[cell.index_list + change_line * 2].is_used
+            and cells_list[cell.index_list - change_line * 2].is_used
         ):
             return True
 
@@ -80,27 +80,29 @@ def back_track(
     cell: Cells,
     direction_history: list[str],
     size_values: list[int],
+    reverse_dict: dict[str, str],
 ) -> Cells:
-    change_line: int = (size_values[0] * 2) - 2
+    change_line: int = (size_values[0] * 2) - 1
     current_cell: Cells = cell
+    last_dir: str = ""
 
-    while check_back(cells_list, current_cell, size_values):
-        print(current_cell.position)
+    while not choice_direction(
+        reverse_dict, cells_list, current_cell, direction_history, size_values
+    ):
         if len(direction_history) == 0:
             print("no direction in history")
             break
-        if direction_history[-1] == "N":
-            direction_history.pop()
-            current_cell = cells_list[cell.index_list + change_line]
-        elif direction_history[-1] == "S":
-            direction_history.pop()
-            current_cell = cells_list[cell.index_list - change_line]
-        elif direction_history[-1] == "E":
-            direction_history.pop()
-            current_cell = cells_list[cell.index_list - 2]
-        elif direction_history[-1] == "W":
-            direction_history.pop()
-            current_cell = cells_list[cell.index_list + 2]
+
+        last_dir = direction_history.pop()
+
+        if last_dir == "N":
+            current_cell = cells_list[current_cell.index_list + change_line * 2]
+        elif last_dir == "S":
+            current_cell = cells_list[current_cell.index_list - change_line * 2]
+        elif last_dir == "E":
+            current_cell = cells_list[current_cell.index_list - 2]
+        elif last_dir == "W":
+            current_cell = cells_list[current_cell.index_list + 2]
 
     return current_cell
 
@@ -130,25 +132,30 @@ def choice_direction(
     dir: str = ""
     dir_list: list[str] = []
 
-    change_line: int = (size_values[0] * 2) - 2
+    change_line: int = (size_values[0] * 2) - 1
 
     dir_list = ["N", "E", "S", "W"]
+    print(f"direction possible de base {cell.walls}")
 
-    for dir in dir_list:
-        if not cell.walls[dir]:
-            print(f"remove {dir} to cell:{cell.index_list}")
-            dir_list.remove(dir)
+    if not cell.walls["N"]:
+        dir_list.remove("N")
+    if not cell.walls["S"]:
+        dir_list.remove("S")
+    if not cell.walls["E"]:
+        dir_list.remove("E")
+    if not cell.walls["W"]:
+        dir_list.remove("W")
 
-    for dir in dir_list:
-        if len(direction_history) != 0 and dir == direction_history[-1]:
-            dir_list.remove(reverse_dict[dir])
+        # for dir in dir_list:
+        # if len(direction_history) != 0 and dir == direction_history[-1]:
+        #   dir_list.remove(reverse_dict[dir])
 
     if "N" in dir_list:
-        if cells_list[cell.index_list - change_line].is_used:
+        if cells_list[cell.index_list - change_line * 2].is_used:
             dir_list.remove("N")
 
     if "S" in dir_list:
-        if cells_list[cell.index_list + change_line].is_used:
+        if cells_list[cell.index_list + change_line * 2].is_used:
             dir_list.remove("S")
 
     if "E" in dir_list:
@@ -159,7 +166,12 @@ def choice_direction(
         if cells_list[cell.index_list - 2].is_used:
             dir_list.remove("W")
 
-    dir: str = dir_list[random.randint(0, len(dir_list) - 1)]
+    print(f"{cell.position} -> {dir_list}")
+
+    if len(dir_list) == 0:
+        return ""
+    else:
+        dir: str = random.choice(dir_list)
 
     return dir
 
@@ -180,7 +192,7 @@ def change_cell_state(
         cells_list[cell.index_list + 1].char = " "
         lab_lst[cell.index_str + 1] = " "
     elif dir == "S":
-        cells_list[cell.index_list - change_line].char = " "
+        cells_list[cell.index_list + change_line].char = " "
         lab_lst[cell.index_str + change_line + 3] = " "
     elif dir == "W":
         cells_list[cell.index_list - 1].char = " "
@@ -220,10 +232,16 @@ def gen_maze(
     direction_reverse: dict[str, str] = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
     while not finish_check(cells_list):
-        back_track(cells_list, current, direction_history, size_values)
         direction: str = choice_direction(
             direction_reverse, cells_list, current, direction_history, size_values
         )
+        if not direction:
+            current = back_track(
+                cells_list, current, direction_history, size_values, direction_reverse
+            )
+            if len(direction_history) == 0:
+                break
+            continue
         direction_history.append(direction)
         change_cell_state(current, direction, size_values, cells_list, lab_lst)
         current = change_current_cell(current, cells_list, size_values, direction)

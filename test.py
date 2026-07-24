@@ -19,7 +19,7 @@ def visualizatoin_format(to_display: str, color_set: str) -> None:
     tmp: str = to_display.replace("#", f"[{colors[0]}]██")
     tmp2: str = tmp.replace(".", f"[{colors[2]}]██")
     tmp3: str = tmp2.replace("E", "[green]██")
-    tmp4: str = tmp3.replace("L", "[red]██")
+    tmp4: str = tmp3.replace("L", "[blue]██")
     final = tmp4.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
