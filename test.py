@@ -126,10 +126,6 @@ def init_lab(index: int, color_set: list[str]) -> None:
     lab_data_lst: list[str] = list(lab_data_str)
     symbol_lst: list[Cells] = algo.symbol_logic(active_cell, size_values, lab_data_lst)
     print(active_cell[-1].walls)
-    # for c in active_cell:
-    #   if not c.char == "#":
-    #      print(c.position)
-    #     print(c.walls)
     algo.gen_maze(active_cell, size_values, lab_data_lst)
     print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
