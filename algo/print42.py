@@ -61,10 +61,10 @@ def change_wall_cell(
     change_line: int = (size_values[0] * 2) - 1
 
     for c in symbol_lst:
-        cells_list[c.index_list - 1].walls["E"] = False
-        cells_list[c.index_list + 1].walls["W"] = False
-        cells_list[c.index_list - change_line].walls["S"] = False
-        cells_list[c.index_list + change_line].walls["N"] = False
+        cells_list[c.index_list - 2].walls["E"] = False
+        cells_list[c.index_list + 2].walls["W"] = False
+        cells_list[c.index_list - change_line * 2].walls["S"] = False
+        cells_list[c.index_list + change_line * 2].walls["N"] = False
 
 
 def symbol_logic(
