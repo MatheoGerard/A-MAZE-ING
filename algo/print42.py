@@ -109,6 +109,58 @@ def center_symbol(
     list_symbole.append(symbole_invaders)
     list_symbole.append(symbole_invaders_add)
 
+    symbole_heart: list[Cells] = [
+        cells_list[cell_center.index_list],
+        cells_list[cell_center.index_list - 1],
+        cells_list[cell_center.index_list - 2],
+        cells_list[cell_center.index_list - 3],
+        cells_list[cell_center.index_list - 4],
+        cells_list[cell_center.index_list + 1],
+        cells_list[cell_center.index_list + 2],
+        cells_list[cell_center.index_list + 3],
+        cells_list[cell_center.index_list + 4],
+        cells_list[cell_center.index_list - change_line],
+        cells_list[cell_center.index_list - (change_line * 2)],
+        cells_list[cell_center.index_list + change_line],
+        cells_list[cell_center.index_list + (change_line * 2)],
+        cells_list[cell_center.index_list + (change_line * 3)],
+        cells_list[cell_center.index_list + (change_line * 4)],
+        cells_list[cell_center.index_list - 1 - change_line],
+        cells_list[cell_center.index_list - 2 - change_line],
+        cells_list[cell_center.index_list - 3 - change_line],
+        cells_list[cell_center.index_list - 4 - change_line],
+        cells_list[cell_center.index_list + 1 - change_line],
+        cells_list[cell_center.index_list + 2 - change_line],
+        cells_list[cell_center.index_list + 3 - change_line],
+        cells_list[cell_center.index_list + 4 - change_line],
+        cells_list[cell_center.index_list - 1 - (change_line * 2)],
+        cells_list[cell_center.index_list - 2 - (change_line * 2)],
+        cells_list[cell_center.index_list - 3 - (change_line * 2)],
+        cells_list[cell_center.index_list - 4 - (change_line * 2)],
+        cells_list[cell_center.index_list + 1 - (change_line * 2)],
+        cells_list[cell_center.index_list + 2 - (change_line * 2)],
+        cells_list[cell_center.index_list + 3 - (change_line * 2)],
+        cells_list[cell_center.index_list + 4 - (change_line * 2)],
+        cells_list[cell_center.index_list - 1 - (change_line * 3)],
+        cells_list[cell_center.index_list - 2 - (change_line * 3)],
+        cells_list[cell_center.index_list - 3 - (change_line * 3)],
+        cells_list[cell_center.index_list + 1 - (change_line * 3)],
+        cells_list[cell_center.index_list + 2 - (change_line * 3)],
+        cells_list[cell_center.index_list + 3 - (change_line * 3)],
+        cells_list[cell_center.index_list + 1 + change_line],
+        cells_list[cell_center.index_list + 2 + change_line],
+        cells_list[cell_center.index_list + 3 + change_line],
+        cells_list[cell_center.index_list - 1 + change_line],
+        cells_list[cell_center.index_list - 2 + change_line],
+        cells_list[cell_center.index_list - 3 + change_line],
+        cells_list[cell_center.index_list - 1 + (change_line * 2)],
+        cells_list[cell_center.index_list - 2 + (change_line * 2)],
+        cells_list[cell_center.index_list + 1 + (change_line * 2)],
+        cells_list[cell_center.index_list + 2 + (change_line * 2)],
+        cells_list[cell_center.index_list + 1 + (change_line * 3)],
+        cells_list[cell_center.index_list - 1 + (change_line * 3)],
+    ]
+
     match symbole_index:
         case 0:
             for case in symbole_42:
@@ -120,6 +172,10 @@ def center_symbol(
             for case in symbole_invaders_add:
                 change_state(case, lab_str, False, True)
             change_wall_cell(cells_list, symbole_invaders, size_values)
+        case 2:
+            for case in symbole_heart:
+                change_state(case, lab_str, True, False)
+            change_wall_cell(cells_list, symbole_heart, size_values)
 
     return symbole_42
 

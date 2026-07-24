@@ -150,7 +150,7 @@ def loop_gameplay() -> None:
     is_exit: bool = False
     color_index: int = 0
     symbol_index: int = 0
-    symbol_nb: int = 2
+    symbol_nb: int = 3
     last_gen: str = ""
 
     last_gen = init_lab(color_index, color_set, symbol_index)
