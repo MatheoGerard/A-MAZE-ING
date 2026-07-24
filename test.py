@@ -111,7 +111,7 @@ def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -
             raise ValueError("Exit in middle symbol")
 
 
-def init_lab(index: int, color_set: list[str], symbol_index: int) -> None:
+def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
@@ -136,6 +136,7 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> None:
 
     visualizatoin_format("".join(lab_data_lst), color_set[index])
     input_panel()
+    return "".join(lab_data_lst)
 
 
 def loop_gameplay() -> None:
@@ -150,8 +151,9 @@ def loop_gameplay() -> None:
     color_index: int = 0
     symbol_index: int = 0
     symbol_nb: int = 2
+    last_gen: str = ""
 
-    init_lab(color_index, color_set, symbol_index)
+    last_gen = init_lab(color_index, color_set, symbol_index)
     while not is_exit:
         key: str = input("Input: ")
         match key:
@@ -168,7 +170,9 @@ def loop_gameplay() -> None:
                     color_index = 0
                 else:
                     color_index += 1
-                init_lab(color_index, color_set, symbol_index)
+                console.clear()
+                visualizatoin_format(last_gen, color_set[color_index])
+                input_panel()
             case _:
                 print("This choice is not supported!")
 
