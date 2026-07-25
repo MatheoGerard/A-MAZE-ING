@@ -1,6 +1,6 @@
 from .wall_destroyer import change_state
 from .print42 import symbol_logic, change_symbole
-from .generator import gen_maze
+from .generator import gen_maze, unperfect
 
 
-__all__ = ["change_state", "symbol_logic", "gen_maze", "change_symbole"]
+__all__ = ["change_state", "symbol_logic", "gen_maze", "change_symbole", "unperfect"]

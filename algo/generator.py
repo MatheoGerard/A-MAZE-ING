@@ -1,3 +1,4 @@
+from abc import abstractproperty
 from .wall_destroyer import change_state
 from classes import Cells
 import random
@@ -80,17 +81,13 @@ def back_track(
     cell: Cells,
     direction_history: list[str],
     size_values: list[int],
-    reverse_dict: dict[str, str],
 ) -> Cells:
     change_line: int = (size_values[0] * 2) - 1
     current_cell: Cells = cell
     last_dir: str = ""
 
-    while not choice_direction(
-        reverse_dict, cells_list, current_cell, direction_history, size_values
-    ):
+    while not choice_direction(cells_list, current_cell, size_values):
         if len(direction_history) == 0:
-            print("no direction in history")
             break
 
         last_dir = direction_history.pop()
@@ -123,10 +120,8 @@ def debug_number_cells(cell_list: list[Cells]):
 
 
 def choice_direction(
-    reverse_dict: dict[str, str],
     cells_list: list[Cells],
     cell: Cells,
-    direction_history: list[str],
     size_values: list[int],
 ) -> str:
     dir: str = ""
@@ -135,7 +130,6 @@ def choice_direction(
     change_line: int = (size_values[0] * 2) - 1
 
     dir_list = ["N", "E", "S", "W"]
-    print(f"direction possible de base {cell.walls}")
 
     if not cell.walls["N"]:
         dir_list.remove("N")
@@ -166,8 +160,6 @@ def choice_direction(
         if cells_list[cell.index_list - 2].is_used:
             dir_list.remove("W")
 
-    print(f"{cell.position} -> {dir_list}")
-
     if len(dir_list) == 0:
         return ""
     else:
@@ -186,13 +178,13 @@ def change_cell_state(
     change_line: int = (size_values[0] * 2) - 1
 
     if dir == "N":
-        cells_list[cell.index_list - change_line].char = " "
+        cells_list[cell.index_list - (change_line)].char = " "
         lab_lst[cell.index_str - change_line - 3] = " "
     elif dir == "E":
         cells_list[cell.index_list + 1].char = " "
         lab_lst[cell.index_str + 1] = " "
     elif dir == "S":
-        cells_list[cell.index_list + change_line].char = " "
+        cells_list[cell.index_list + (change_line)].char = " "
         lab_lst[cell.index_str + change_line + 3] = " "
     elif dir == "W":
         cells_list[cell.index_list - 1].char = " "
@@ -223,22 +215,141 @@ def change_current_cell(
         return cells_list[cell.index_list - 2]
 
 
+def check_north(
+    current: Cells, cells_list: list[Cells], size_values: list[int]
+) -> bool:
+    if not current.walls["N"]:
+        return False
+
+    change_line: int = (size_values[0] * 2) - 1
+
+    if cells_list[current.index_list - (change_line * 2)].char == " ":
+        return True
+
+    return False
+
+
+def check_south(
+    current: Cells, cells_list: list[Cells], size_values: list[int]
+) -> bool:
+    if not current.walls["S"]:
+        return False
+
+    change_line: int = (size_values[0] * 2) - 1
+
+    if cells_list[current.index_list + (change_line * 2)].char == " ":
+        return True
+
+    return False
+
+
+def check_east(current: Cells, cells_list: list[Cells]) -> bool:
+    if not current.walls["E"]:
+        return False
+
+    if cells_list[current.index_list + 2].char == " ":
+        return True
+
+    return False
+
+
+def check_west(current: Cells, cells_list: list[Cells]) -> bool:
+    if not current.walls["W"]:
+        return False
+
+    if cells_list[current.index_list - 2].char == " ":
+        return True
+
+    return False
+
+
+def check_dead_ends(
+    current: Cells, cells_list: list[Cells], size_values: list[int]
+) -> tuple[bool, str | None]:
+    nb_direction: list[str] = []
+    change_line: int = (size_values[0] * 2) - 1
+
+    if (
+        current.position[0] != (size_values[0] * 2) - 2
+        and cells_list[current.index_list + 1].char == " "
+    ):
+        nb_direction.append("E")
+
+    if current.position[0] != 0 and cells_list[current.index_list - 1].char == " ":
+        nb_direction.append("W")
+
+    if (
+        current.position[1] != (size_values[1] * 2) - 2
+        and cells_list[current.index_list + change_line].char == " "
+    ):
+        nb_direction.append("S")
+
+    if (
+        current.position[1] != 0
+        and cells_list[current.index_list - change_line].char == " "
+    ):
+        nb_direction.append("N")
+
+    if len(nb_direction) == 1:
+        return (True, nb_direction[0])
+
+    return (False, None)
+
+
+def destroy_dead_ends(
+    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+) -> None:
+    list_direction: list[str] = []
+    check: tuple[bool, str | None] = check_dead_ends(current, cells_list, size_values)
+    change_line: int = (size_values[0] * 2) - 1
+
+    if check[0]:
+        if check_north(current, cells_list, size_values):
+            list_direction.append("N")
+        if check_south(current, cells_list, size_values):
+            list_direction.append("S")
+        if check_east(current, cells_list):
+            list_direction.append("E")
+        if check_west(current, cells_list):
+            list_direction.append("W")
+
+    if len(list_direction) > 0:
+        direction_to_go: str = random.choice(list_direction)
+
+        if direction_to_go == "N":
+            cells_list[current.index_list - change_line].char = " "
+            lab_lst[current.index_str - change_line - 3] = " "
+        if direction_to_go == "S":
+            cells_list[current.index_list + change_line].char = " "
+            lab_lst[current.index_str + change_line + 3] = " "
+        if direction_to_go == "W":
+            cells_list[current.index_list - 1].char = " "
+            lab_lst[current.index_str - 1] = " "
+        if direction_to_go == "E":
+            cells_list[current.index_list + 1].char = " "
+            lab_lst[current.index_str + 1] = " "
+
+
+def unperfect(
+    cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+) -> None:
+    change_line: int = (size_values[0] * 2) - 2
+    for c in cells_list:
+        if c.char == " ":
+            destroy_dead_ends(c, cells_list, size_values, lab_lst)
+
+
 def gen_maze(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> list[str]:
     current: Cells = cells_list[0]
     direction_history: list[str] = []
     current.is_used = True
-    direction_reverse: dict[str, str] = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
     while not finish_check(cells_list):
-        direction: str = choice_direction(
-            direction_reverse, cells_list, current, direction_history, size_values
-        )
+        direction: str = choice_direction(cells_list, current, size_values)
         if not direction:
-            current = back_track(
-                cells_list, current, direction_history, size_values, direction_reverse
-            )
+            current = back_track(cells_list, current, direction_history, size_values)
             if len(direction_history) == 0:
                 break
             continue
@@ -247,4 +358,4 @@ def gen_maze(
         current = change_current_cell(current, cells_list, size_values, direction)
         current.is_used = True
         debug_number_cells(cells_list)
-    return direction_history
+    return lab_lst

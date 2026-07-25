@@ -82,9 +82,13 @@ def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]
     ]
 
 
-def validate_perfect(data: dict[str, Any]) -> None:
+def validate_perfect(data: dict[str, Any]) -> bool:
     if data["PERFECT"] != "True" and data["PERFECT"] != "False":
         raise ValueError("PERFECT must be 'True' or 'False'")
+    if data["PERFECT"] == "True":
+        return True
+    else:
+        return False
 
 
 def validate_output_name(data: dict[str, Any]) -> None:

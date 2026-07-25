@@ -1,5 +1,6 @@
 from rich.console import Console
 from rich.panel import Panel
+from algo.generator import unperfect
 from algo.print42 import symbol_logic
 import parsing
 from classes import Cells
@@ -116,7 +117,7 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
     entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
-    parsing.validate_perfect(parse_data)
+    perfect: bool = parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
     console.clear()
     lab_data: tuple[str, list[Cells]] = draw_lab_size(
@@ -130,7 +131,9 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
         active_cell, size_values, lab_data_lst, symbol_index
     )
     print(active_cell[-1].walls)
-    print(f"{algo.gen_maze(active_cell, size_values, lab_data_lst)} is the way")
+    lab_data_lst = algo.gen_maze(active_cell, size_values, lab_data_lst)
+    if not perfect:
+        unperfect(active_cell, size_values, lab_data_lst)
     print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
 
