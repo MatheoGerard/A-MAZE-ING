@@ -4,6 +4,7 @@ from .parsing_config import validate_size_value
 from .parsing_config import validate_entry_exit
 from .parsing_config import validate_output_name
 from .parsing_config import validate_perfect
+from .parsing_config import seed_parsing
 
 __all__ = [
     "parsing_config",
@@ -12,4 +13,5 @@ __all__ = [
     "validate_entry_exit",
     "validate_output_name",
     "validate_perfect",
+    "seed_parsing",
 ]

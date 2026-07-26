@@ -313,6 +313,10 @@ def destroy_dead_ends(
         if check_west(current, cells_list):
             list_direction.append("W")
 
+    if check[1]:
+        if len(list_direction) > 1:
+            list_direction.remove(check[1])
+
     if len(list_direction) > 0:
         direction_to_go: str = random.choice(list_direction)
 

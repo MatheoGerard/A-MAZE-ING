@@ -96,6 +96,13 @@ def validate_output_name(data: dict[str, Any]) -> None:
         raise ValueError("OUTPUT_FILE must be maze.txt")
 
 
+def seed_parsing(data: dict[str, Any]) -> None | str:
+    if data["SEED"] == "":
+        return None
+    else:
+        return data["SEED"]
+
+
 if __name__ == "__main__":
     try:
         parse_data: dict[str, Any] = parsing_config("../config.txt")

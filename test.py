@@ -1,3 +1,4 @@
+import random
 from rich.console import Console
 from rich.panel import Panel
 from algo.generator import unperfect
@@ -119,6 +120,9 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
     entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
     perfect: bool = parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
+    seed: None | str = parsing.seed_parsing(parse_data)
+    if seed:
+        random.seed(seed)
     console.clear()
     lab_data: tuple[str, list[Cells]] = draw_lab_size(
         size_values, entry_exit[0], entry_exit[1]
