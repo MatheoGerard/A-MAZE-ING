@@ -7,6 +7,7 @@ import parsing
 from classes import Cells
 from typing import Any
 import algo
+import solver
 
 console = Console()
 
@@ -24,7 +25,8 @@ def visualizatoin_format(to_display: str, color_set: str) -> None:
     tmp3: str = tmp2.replace("E", "[green]██")
     tmp4: str = tmp3.replace("L", "[blue]██")
     tmp5: str = tmp4.replace("Y", "[white]██")
-    final = tmp5.replace(" ", f"[{colors[1]}]██")
+    tmp6: str = tmp5.replace("S", "[red]██")
+    final = tmp6.replace(" ", f"[{colors[1]}]██")
     my_panel = Panel(final, expand=False, border_style="purple")
     console.print(my_panel)
 
@@ -63,8 +65,12 @@ def draw_lab_size(
                         buffer += "."
                         break
                     new_cell: Cells = Cells(True, len(buffer), j, x - 1, size)
-                    if new_cell.position == entry_val or new_cell.position == exit_val:
+                    if new_cell.position == entry_val:
                         new_cell.char = "E"
+                        new_cell.is_entry = True
+                    elif new_cell.position == exit_val:
+                        new_cell.char = "E"
+                        new_cell.is_exit = True
                     cells_list.append(new_cell)
                     buffer += new_cell.char
             else:
@@ -74,20 +80,22 @@ def draw_lab_size(
                         break
                     if y % 2 != 0:
                         new_cell: Cells = Cells(True, len(buffer), y, x - 1, size)
-                        if (
-                            new_cell.position == entry_val
-                            or new_cell.position == exit_val
-                        ):
+                        if new_cell.position == entry_val:
                             new_cell.char = "E"
+                            new_cell.is_entry = True
+                        elif new_cell.position == exit_val:
+                            new_cell.char = "E"
+                            new_cell.is_exit = True
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
                         new_cell: Cells = Cells(False, len(buffer), y, x - 1, size)
-                        if (
-                            new_cell.position == entry_val
-                            or new_cell.position == exit_val
-                        ):
+                        if new_cell.position == entry_val:
                             new_cell.char = "E"
+                            new_cell.is_entry = True
+                        elif new_cell.position == exit_val:
+                            new_cell.char = "E"
+                            new_cell.is_exit = True
                         cells_list.append(new_cell)
                         buffer += new_cell.char
 
@@ -138,10 +146,18 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
     lab_data_lst = algo.gen_maze(active_cell, size_values, lab_data_lst)
     if not perfect:
         unperfect(active_cell, size_values, lab_data_lst)
+    lab_data_lst = solver.solver_print(
+        solver.find_start(active_cell),
+        solver.bfs_function(active_cell, size_values),
+        lab_data_lst,
+        active_cell,
+        size_values,
+    )
     print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
 
     visualizatoin_format("".join(lab_data_lst), color_set[index])
+    # print(solver.bfs_function(active_cell, size_values))
     input_panel()
     return "".join(lab_data_lst)
 

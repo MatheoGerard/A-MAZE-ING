@@ -2,14 +2,20 @@ from classes import Cells
 from .wall_destroyer import change_state
 
 
-def find_center(size_values: list[int]) -> tuple[int, int]:
+def find_center(cells_list: list[Cells], size_values: list[int]) -> Cells:
+    default_return: Cells = cells_list[0]
+
     x_range: int = size_values[0] * 2
     x_center: int = int((x_range - 2) / 2)
 
     y_range: int = size_values[1] * 2
     y_center: int = int((y_range - 2) / 2)
 
-    return (x_center, y_center)
+    for c in cells_list:
+        if c.position[0] == x_center and c.position[1] == y_center:
+            return c
+
+    return default_return
 
 
 def change_symbole(index: int, symbole_nb: int) -> int:
@@ -21,19 +27,13 @@ def change_symbole(index: int, symbole_nb: int) -> int:
 
 def center_symbol(
     cells_list: list[Cells],
-    center: tuple[int, int],
     size_values: list[int],
     lab_str: list[str],
     symbole_index: int,
 ) -> list[Cells]:
-    cell_center: Cells = cells_list[0]
+    cell_center: Cells = find_center(cells_list, size_values)
     change_line: int = (size_values[0] * 2) - 1
     list_symbole: list[list[Cells]] = []
-
-    for c in cells_list:
-        if c.position[0] == center[0] and c.position[1] == center[1]:
-            cell_center = c
-            break
 
     symbole_42: list[Cells] = [
         cells_list[cell_center.index_list - 1],
@@ -202,6 +202,4 @@ def symbol_logic(
     lab_str: list[str],
     symbole_index: int,
 ) -> list[Cells]:
-    center: tuple[int, int] = find_center(size_values)
-
-    return center_symbol(cells_list, center, size_values, lab_str, symbole_index)
+    return center_symbol(cells_list, size_values, lab_str, symbole_index)

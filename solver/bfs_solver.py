@@ -1,5 +1,4 @@
 from classes import Cells
-from .direction_functions import go_up, go_down, go_east, go_west
 
 
 def find_start(cell_list: list[Cells]) -> Cells | None:
@@ -21,9 +20,41 @@ def finish_check(finish_cell: Cells) -> bool:
     return False
 
 
-def bfs_function(cell_list: list[Cells], entry_exit: list[list[int]]) -> None:
+def find_possibilities(
+    cell_list: list[Cells], current: Cells, size_values: list[int]
+) -> list[str]:
+    list_direction: list[str] = []
+    change_line: int = (size_values[0] * 2) - 1
+
+    if current.position[1] != (size_values[0] * 2) - 2 and (
+        cell_list[current.index_list + change_line].char == " "
+        or cell_list[current.index_list + change_line].char == "E"
+    ):
+        list_direction.append("S")
+    if current.position[1] != 0 and (
+        cell_list[current.index_list - change_line].char == " "
+        or cell_list[current.index_list - change_line].char == "E"
+    ):
+        list_direction.append("N")
+    if current.position[0] != 0 and (
+        cell_list[current.index_list - 1].char == " "
+        or cell_list[current.index_list - 1].char == "E"
+    ):
+        list_direction.append("W")
+    if current.position[0] != (size_values[1] * 2) - 2 and (
+        cell_list[current.index_list + 1].char == " "
+        or cell_list[current.index_list + 1].char == "E"
+    ):
+        list_direction.append("E")
+
+    return list_direction
+
+
+def bfs_function(cell_list: list[Cells], size_values: list[int]) -> list[Cells | str]:
     start: Cells | None = find_start(cell_list)
     finish: Cells | None = find_finish(cell_list)
+    change_line: int = (size_values[0] * 2) - 1
+    is_exit_find: bool = False
 
     if not finish:
         raise ValueError("No finish found")
@@ -31,8 +62,94 @@ def bfs_function(cell_list: list[Cells], entry_exit: list[list[int]]) -> None:
         raise ValueError("No start found")
 
     current: Cells = start
-    all_ways: list[list[Cells]] = []
+    all_ways: list[list[Cells | str]] = []
 
-    while not finish_check(finish):
+    first_way: list[Cells | str] = []
+    first_way.append(current)
+
+    all_ways.append(first_way)
+
+    while not is_exit_find:
+        new_list: list[Cells | str] = []
+        possibilities: list[str] = []
+
+        for ways in all_ways:
+            if isinstance(ways[0], Cells):
+                possibilities: list[str] = find_possibilities(
+                    cell_list, ways[0], size_values
+                )
+
+            if len(possibilities) > 1:
+                for x in possibilities:
+                    if x == "N" and ways[-1] != "S":
+                        new_list = ways.copy()
+                        if isinstance(ways[0], Cells):
+                            new_list[0] = cell_list[ways[0].index_list - change_line]
+                        new_list.append("N")
+                        all_ways.append(new_list)
+                        if isinstance(new_list[0], Cells):
+                            if new_list[0].is_exit:
+                                is_exit_find = True
+                                return new_list
+                    if x == "S" and ways[-1] != "N":
+                        new_list = ways.copy()
+                        if isinstance(ways[0], Cells):
+                            new_list[0] = cell_list[ways[0].index_list + change_line]
+                        new_list.append("S")
+                        all_ways.append(new_list)
+                        if isinstance(new_list[0], Cells):
+                            if new_list[0].is_exit:
+                                is_exit_find = True
+                                return new_list
+                    if x == "E" and ways[-1] != "W":
+                        new_list = ways.copy()
+                        if isinstance(ways[0], Cells):
+                            new_list[0] = cell_list[ways[0].index_list + 1]
+                        new_list.append("E")
+                        all_ways.append(new_list)
+                        if isinstance(new_list[0], Cells):
+                            if new_list[0].is_exit:
+                                is_exit_find = True
+                                return new_list
+                    if x == "W" and ways[-1] != "E":
+                        new_list = ways.copy()
+                        if isinstance(ways[0], Cells):
+                            new_list[0] = cell_list[ways[0].index_list - 1]
+                        new_list.append("W")
+                        all_ways.append(new_list)
+                        if isinstance(new_list[0], Cells):
+                            if new_list[0].is_exit:
+                                is_exit_find = True
+                                return new_list
 
 
+def solver_print(
+    entry: Cells,
+    soluce: list[Cells | str],
+    lab_lst: list[str],
+    cell_list: list[Cells],
+    size_values: list[int],
+) -> list[str]:
+    change_line: int = (size_values[0] * 2) - 1
+    current: Cells = entry
+
+    for w in soluce[1:]:
+        match w:
+            case "N":
+                cell_list[current.index_list - change_line].char = "S"
+                lab_lst[current.index_str - change_line - 3] = "S"
+                current = cell_list[current.index_list - change_line]
+            case "S":
+                cell_list[current.index_list + change_line].char = "S"
+                lab_lst[current.index_str + change_line + 3] = "S"
+                current = cell_list[current.index_list + change_line]
+            case "E":
+                cell_list[current.index_list + 1].char = "S"
+                lab_lst[current.index_str + 1] = "S"
+                current = cell_list[current.index_list + 1]
+            case "W":
+                cell_list[current.index_list - 1].char = "S"
+                lab_lst[current.index_str - 1] = "S"
+                current = cell_list[current.index_list - 1]
+
+    return lab_lst

@@ -1,79 +1,6 @@
-from abc import abstractproperty
-from .wall_destroyer import change_state
+from algo import find_center
 from classes import Cells
 import random
-
-
-def check_back(cells_list: list[Cells], cell: Cells, size_values: list[int]) -> bool:
-    change_line: int = (size_values[0] * 2) - 2
-    vertical_size: int = (size_values[1] * 2) - 2
-
-    # NOTE: corners
-    if cell.position[1] == 0 and cell.position[0] == 0:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-        ):
-            return True
-    elif cell.position[1] == 0 and cell.position[0] == change_line:
-        if (
-            cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-        ):
-            return True
-    elif cell.position[1] == vertical_size and cell.position[0] == 0:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-        ):
-            return True
-    elif cell.position[1] == vertical_size and cell.position[0] == change_line:
-        if (
-            cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-        ):
-            return True
-    # NOTE: haut/bas
-    elif cell.position[1] == 0:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-        ):
-            return True
-    elif cell.position[1] == vertical_size:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-        ):
-            return True
-    # NOTE: droite/gauche
-    elif cell.position[0] == 0:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-        ):
-            return True
-    elif cell.position[0] == change_line:
-        if (
-            cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-        ):
-            return True
-    # NOTE: normal
-    else:
-        if (
-            cells_list[cell.index_list + 2].is_used
-            and cells_list[cell.index_list - 2].is_used
-            and cells_list[cell.index_list + change_line * 2].is_used
-            and cells_list[cell.index_list - change_line * 2].is_used
-        ):
-            return True
-
-    return False
 
 
 def back_track(
@@ -104,21 +31,6 @@ def back_track(
     return current_cell
 
 
-def debug_number_cells(cell_list: list[Cells]):
-    nb_cell: int = 0
-    active_cells: list[Cells] = []
-
-    for c in cell_list:
-        if c.position[0] % 2 == 0 and c.position[1] % 2 == 0:
-            active_cells.append(c)
-    for c in active_cells:
-        if c.is_used:
-            nb_cell += 1
-
-    total_cell: int = len(active_cells)
-    # print(f"{total_cell} vs {nb_cell}")
-
-
 def choice_direction(
     cells_list: list[Cells],
     cell: Cells,
@@ -139,10 +51,6 @@ def choice_direction(
         dir_list.remove("E")
     if not cell.walls["W"]:
         dir_list.remove("W")
-
-        # for dir in dir_list:
-        # if len(direction_history) != 0 and dir == direction_history[-1]:
-        #   dir_list.remove(reverse_dict[dir])
 
     if "N" in dir_list:
         if cells_list[cell.index_list - change_line * 2].is_used:
@@ -223,7 +131,10 @@ def check_north(
 
     change_line: int = (size_values[0] * 2) - 1
 
-    if cells_list[current.index_list - (change_line * 2)].char == " ":
+    if (
+        cells_list[current.index_list - (change_line * 2)].char == " "
+        or cells_list[current.index_list - (change_line * 2)].char == "E"
+    ):
         return True
 
     return False
@@ -237,7 +148,10 @@ def check_south(
 
     change_line: int = (size_values[0] * 2) - 1
 
-    if cells_list[current.index_list + (change_line * 2)].char == " ":
+    if (
+        cells_list[current.index_list + (change_line * 2)].char == " "
+        or cells_list[current.index_list + (change_line * 2)].char == "E"
+    ):
         return True
 
     return False
@@ -247,7 +161,10 @@ def check_east(current: Cells, cells_list: list[Cells]) -> bool:
     if not current.walls["E"]:
         return False
 
-    if cells_list[current.index_list + 2].char == " ":
+    if (
+        cells_list[current.index_list + 2].char == " "
+        or cells_list[current.index_list + 2].char == "E"
+    ):
         return True
 
     return False
@@ -257,7 +174,10 @@ def check_west(current: Cells, cells_list: list[Cells]) -> bool:
     if not current.walls["W"]:
         return False
 
-    if cells_list[current.index_list - 2].char == " ":
+    if (
+        cells_list[current.index_list - 2].char == " "
+        or cells_list[current.index_list - 2].char == "E"
+    ):
         return True
 
     return False
@@ -269,24 +189,27 @@ def check_dead_ends(
     nb_direction: list[str] = []
     change_line: int = (size_values[0] * 2) - 1
 
-    if (
-        current.position[0] != (size_values[0] * 2) - 2
-        and cells_list[current.index_list + 1].char == " "
+    if current.position[0] != (size_values[0] * 2) - 2 and (
+        cells_list[current.index_list + 1].char == " "
+        or cells_list[current.index_list + 1].char == "E"
     ):
         nb_direction.append("E")
 
-    if current.position[0] != 0 and cells_list[current.index_list - 1].char == " ":
+    if current.position[0] != 0 and (
+        cells_list[current.index_list - 1].char == " "
+        or cells_list[current.index_list - 1].char == "E"
+    ):
         nb_direction.append("W")
 
-    if (
-        current.position[1] != (size_values[1] * 2) - 2
-        and cells_list[current.index_list + change_line].char == " "
+    if current.position[1] != (size_values[1] * 2) - 2 and (
+        cells_list[current.index_list + change_line].char == " "
+        or cells_list[current.index_list + change_line].char == "E"
     ):
         nb_direction.append("S")
 
-    if (
-        current.position[1] != 0
-        and cells_list[current.index_list - change_line].char == " "
+    if current.position[1] != 0 and (
+        cells_list[current.index_list - change_line].char == " "
+        or cells_list[current.index_list - change_line].char == "E"
     ):
         nb_direction.append("N")
 
@@ -334,13 +257,35 @@ def destroy_dead_ends(
             lab_lst[current.index_str + 1] = " "
 
 
+def center_driller(
+    cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+) -> None:
+    center: Cells = find_center(cells_list, size_values)
+    change_line: int = (size_values[0] * 2) - 1
+    current: Cells = center
+
+    if current.char == "#":
+        center.char = " "
+        lab_lst[center.index_str] = " "
+
+        cells_list[center.index_list + change_line].char = " "
+        cells_list[center.index_list + (change_line * 2)].char = " "
+        cells_list[center.index_list + (change_line * 3)].char = " "
+        cells_list[center.index_list - change_line].char = " "
+
+        lab_lst[center.index_str + change_line + 3] = " "
+        lab_lst[center.index_str + (change_line * 2) + 6] = " "
+        lab_lst[center.index_str + (change_line * 3) + 9] = " "
+        lab_lst[center.index_str - change_line - 3] = " "
+
+
 def unperfect(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
-    change_line: int = (size_values[0] * 2) - 2
     for c in cells_list:
-        if c.char == " ":
+        if c.char == " " or c.char == "E":
             destroy_dead_ends(c, cells_list, size_values, lab_lst)
+    center_driller(cells_list, size_values, lab_lst)
 
 
 def gen_maze(
@@ -361,5 +306,4 @@ def gen_maze(
         change_cell_state(current, direction, size_values, cells_list, lab_lst)
         current = change_current_cell(current, cells_list, size_values, direction)
         current.is_used = True
-        debug_number_cells(cells_list)
     return lab_lst
