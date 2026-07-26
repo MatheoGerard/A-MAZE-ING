@@ -13,7 +13,9 @@ console = Console()
 
 
 def input_panel() -> None:
-    inputs: str = "Change color: 0\nChane center: 1\nRegenerate maze: 2\nExit: 9"
+    inputs: str = (
+        "Change color: 0\nChange center: 1\nRegenerate maze: 2\nSoluce: 3\nExit: 9"
+    )
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
 
