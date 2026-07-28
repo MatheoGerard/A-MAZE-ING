@@ -79,9 +79,7 @@ def bfs_function(cell_list: list[Cells], size_values: list[int]) -> list[Cells |
                 possibilities: list[str] = find_possibilities(
                     cell_list, ways[0], size_values
                 )
-                print(possibilities)
 
-    
             for x in possibilities:
                 if x == "N":
                     new_list = ways.copy()

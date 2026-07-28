@@ -1,6 +1,7 @@
 from .wall_destroyer import change_state
 from .print42 import symbol_logic, change_symbole, find_center
 from .generator import gen_maze, unperfect
+from .hex_traductor import hex_trad
 
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "change_symbole",
     "unperfect",
     "find_center",
+    "hex_trad",
 ]

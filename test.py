@@ -1,15 +1,14 @@
 import random
+from rich import print
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from algo.generator import unperfect
-from algo.print42 import symbol_logic
 import parsing
 from classes import Cells
 from typing import Any
 import algo
 import solver
-import itertools
 
 console = Console()
 
@@ -139,7 +138,7 @@ def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -
             raise ValueError("Exit in middle symbol")
 
 
-def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
+def init_lab(index: int, color_set: list[str], symbol_index: int) -> list[str]:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
@@ -157,26 +156,38 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
     active_cell: list[Cells] = lab_data[1]
     set_cells_index(active_cell)
     lab_data_lst: list[str] = list(lab_data_str)
-    symbol_lst: list[Cells] = algo.symbol_logic(
-        active_cell, size_values, lab_data_lst, symbol_index
-    )
-    print(active_cell[-1].walls)
+    if size_values[0] > 8 and size_values[1] > 6:
+        symbol_lst: list[Cells] = algo.symbol_logic(
+            active_cell, size_values, lab_data_lst, symbol_index
+        )
+    else:
+        print(f"[red]Not enough space for 42 symbol![/red]")
     lab_data_lst = algo.gen_maze(active_cell, size_values, lab_data_lst)
     if not perfect:
         unperfect(active_cell, size_values, lab_data_lst)
+    soluce: list[Cells | str] = solver.bfs_function(active_cell, size_values)
+    algo.hex_trad(
+        active_cell,
+        size_values,
+        parse_data["OUTPUT_FILE"],
+        parse_data["ENTRY"],
+        parse_data["EXIT"],
+        soluce,
+    )
     lab_data_lst = solver.solver_print(
         solver.find_start(active_cell),
-        solver.bfs_function(active_cell, size_values),
+        soluce,
         lab_data_lst,
         active_cell,
         size_values,
     )
-    entry_exit_in_symbol(entry_exit, symbol_lst)
+    if size_values[0] > 8 and size_values[1] > 6:
+        entry_exit_in_symbol(entry_exit, symbol_lst)
 
     visualizatoin_format(lab_data_lst, color_set[index])
     # print(solver.bfs_function(active_cell, size_values))
     input_panel()
-    return "".join(lab_data_lst)
+    return lab_data_lst
 
 
 def loop_gameplay() -> None:
@@ -191,7 +202,7 @@ def loop_gameplay() -> None:
     color_index: int = 0
     symbol_index: int = 0
     symbol_nb: int = 3
-    last_gen: str = ""
+    last_gen: list[str] = []
 
     last_gen = init_lab(color_index, color_set, symbol_index)
     while not is_exit:
@@ -202,9 +213,9 @@ def loop_gameplay() -> None:
                 print("Exit...")
             case "1":
                 symbol_index = algo.change_symbole(symbol_index, symbol_nb)
-                init_lab(color_index, color_set, symbol_index)
+                last_gen = init_lab(color_index, color_set, symbol_index)
             case "2":
-                init_lab(color_index, color_set, symbol_index)
+                last_gen = init_lab(color_index, color_set, symbol_index)
             case "0":
                 if color_index == len(color_set) - 1:
                     color_index = 0
