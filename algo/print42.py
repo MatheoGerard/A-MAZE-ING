@@ -12,8 +12,18 @@ def find_center(cells_list: list[Cells], size_values: list[int]) -> Cells:
     y_center: int = int((y_range - 2) / 2)
 
     for c in cells_list:
-        if c.position[0] == x_center and c.position[1] == y_center:
-            return c
+        if size_values[0] % 2 == 0 and size_values[1] % 2 == 0:
+            if c.position[0] + 1 == x_center and c.position[1] + 1 == y_center:
+                return c
+        elif size_values[0] % 2 == 0 and size_values[1] % 2 != 0:
+            if c.position[0] + 1 == x_center and c.position[1] == y_center:
+                return c
+        elif size_values[0] % 2 != 0 and size_values[1] % 2 == 0:
+            if c.position[0] == x_center and c.position[1] + 1 == y_center:
+                return c
+        else:
+            if c.position[0] == x_center and c.position[1] == y_center:
+                return c
 
     return default_return
 
@@ -36,24 +46,24 @@ def center_symbol(
     list_symbole: list[list[Cells]] = []
 
     symbole_42: list[Cells] = [
-        cells_list[cell_center.index_list - 1],
         cells_list[cell_center.index_list - 2],
-        cells_list[cell_center.index_list - 3],
-        cells_list[cell_center.index_list - 3 - change_line],
-        cells_list[cell_center.index_list - 3 - (change_line * 2)],
-        cells_list[cell_center.index_list - 1 + change_line],
-        cells_list[cell_center.index_list - 1 + (change_line * 2)],
-        cells_list[cell_center.index_list + 1],
+        cells_list[cell_center.index_list - 4],
+        cells_list[cell_center.index_list - 6],
+        cells_list[cell_center.index_list - 6 - (change_line * 2)],
+        cells_list[cell_center.index_list - 6 - (change_line * 4)],
+        cells_list[cell_center.index_list - 2 + (change_line * 2)],
+        cells_list[cell_center.index_list - 2 + (change_line * 4)],
         cells_list[cell_center.index_list + 2],
-        cells_list[cell_center.index_list + 3],
-        cells_list[cell_center.index_list + 1 + change_line],
-        cells_list[cell_center.index_list + 1 + (change_line * 2)],
-        cells_list[cell_center.index_list + 3 - change_line],
-        cells_list[cell_center.index_list + 3 - (change_line * 2)],
-        cells_list[cell_center.index_list + 2 - (change_line * 2)],
-        cells_list[cell_center.index_list + 1 - (change_line * 2)],
+        cells_list[cell_center.index_list + 4],
+        cells_list[cell_center.index_list + 6],
         cells_list[cell_center.index_list + 2 + (change_line * 2)],
-        cells_list[cell_center.index_list + 3 + (change_line * 2)],
+        cells_list[cell_center.index_list + 2 + (change_line * 4)],
+        cells_list[cell_center.index_list + 6 - (change_line * 2)],
+        cells_list[cell_center.index_list + 6 - (change_line * 4)],
+        cells_list[cell_center.index_list + 4 - (change_line * 4)],
+        cells_list[cell_center.index_list + 2 - (change_line * 4)],
+        cells_list[cell_center.index_list + 4 + (change_line * 4)],
+        cells_list[cell_center.index_list + 6 + (change_line * 4)],
     ]
     list_symbole.append(symbole_42)
 

@@ -1,6 +1,7 @@
 import random
 from rich.console import Console
 from rich.panel import Panel
+from rich.text import Text
 from algo.generator import unperfect
 from algo.print42 import symbol_logic
 import parsing
@@ -8,6 +9,7 @@ from classes import Cells
 from typing import Any
 import algo
 import solver
+import itertools
 
 console = Console()
 
@@ -20,16 +22,30 @@ def input_panel() -> None:
     console.print(input_panel)
 
 
-def visualizatoin_format(to_display: str, color_set: str) -> None:
+def visualizatoin_format(to_display: list[str], color_set: str) -> None:
     colors: list[str] = color_set.split("-")
-    tmp: str = to_display.replace("#", f"[{colors[0]}]██")
-    tmp2: str = tmp.replace(".", f"[{colors[2]}]██")
-    tmp3: str = tmp2.replace("E", "[green]██")
-    tmp4: str = tmp3.replace("L", "[blue]██")
-    tmp5: str = tmp4.replace("Y", "[white]██")
-    tmp6: str = tmp5.replace("S", "[red]██")
-    final = tmp6.replace(" ", f"[{colors[1]}]██")
-    my_panel = Panel(final, expand=False, border_style="purple")
+
+    char_map: dict[str, str] = {
+        "#": colors[0],
+        " ": colors[1],
+        ".": colors[2],
+        "E": "green",
+        "L": "blue",
+        "Y": "white",
+        "S": "red",
+    }
+
+    lab_str: str = "".join(to_display)
+    txt_obj: Text = Text()
+
+    for char in lab_str:
+        if char == "\n":
+            txt_obj.append("\n")
+        elif char in char_map:
+            txt_obj.append("██", style=char_map[char])
+        else:
+            txt_obj.append(char)
+    my_panel = Panel(txt_obj, expand=False, border_style="purple")
     console.print(my_panel)
 
 
@@ -155,10 +171,9 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> str:
         active_cell,
         size_values,
     )
-    print("".join(lab_data_lst))
     entry_exit_in_symbol(entry_exit, symbol_lst)
 
-    visualizatoin_format("".join(lab_data_lst), color_set[index])
+    visualizatoin_format(lab_data_lst, color_set[index])
     # print(solver.bfs_function(active_cell, size_values))
     input_panel()
     return "".join(lab_data_lst)
