@@ -1,4 +1,9 @@
+import time
 from classes import Cells
+import visualization as visu
+from rich.console import Console
+from rich.live import Live
+from rich.text import Text
 
 
 def find_start(cell_list: list[Cells]) -> Cells | None:
@@ -137,6 +142,9 @@ def solver_print(
     lab_lst: list[str],
     cell_list: list[Cells],
     size_values: list[int],
+    color_set: str,
+    console: Console,
+    is_anim: bool,
 ) -> list[str]:
     change_line: int = (size_values[0] * 2) - 1
     current: Cells = entry
@@ -159,5 +167,9 @@ def solver_print(
                 cell_list[current.index_list - 1].char = "S"
                 lab_lst[current.index_str - 1] = "S"
                 current = cell_list[current.index_list - 1]
+        if is_anim:
+            print("\033[H", end="")
+            visu.visualizatoin_format(lab_lst, color_set, console)
+            time.sleep(0.00000000005)
 
     return lab_lst

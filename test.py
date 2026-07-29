@@ -2,50 +2,23 @@ import random
 from rich import print
 from rich.console import Console
 from rich.panel import Panel
-from rich.text import Text
 from algo.generator import unperfect
 import parsing
 from classes import Cells
 from typing import Any
 import algo
 import solver
+import visualization as visu
 
 console = Console()
 
 
 def input_panel() -> None:
     inputs: str = (
-        "Change color: 0\nChange center: 1\nRegenerate maze: 2\nSoluce: 3\nExit: 9"
+        "Change color: 0\nChange center: 1\nRegenerate maze: 2\nAnim mode: 3\nExit: 9"
     )
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
-
-
-def visualizatoin_format(to_display: list[str], color_set: str) -> None:
-    colors: list[str] = color_set.split("-")
-
-    char_map: dict[str, str] = {
-        "#": colors[0],
-        " ": colors[1],
-        ".": colors[2],
-        "E": "green",
-        "L": "blue",
-        "Y": "white",
-        "S": "red",
-    }
-
-    lab_str: str = "".join(to_display)
-    txt_obj: Text = Text()
-
-    for char in lab_str:
-        if char == "\n":
-            txt_obj.append("\n")
-        elif char in char_map:
-            txt_obj.append("██", style=char_map[char])
-        else:
-            txt_obj.append(char)
-    my_panel = Panel(txt_obj, expand=False, border_style="purple")
-    console.print(my_panel)
 
 
 def draw_lab_size(
@@ -161,7 +134,7 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> list[str]:
             active_cell, size_values, lab_data_lst, symbol_index
         )
     else:
-        print(f"[red]Not enough space for 42 symbol![/red]")
+        print("[red]Not enough space for 42 symbol![/red]")
     lab_data_lst = algo.gen_maze(active_cell, size_values, lab_data_lst)
     if not perfect:
         unperfect(active_cell, size_values, lab_data_lst)
@@ -180,12 +153,14 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> list[str]:
         lab_data_lst,
         active_cell,
         size_values,
+        color_set[index],
+        console,
+        True,
     )
     if size_values[0] > 8 and size_values[1] > 6:
         entry_exit_in_symbol(entry_exit, symbol_lst)
 
-    visualizatoin_format(lab_data_lst, color_set[index])
-    # print(solver.bfs_function(active_cell, size_values))
+    visu.visualizatoin_format(lab_data_lst, color_set[index], console)
     input_panel()
     return lab_data_lst
 
@@ -222,7 +197,7 @@ def loop_gameplay() -> None:
                 else:
                     color_index += 1
                 console.clear()
-                visualizatoin_format(last_gen, color_set[color_index])
+                visu.visualizatoin_format(last_gen, color_set[color_index], console)
                 input_panel()
             case _:
                 print("This choice is not supported!")
