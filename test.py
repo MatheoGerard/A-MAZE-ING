@@ -14,9 +14,7 @@ console = Console()
 
 
 def input_panel() -> None:
-    inputs: str = (
-        "Change color: 0\nChange center: 1\nRegenerate maze: 2\nAnim mode: 3\nExit: 9"
-    )
+    inputs: str = "Change color: 0\nChange center: 1\nRegenerate maze: 2\nDisplay soluce: 3\nAnim mode: 4\nExit: 9"
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
 
@@ -216,7 +214,12 @@ def loop_gameplay() -> None:
                     console,
                     False,
                 )
-                visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
                 input_panel()
             case "2":
                 console.clear()
