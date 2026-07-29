@@ -170,6 +170,6 @@ def solver_print(
         if is_anim:
             print("\033[H", end="")
             visu.visualizatoin_format(lab_lst, color_set, console)
-            time.sleep(0.00000000005)
+            time.sleep(0.0005)
 
     return lab_lst

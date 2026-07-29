@@ -111,7 +111,9 @@ def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -
             raise ValueError("Exit in middle symbol")
 
 
-def init_lab(index: int, color_set: list[str], symbol_index: int) -> list[str]:
+def init_lab(
+    index: int, color_set: list[str], symbol_index: int
+) -> tuple[list[str], list[Cells | str], list[Cells], list[int]]:
     parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
@@ -147,22 +149,10 @@ def init_lab(index: int, color_set: list[str], symbol_index: int) -> list[str]:
         parse_data["EXIT"],
         soluce,
     )
-    lab_data_lst = solver.solver_print(
-        solver.find_start(active_cell),
-        soluce,
-        lab_data_lst,
-        active_cell,
-        size_values,
-        color_set[index],
-        console,
-        True,
-    )
     if size_values[0] > 8 and size_values[1] > 6:
         entry_exit_in_symbol(entry_exit, symbol_lst)
 
-    visu.visualizatoin_format(lab_data_lst, color_set[index], console)
-    input_panel()
-    return lab_data_lst
+    return lab_data_lst, soluce, active_cell, size_values
 
 
 def loop_gameplay() -> None:
@@ -178,8 +168,31 @@ def loop_gameplay() -> None:
     symbol_index: int = 0
     symbol_nb: int = 3
     last_gen: list[str] = []
+    soluce: list[Cells | str] = []
+    last_gen_soluce: list[str] = []
+    active_cells: list[Cells] = []
+    size_values: list[int] = []
 
-    last_gen = init_lab(color_index, color_set, symbol_index)
+    is_soluce_print: bool = True
+
+    last_gen, soluce, active_cells, size_values = init_lab(
+        color_index, color_set, symbol_index
+    )
+
+    lab_data_cpy: list[str] = last_gen.copy()
+    last_gen_soluce = solver.solver_print(
+        solver.find_start(active_cells),
+        soluce,
+        lab_data_cpy,
+        active_cells,
+        size_values,
+        color_set[color_index],
+        console,
+        False,
+    )
+
+    visu.visualizatoin_format(last_gen_soluce, color_set[color_index], console)
+    input_panel()
     while not is_exit:
         key: str = input("Input: ")
         match key:
@@ -188,16 +201,85 @@ def loop_gameplay() -> None:
                 print("Exit...")
             case "1":
                 symbol_index = algo.change_symbole(symbol_index, symbol_nb)
-                last_gen = init_lab(color_index, color_set, symbol_index)
+                console.clear()
+                last_gen, soluce, active_cells, size_values = init_lab(
+                    color_index, color_set, symbol_index
+                )
+                lab_data_cpy: list[str] = last_gen.copy()
+                last_gen_soluce = solver.solver_print(
+                    solver.find_start(active_cells),
+                    soluce,
+                    lab_data_cpy,
+                    active_cells,
+                    size_values,
+                    color_set[color_index],
+                    console,
+                    False,
+                )
+                visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                input_panel()
             case "2":
-                last_gen = init_lab(color_index, color_set, symbol_index)
+                console.clear()
+                last_gen, soluce, active_cells, size_values = init_lab(
+                    color_index, color_set, symbol_index
+                )
+                lab_data_cpy: list[str] = last_gen.copy()
+                last_gen_soluce = solver.solver_print(
+                    solver.find_start(active_cells),
+                    soluce,
+                    lab_data_cpy,
+                    active_cells,
+                    size_values,
+                    color_set[color_index],
+                    console,
+                    False,
+                )
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
+                input_panel()
+            case "3":
+                console.clear()
+                if not is_soluce_print:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
+                    is_soluce_print = True
+                else:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    is_soluce_print = False
+                input_panel()
+            case "4":
+                console.clear()
+                lab_data_cpy = last_gen.copy()
+                last_gen_soluce = solver.solver_print(
+                    solver.find_start(active_cells),
+                    soluce,
+                    lab_data_cpy,
+                    active_cells,
+                    size_values,
+                    color_set[color_index],
+                    console,
+                    True,
+                )
+                lab_data_cpy = last_gen.copy()
+                input_panel()
+                is_soluce_print = True
             case "0":
                 if color_index == len(color_set) - 1:
                     color_index = 0
                 else:
                     color_index += 1
                 console.clear()
-                visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
                 input_panel()
             case _:
                 print("This choice is not supported!")
