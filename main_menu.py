@@ -2,8 +2,7 @@ from rich.panel import Panel
 from rich.console import Console
 
 
-def print_title() -> None:
-
+def print_title(console: Console) -> None:
     title: str = r"""
  ______                     ______  ________   ____            ______   __  __  ____      
 /\  _  \            /'\_/`\/\  _  \/\_____  \ /\  _`\         /\__  _\ /\ \/\ \/\  _`\    
@@ -15,8 +14,9 @@ def print_title() -> None:
                                                                                           
 """
 
-    input_str: str = ""
+    console.print(Panel(title, expand=False, border_style="yellow"))
 
 
 if __name__ == "__main__":
-    print_title()
+    console: Console = Console()
+    print_title(console)

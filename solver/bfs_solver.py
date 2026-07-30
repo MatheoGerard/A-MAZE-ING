@@ -2,8 +2,7 @@ import time
 from classes import Cells
 import visualization as visu
 from rich.console import Console
-from rich.live import Live
-from rich.text import Text
+from rich.panel import Panel
 
 
 def find_start(cell_list: list[Cells]) -> Cells | None:
@@ -136,6 +135,20 @@ def bfs_function(cell_list: list[Cells], size_values: list[int]) -> list[Cells |
                             return new_list
 
 
+def title_print(console: Console) -> None:
+    title: str = r"""
+ ______                     ______  ________   ____            ______   __  __  ____      
+/\  _  \            /'\_/`\/\  _  \/\_____  \ /\  _`\         /\__  _\ /\ \/\ \/\  _`\    
+\ \ \L\ \          /\      \ \ \L\ \/____//'/'\ \ \L\_\       \/_/\ \/ \ \ `\\ \ \ \L\_\  
+ \ \  __ \  _______\ \ \__\ \ \  __ \   //'/'  \ \  _\L   _______\ \ \  \ \ , ` \ \ \L_L  
+  \ \ \/\ \/\______\\ \ \_/\ \ \ \/\ \ //'/'___ \ \ \L\ \/\______\\_\ \__\ \ \`\ \ \ \/, \
+   \ \_\ \_\/______/ \ \_\\ \_\ \_\ \_\/\_______\\ \____/\/______//\_____\\ \_\ \_\ \____/
+    \/_/\/_/          \/_/ \/_/\/_/\/_/\/_______/ \/___/          \/_____/ \/_/\/_/\/___/ 
+                                                                                          
+"""
+    console.print(Panel(title, expand=False, border_style="yellow"))
+
+
 def solver_print(
     entry: Cells,
     soluce: list[Cells | str],
@@ -169,6 +182,7 @@ def solver_print(
                 current = cell_list[current.index_list - 1]
         if is_anim:
             print("\033[H", end="")
+            title_print(console)
             visu.visualizatoin_format(lab_lst, color_set, console)
             time.sleep(0.0005)
 
