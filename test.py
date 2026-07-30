@@ -315,4 +315,4 @@ if __name__ == "__main__":
     except ValueError as e:
         print(e)
     except KeyboardInterrupt as e:
-        print(e)
+        print("[red]\nEnded by user[/red]")
