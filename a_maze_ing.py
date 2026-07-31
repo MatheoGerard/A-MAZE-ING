@@ -171,7 +171,7 @@ def init_lab(
 
 def loop_gameplay() -> None:
     color_set: list[str] = [
-        "red-orange1-gold1-yellow1-chartreuse1-green1-cyan1-blue1",
+        "red-gold1-orange1-yellow1-chartreuse1-deep_pink2-cyan1-dark_orange3",
         "grey15-grey35-grey58-grey78-white-steel_blue1-orchid1-deep_pink2",
         "deep_sky_blue1-steel_blue1-cyan1-medium_spring_green-chartreuse1-gold1-dark_orange-red1",
         "purple-blue_violet-royal_blue1-cornflower_blue-steel_blue1-sky_blue1-light_sky_blue1-white",
