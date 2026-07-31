@@ -9,10 +9,11 @@ install: $(VENV)
 	$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) -m test
+	$(PYTHON) -m a_maze_ing config.txt
 
 debug:
-	$(PYTHON) -m pdb test.py
+	$(PYTHON) -m pdb a_maze_ing.py config.txt
+
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +

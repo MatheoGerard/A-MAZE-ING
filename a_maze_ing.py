@@ -1,4 +1,5 @@
 from os import pathconf_names
+import sys
 import random
 from rich import print
 from rich.console import Console
@@ -127,7 +128,7 @@ def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -
 def init_lab(
     index: int, color_set: list[str], symbol_index: int
 ) -> tuple[list[str], list[Cells | str], list[Cells], list[int]]:
-    parse_data: dict[str, Any] = parsing.parsing_config("config.txt")
+    parse_data: dict[str, Any] = parsing.parsing_config(sys.argv[1])
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
     entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
