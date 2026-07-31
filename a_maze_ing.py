@@ -73,7 +73,7 @@ def draw_lab_size(
                         new_cell.char = "E"
                         new_cell.is_entry = True
                     elif new_cell.position == exit_val:
-                        new_cell.char = "E"
+                        new_cell.char = "e"
                         new_cell.is_exit = True
                     cells_list.append(new_cell)
                     buffer += new_cell.char
@@ -88,7 +88,7 @@ def draw_lab_size(
                             new_cell.char = "E"
                             new_cell.is_entry = True
                         elif new_cell.position == exit_val:
-                            new_cell.char = "E"
+                            new_cell.char = "e"
                             new_cell.is_exit = True
                         cells_list.append(new_cell)
                         buffer += new_cell.char
@@ -98,7 +98,7 @@ def draw_lab_size(
                             new_cell.char = "E"
                             new_cell.is_entry = True
                         elif new_cell.position == exit_val:
-                            new_cell.char = "E"
+                            new_cell.char = "e"
                             new_cell.is_exit = True
                         cells_list.append(new_cell)
                         buffer += new_cell.char

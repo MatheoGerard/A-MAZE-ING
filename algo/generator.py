@@ -134,6 +134,7 @@ def check_north(
     if (
         cells_list[current.index_list - (change_line * 2)].char == " "
         or cells_list[current.index_list - (change_line * 2)].char == "E"
+        or cells_list[current.index_list - (change_line * 2)].char == "e"
     ):
         return True
 
@@ -151,6 +152,7 @@ def check_south(
     if (
         cells_list[current.index_list + (change_line * 2)].char == " "
         or cells_list[current.index_list + (change_line * 2)].char == "E"
+        or cells_list[current.index_list + (change_line * 2)].char == "e"
     ):
         return True
 
@@ -164,6 +166,7 @@ def check_east(current: Cells, cells_list: list[Cells]) -> bool:
     if (
         cells_list[current.index_list + 2].char == " "
         or cells_list[current.index_list + 2].char == "E"
+        or cells_list[current.index_list + 2].char == "e"
     ):
         return True
 
@@ -177,6 +180,7 @@ def check_west(current: Cells, cells_list: list[Cells]) -> bool:
     if (
         cells_list[current.index_list - 2].char == " "
         or cells_list[current.index_list - 2].char == "E"
+        or cells_list[current.index_list - 2].char == "e"
     ):
         return True
 
@@ -192,24 +196,28 @@ def check_dead_ends(
     if current.position[0] != (size_values[0] * 2) - 2 and (
         cells_list[current.index_list + 1].char == " "
         or cells_list[current.index_list + 1].char == "E"
+        or cells_list[current.index_list + 1].char == "e"
     ):
         nb_direction.append("E")
 
     if current.position[0] != 0 and (
         cells_list[current.index_list - 1].char == " "
         or cells_list[current.index_list - 1].char == "E"
+        or cells_list[current.index_list - 1].char == "e"
     ):
         nb_direction.append("W")
 
     if current.position[1] != (size_values[1] * 2) - 2 and (
         cells_list[current.index_list + change_line].char == " "
         or cells_list[current.index_list + change_line].char == "E"
+        or cells_list[current.index_list + change_line].char == "e"
     ):
         nb_direction.append("S")
 
     if current.position[1] != 0 and (
         cells_list[current.index_list - change_line].char == " "
         or cells_list[current.index_list - change_line].char == "E"
+        or cells_list[current.index_list - change_line].char == "e"
     ):
         nb_direction.append("N")
 
@@ -283,7 +291,7 @@ def unperfect(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
     for c in cells_list:
-        if c.char == " " or c.char == "E":
+        if c.char == " " or c.char == "E" or c.char == "e":
             destroy_dead_ends(c, cells_list, size_values, lab_lst)
     center_driller(cells_list, size_values, lab_lst)
 

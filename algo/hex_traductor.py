@@ -16,24 +16,28 @@ def hex_trad(
             if (
                 cell_lst[c.index_list - 1].char == " "
                 or cell_lst[c.index_list - 1].char == "E"
+                or cell_lst[c.index_list - 1].char == "e"
             ):
                 c.ways -= 8
         if c.position[0] != (size_values[0] * 2) - 2:
             if (
                 cell_lst[c.index_list + 1].char == " "
                 or cell_lst[c.index_list + 1].char == "E"
+                or cell_lst[c.index_list + 1].char == "e"
             ):
                 c.ways -= 2
         if c.position[1] != 0:
             if (
                 cell_lst[c.index_list - change_line].char == " "
                 or cell_lst[c.index_list - change_line].char == "E"
+                or cell_lst[c.index_list - change_line].char == "e"
             ):
                 c.ways -= 1
         if c.position[1] != (size_values[1] * 2) - 2:
             if (
                 cell_lst[c.index_list + change_line].char == " "
                 or cell_lst[c.index_list + change_line].char == "E"
+                or cell_lst[c.index_list + change_line].char == "e"
             ):
                 c.ways -= 4
 

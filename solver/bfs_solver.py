@@ -33,21 +33,25 @@ def find_possibilities(
     if current.position[1] != (size_values[1] * 2) - 2 and (
         cell_list[current.index_list + change_line].char == " "
         or cell_list[current.index_list + change_line].char == "E"
+        or cell_list[current.index_list + change_line].char == "e"
     ):
         list_direction.append("S")
     if current.position[1] != 0 and (
         cell_list[current.index_list - change_line].char == " "
         or cell_list[current.index_list - change_line].char == "E"
+        or cell_list[current.index_list - change_line].char == "e"
     ):
         list_direction.append("N")
     if current.position[0] != 0 and (
         cell_list[current.index_list - 1].char == " "
         or cell_list[current.index_list - 1].char == "E"
+        or cell_list[current.index_list - 1].char == "e"
     ):
         list_direction.append("W")
     if current.position[0] != (size_values[0] * 2) - 2 and (
         cell_list[current.index_list + 1].char == " "
         or cell_list[current.index_list + 1].char == "E"
+        or cell_list[current.index_list + 1].char == "e"
     ):
         list_direction.append("E")
 
@@ -162,7 +166,7 @@ def solver_print(
     change_line: int = (size_values[0] * 2) - 1
     current: Cells = entry
 
-    for w in soluce[1:]:
+    for w in soluce[1:-1]:
         match w:
             case "N":
                 cell_list[current.index_list - change_line].char = "S"

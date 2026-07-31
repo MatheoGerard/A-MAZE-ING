@@ -15,6 +15,7 @@ def visualizatoin_format(
         " ": colors[1],
         ".": colors[2],
         "E": "green",
+        "e": "purple",
         "L": "blue",
         "Y": "white",
         "S": "red",
