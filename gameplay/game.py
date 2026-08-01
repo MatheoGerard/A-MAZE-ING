@@ -35,6 +35,9 @@ def game_fucntion(
     current: Cells | None = find_start(cells_list)
     exit_cell: Cells | None = find_finish(cells_list)
 
+    title_print(console)
+    visu(lab_lst, color_set, console)
+    print_input(console)
     while not is_win:
         key = input_read()
 
