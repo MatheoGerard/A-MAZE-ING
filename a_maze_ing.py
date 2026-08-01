@@ -1,4 +1,4 @@
-from os import pathconf_names
+import readchar
 import sys
 import random
 from rich import print
@@ -11,22 +11,9 @@ from typing import Any
 import algo
 import solver
 import visualization as visu
+from gameplay import game_fucntion
 
 console = Console()
-
-
-def title_print() -> None:
-    title: str = r"""
- ______                     ______  ________   ____            ______   __  __  ____
-/\  _  \            /'\_/`\/\  _  \/\_____  \ /\  _`\         /\__  _\ /\ \/\ \/\  _`\
-\ \ \L\ \          /\      \ \ \L\ \/____//'/'\ \ \L\_\       \/_/\ \/ \ \ `\\ \ \ \L\_\
- \ \  __ \  _______\ \ \__\ \ \  __ \   //'/'  \ \  _\L   _______\ \ \  \ \ , ` \ \ \L_L
-  \ \ \/\ \/\______\\ \ \_/\ \ \ \/\ \ //'/'___ \ \ \L\ \/\______\\_\ \__\ \ \`\ \ \ \/, \
-   \ \_\ \_\/______/ \ \_\\ \_\ \_\ \_\/\_______\\ \____/\/______//\_____\\ \_\ \_\ \____/
-    \/_/\/_/          \/_/ \/_/\/_/\/_/\/_______/ \/___/          \/_____/ \/_/\/_/\/___/
-
-"""
-    console.print(Panel(title, expand=False, border_style="yellow"))
 
 
 def input_panel() -> None:
@@ -209,11 +196,11 @@ def loop_gameplay() -> None:
         False,
     )
 
-    title_print()
+    visu.title_print(console)
     visu.visualizatoin_format(last_gen_soluce, color_set[color_index], console)
     input_panel()
     while not is_exit:
-        key: str = input("Input: ")
+        key: str = readchar.readkey()
         match key:
             case "9":
                 is_exit = True
@@ -235,7 +222,7 @@ def loop_gameplay() -> None:
                     console,
                     False,
                 )
-                title_print()
+                visu.title_print(console)
                 if not is_soluce_print:
                     visu.visualizatoin_format(last_gen, color_set[color_index], console)
                 else:
@@ -259,7 +246,7 @@ def loop_gameplay() -> None:
                     console,
                     False,
                 )
-                title_print()
+                visu.title_print(console)
                 if not is_soluce_print:
                     visu.visualizatoin_format(last_gen, color_set[color_index], console)
                 else:
@@ -269,7 +256,7 @@ def loop_gameplay() -> None:
                 input_panel()
             case "3":
                 console.clear()
-                title_print()
+                visu.title_print(console)
                 if not is_soluce_print:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -282,7 +269,7 @@ def loop_gameplay() -> None:
             case "4":
                 console.clear()
                 lab_data_cpy = last_gen.copy()
-                title_print()
+                visu.title_print(console)
                 last_gen_soluce = solver.solver_print(
                     solver.find_start(active_cells),
                     soluce,
@@ -296,13 +283,22 @@ def loop_gameplay() -> None:
                 lab_data_cpy = last_gen.copy()
                 input_panel()
                 is_soluce_print = True
+            case "5":
+                lab_data_cpy = last_gen.copy()
+                game_fucntion(
+                    active_cells,
+                    size_values,
+                    lab_data_cpy,
+                    color_set[color_index],
+                    console,
+                )
             case "0":
                 if color_index == len(color_set) - 1:
                     color_index = 0
                 else:
                     color_index += 1
                 console.clear()
-                title_print()
+                visu.title_print(console)
                 if not is_soluce_print:
                     visu.visualizatoin_format(last_gen, color_set[color_index], console)
                 else:

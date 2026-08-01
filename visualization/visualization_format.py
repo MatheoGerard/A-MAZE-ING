@@ -20,6 +20,7 @@ def visualizatoin_format(
         "L": colors[5],
         "Y": colors[6],
         "S": colors[7],
+        "P": "purple",
     }
 
     lab_str: str = "".join(to_display)
@@ -52,5 +53,19 @@ def legende_print(color_set: str) -> None:
     }
 
     print(
-        f"[{char_map['E']}]██[/{char_map['E']}] entry     [{char_map['e']}]██[/{char_map['e']}] exit   [{char_map['S']}]██[/{char_map['S']}] path"
+        f"[{char_map['E']}]██[/{char_map['E']}] entry   [{char_map['e']}]██[/{char_map['e']}] exit  [{char_map['S']}]██[/{char_map['S']}] path"
     )
+
+
+def title_print(console: Console) -> None:
+    title: str = r"""
+ ______                     ______  ________   ____            ______   __  __  ____
+/\  _  \            /'\_/`\/\  _  \/\_____  \ /\  _`\         /\__  _\ /\ \/\ \/\  _`\
+\ \ \L\ \          /\      \ \ \L\ \/____//'/'\ \ \L\_\       \/_/\ \/ \ \ `\\ \ \ \L\_\
+ \ \  __ \  _______\ \ \__\ \ \  __ \   //'/'  \ \  _\L   _______\ \ \  \ \ , ` \ \ \L_L
+  \ \ \/\ \/\______\\ \ \_/\ \ \ \/\ \ //'/'___ \ \ \L\ \/\______\\_\ \__\ \ \`\ \ \ \/, \
+   \ \_\ \_\/______/ \ \_\\ \_\ \_\ \_\/\_______\\ \____/\/______//\_____\\ \_\ \_\ \____/
+    \/_/\/_/          \/_/ \/_/\/_/\/_/\/_______/ \/___/          \/_____/ \/_/\/_/\/___/
+
+"""
+    console.print(Panel(title, expand=False, border_style="yellow"))
