@@ -292,6 +292,17 @@ def loop_gameplay() -> None:
                     color_set[color_index],
                     console,
                 )
+                console.clear()
+                visu.title_print(console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
+                    is_soluce_print = True
+                else:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    is_soluce_print = False
+                input_panel()
             case "0":
                 if color_index == len(color_set) - 1:
                     color_index = 0
