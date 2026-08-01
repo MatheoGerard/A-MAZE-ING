@@ -1,7 +1,21 @@
+from sys import argv
 from rich.text import Text
 from rich.panel import Panel
 from rich.console import Console
+from rich.columns import Columns
 from rich import print
+from parsing import parsing_config
+from typing import Any
+
+
+def stat_print(stats: int) -> Panel:
+    data: dict[str, Any] = parsing_config(argv[1])
+    stats_str: str = rf"""
+STATISTIQUES:
+    size: {data["WIDTH"]} X {data["HEIGHT"]}
+    Soluce move: {stats}
+    """
+    return Panel(stats_str, expand=False, border_style="blue")
 
 
 def visualizatoin_format(
@@ -10,6 +24,7 @@ def visualizatoin_format(
     console: Console,
 ) -> None:
     colors: list[str] = color_set.split("-")
+    move_nb: int = 0
 
     char_map: dict[str, str] = {
         "#": colors[0],
@@ -31,10 +46,19 @@ def visualizatoin_format(
             txt_obj.append("\n")
         elif char in char_map:
             txt_obj.append("██", style=char_map[char])
+            if char == "S":
+                move_nb += 1
         else:
             txt_obj.append(char)
-    my_panel = Panel(txt_obj, expand=False, border_style="purple")
-    console.print(my_panel)
+
+    console.print(
+        Columns(
+            [
+                Panel(txt_obj, expand=False, border_style="purple"),
+                stat_print(move_nb + 1),
+            ]
+        ),
+    )
     legende_print(color_set)
 
 
