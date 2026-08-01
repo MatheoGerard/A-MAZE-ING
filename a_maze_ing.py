@@ -179,10 +179,6 @@ def loop_gameplay() -> None:
         "dark_red-red3-orange3-gold3-yellow3-chartreuse3-green3-dark_green",
         "grey3-grey23-grey42-grey62-grey82-grey93-white-grey1",
         "navy_blue-deep_sky_blue4-deep_sky_blue1-cyan1-medium_spring_green-green1-chartreuse1-yellow1",
-        # "purple-orchid-blue",
-        # "bright_red-grey0-bright_blue",
-        # "grey3-grey46-grey85",
-        # "deep_pink1-plum1-deep_pink3-",
     ]
 
     is_exit: bool = False
@@ -215,7 +211,6 @@ def loop_gameplay() -> None:
 
     title_print()
     visu.visualizatoin_format(last_gen_soluce, color_set[color_index], console)
-    visu.legende_print(color_set[color_index])
     input_panel()
     while not is_exit:
         key: str = input("Input: ")

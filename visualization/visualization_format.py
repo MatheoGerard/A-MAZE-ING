@@ -34,6 +34,7 @@ def visualizatoin_format(
             txt_obj.append(char)
     my_panel = Panel(txt_obj, expand=False, border_style="purple")
     console.print(my_panel)
+    legende_print(color_set)
 
 
 def legende_print(color_set: str) -> None:
@@ -43,11 +44,13 @@ def legende_print(color_set: str) -> None:
         "#": colors[0],
         " ": colors[1],
         ".": colors[2],
-        "E": "green",
-        "e": "purple",
-        "L": "blue",
-        "Y": "white",
-        "S": "red",
+        "E": colors[3],
+        "e": colors[4],
+        "L": colors[5],
+        "Y": colors[6],
+        "S": colors[7],
     }
 
-    print(f"[{char_map['E']}]██[/{char_map['E']}] entry        ")
+    print(
+        f"[{char_map['E']}]██[/{char_map['E']}] entry     [{char_map['e']}]██[/{char_map['e']}] exit   [{char_map['S']}]██[/{char_map['S']}] path"
+    )
