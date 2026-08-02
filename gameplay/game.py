@@ -4,7 +4,6 @@ from classes import Cells
 from visualization import visualizatoin_format as visu
 from rich.console import Console
 from rich.panel import Panel
-from rich import print
 from rich.columns import Columns
 from visualization import title_print
 

@@ -176,11 +176,14 @@ def loop_gameplay() -> None:
         "grey15-grey35-grey58-grey78-white-steel_blue1-orchid1-deep_pink2",
         "deep_sky_blue1-steel_blue1-cyan1-medium_spring_green-chartreuse1"
         "-gold1-dark_orange-red1",
-        "purple-blue_violet-royal_blue1-cornflower_blue-steel_blue1-sky_blue1-light_sky_blue1-white",
-        "deep_pink2-hot_pink-orchid1-plum1-medium_orchid1-violet-thistle1-white",
+        "purple-blue_violet-royal_blue1-cornflower_blue-steel_blue1-"
+        "sky_blue1-light_sky_blue1-white",
+        "deep_pink2-hot_pink-orchid1-plum1-medium_orchid1-violet"
+        "-thistle1-white",
         "dark_red-red3-orange3-gold3-yellow3-chartreuse3-green3-dark_green",
         "grey3-grey23-grey42-grey62-grey82-grey93-white-grey1",
-        "navy_blue-deep_sky_blue4-deep_sky_blue1-cyan1-medium_spring_green-green1-chartreuse1-yellow1",
+        "navy_blue-deep_sky_blue4-deep_sky_blue1-cyan1-medium_spring_green"
+        "-green1-chartreuse1-yellow1",
     ]
 
     is_exit: bool = False
@@ -387,5 +390,5 @@ if __name__ == "__main__":
         loop_gameplay()
     except ValueError as e:
         print(e)
-    except KeyboardInterrupt as e:
+    except KeyboardInterrupt:
         print("[red]\nEnded by user[/red]")
