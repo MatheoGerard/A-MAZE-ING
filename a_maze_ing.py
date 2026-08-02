@@ -19,7 +19,14 @@ console = Console()
 
 
 def input_panel() -> None:
-    inputs: str = "Change color: 0\nChange center: 1\nRegenerate maze: 2\nDisplay soluce: 3\nAnim mode: 4\nGame mode: 5\nExit: 9"
+    inputs: str = (
+        "Change color: 0\nChange center: 1"
+        "\nRegenerate maze: 2"
+        "\nDisplay soluce: 3"
+        "\nAnim mode: 4"
+        "\nGame mode: 5"
+        "\nExit: 9"
+    )
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
 
@@ -72,7 +79,7 @@ def draw_lab_size(
                         buffer += "."
                         break
                     if y % 2 != 0:
-                        new_cell: Cells = Cells(True, len(buffer), y, x - 1, size)
+                        new_cell = Cells(True, len(buffer), y, x - 1, size)
                         if new_cell.position == entry_val:
                             new_cell.char = "E"
                             new_cell.is_entry = True
@@ -82,7 +89,7 @@ def draw_lab_size(
                         cells_list.append(new_cell)
                         buffer += new_cell.char
                     else:
-                        new_cell: Cells = Cells(False, len(buffer), y, x - 1, size)
+                        new_cell = Cells(False, len(buffer), y, x - 1, size)
                         if new_cell.position == entry_val:
                             new_cell.char = "E"
                             new_cell.is_entry = True
@@ -106,7 +113,9 @@ def set_cells_index(cells_list: list[Cells]) -> None:
         index += 1
 
 
-def entry_exit_in_symbol(entry_exit: list[list[int]], cells_list: list[Cells]) -> None:
+def entry_exit_in_symbol(
+    entry_exit: list[list[int]], cells_list: list[Cells]
+) -> None:
     for c in cells_list:
         if c.position == entry_exit[0]:
             raise ValueError("Entry in middle symbol")
@@ -120,7 +129,9 @@ def init_lab(
     parse_data: dict[str, Any] = parsing.parsing_config(sys.argv[1])
     parsing.validate_config(parse_data)
     size_values: list[int] = parsing.validate_size_value(parse_data)
-    entry_exit: list[list[int]] = parsing.validate_entry_exit(parse_data, size_values)
+    entry_exit: list[list[int]] = parsing.validate_entry_exit(
+        parse_data, size_values
+    )
     perfect: bool = parsing.validate_perfect(parse_data)
     parsing.validate_output_name(parse_data)
     seed: None | str = parsing.seed_parsing(parse_data)
@@ -218,7 +229,7 @@ def loop_gameplay() -> None:
                 last_gen, soluce, active_cells, size_values = init_lab(
                     color_index, color_set, symbol_index
                 )
-                lab_data_cpy: list[str] = last_gen.copy()
+                lab_data_cpy = last_gen.copy()
                 last_gen_soluce = solver.solver_print(
                     solver.find_start(active_cells),
                     soluce,
@@ -231,7 +242,9 @@ def loop_gameplay() -> None:
                 )
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -242,7 +255,7 @@ def loop_gameplay() -> None:
                 last_gen, soluce, active_cells, size_values = init_lab(
                     color_index, color_set, symbol_index
                 )
-                lab_data_cpy: list[str] = last_gen.copy()
+                lab_data_cpy = last_gen.copy()
                 last_gen_soluce = solver.solver_print(
                     solver.find_start(active_cells),
                     soluce,
@@ -255,7 +268,9 @@ def loop_gameplay() -> None:
                 )
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -270,7 +285,9 @@ def loop_gameplay() -> None:
                     )
                     is_soluce_print = True
                 else:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                     is_soluce_print = False
                 input_panel()
             case "4":
@@ -310,7 +327,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -321,7 +340,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -332,7 +353,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -346,7 +369,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console

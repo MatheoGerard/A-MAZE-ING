@@ -20,9 +20,13 @@ def back_track(
         last_dir = direction_history.pop()
 
         if last_dir == "N":
-            current_cell = cells_list[current_cell.index_list + change_line * 2]
+            current_cell = cells_list[
+                current_cell.index_list + change_line * 2
+            ]
         elif last_dir == "S":
-            current_cell = cells_list[current_cell.index_list - change_line * 2]
+            current_cell = cells_list[
+                current_cell.index_list - change_line * 2
+            ]
         elif last_dir == "E":
             current_cell = cells_list[current_cell.index_list - 2]
         elif last_dir == "W":
@@ -71,7 +75,7 @@ def choice_direction(
     if len(dir_list) == 0:
         return ""
     else:
-        dir: str = random.choice(dir_list)
+        dir = random.choice(dir_list)
 
     return dir
 
@@ -99,7 +103,7 @@ def change_cell_state(
         lab_lst[cell.index_str - 1] = " "
 
 
-def finish_check(cell_list: list[Cells]):
+def finish_check(cell_list: list[Cells]) -> bool:
     for c in cell_list:
         if c.position[0] % 2 == 0 and c.position[1] % 2 == 0:
             if not c.is_used:
@@ -228,10 +232,15 @@ def check_dead_ends(
 
 
 def destroy_dead_ends(
-    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+    current: Cells,
+    cells_list: list[Cells],
+    size_values: list[int],
+    lab_lst: list[str],
 ) -> None:
     list_direction: list[str] = []
-    check: tuple[bool, str | None] = check_dead_ends(current, cells_list, size_values)
+    check: tuple[bool, str | None] = check_dead_ends(
+        current, cells_list, size_values
+    )
     change_line: int = (size_values[0] * 2) - 1
 
     if check[0]:
@@ -306,12 +315,16 @@ def gen_maze(
     while not finish_check(cells_list):
         direction: str = choice_direction(cells_list, current, size_values)
         if not direction:
-            current = back_track(cells_list, current, direction_history, size_values)
+            current = back_track(
+                cells_list, current, direction_history, size_values
+            )
             if len(direction_history) == 0:
                 break
             continue
         direction_history.append(direction)
         change_cell_state(current, direction, size_values, cells_list, lab_lst)
-        current = change_current_cell(current, cells_list, size_values, direction)
+        current = change_current_cell(
+            current, cells_list, size_values, direction
+        )
         current.is_used = True
     return lab_lst

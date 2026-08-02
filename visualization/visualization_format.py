@@ -1,5 +1,4 @@
 from sys import argv
-from pygame.mixer import music
 from rich.text import Text
 from rich.panel import Panel
 from rich.console import Console
@@ -160,7 +159,9 @@ def legende_print(color_set: str) -> None:
     }
 
     print(
-        f"[{char_map['E']}]██[/{char_map['E']}] entry   [{char_map['e']}]██[/{char_map['e']}] exit  [{char_map['S']}]██[/{char_map['S']}] path"
+        f"[{char_map['E']}]██[/{char_map['E']}] entry   "
+        f"[{char_map['e']}]██[/{char_map['e']}] exit  "
+        f"[{char_map['S']}]██[/{char_map['S']}] path"
     )
 
 

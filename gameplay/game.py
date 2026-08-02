@@ -32,8 +32,8 @@ def game_fucntion(
 ) -> None:
     is_win: bool = False
     key: str = ""
-    current: Cells | None = find_start(cells_list)
-    exit_cell: Cells | None = find_finish(cells_list)
+    current: Cells = find_start(cells_list)
+    exit_cell: Cells = find_finish(cells_list)
 
     console.clear()
     print("\033[H", end="")

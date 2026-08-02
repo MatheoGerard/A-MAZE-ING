@@ -14,9 +14,9 @@ def parsing_config(file_name: str) -> dict[str, Any]:
     with open(file_name) as file:
         for line in file:
             line_without_space: str = line.strip(" ")
-            if line_without_space.startswith("#") or line_without_space.startswith(
-                "\n"
-            ):
+            if line_without_space.startswith(
+                "#"
+            ) or line_without_space.startswith("\n"):
                 continue
             line_clean: str = line_without_space.strip("\n")
             if equal_count(line_without_space) != 1:
@@ -48,7 +48,9 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
     return size
 
 
-def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]]:
+def validate_entry_exit(
+    data: dict[str, Any], size: list[int]
+) -> list[list[int]]:
     if data["ENTRY"] == data["EXIT"]:
         raise ValueError("Entry and exit in same place")
 
@@ -100,7 +102,7 @@ def seed_parsing(data: dict[str, Any]) -> None | str:
     if data["SEED"] == "":
         return None
     else:
-        return data["SEED"]
+        return str(data["SEED"])
 
 
 if __name__ == "__main__":

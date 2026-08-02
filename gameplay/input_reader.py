@@ -7,7 +7,10 @@ def input_read() -> str:
 
 
 def go_north(
-    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+    current: Cells,
+    cells_list: list[Cells],
+    size_values: list[int],
+    lab_lst: list[str],
 ) -> Cells:
     change_line: int = (size_values[0] * 2) - 1
 
@@ -28,7 +31,10 @@ def go_north(
 
 
 def go_south(
-    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+    current: Cells,
+    cells_list: list[Cells],
+    size_values: list[int],
+    lab_lst: list[str],
 ) -> Cells:
     change_line: int = (size_values[0] * 2) - 1
 
@@ -49,7 +55,10 @@ def go_south(
 
 
 def go_east(
-    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+    current: Cells,
+    cells_list: list[Cells],
+    size_values: list[int],
+    lab_lst: list[str],
 ) -> Cells:
     if current.position[0] != (size_values[0] * 2) - 2:
         if (
@@ -68,7 +77,10 @@ def go_east(
 
 
 def go_west(
-    current: Cells, cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
+    current: Cells,
+    cells_list: list[Cells],
+    size_values: list[int],
+    lab_lst: list[str],
 ) -> Cells:
     if current.position[0] != 0:
         if (

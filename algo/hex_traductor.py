@@ -41,7 +41,9 @@ def hex_trad(
             ):
                 c.ways -= 4
 
-    output_file_generator(cell_lst, size_values, file_name, entry, exit_value, soluce)
+    output_file_generator(
+        cell_lst, size_values, file_name, entry, exit_value, soluce
+    )
 
 
 def output_file_generator(
@@ -52,6 +54,7 @@ def output_file_generator(
     exit_value: str,
     soluce: list[Cells | str],
 ) -> None:
+    str_list: list[str] = []
     open(file_name, "w").close()
     with open(file_name, "a") as file:
         for c in cell_lst:
@@ -66,4 +69,7 @@ def output_file_generator(
         file.write("\n")
         file.write(exit_value)
         file.write("\n")
-        file.write("".join(soluce[1:]))
+        for x in soluce[1:]:
+            if isinstance(x, str):
+                str_list.append(x)
+        file.write("".join(str_list))
