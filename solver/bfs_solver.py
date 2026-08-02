@@ -107,16 +107,18 @@ def bfs_function(
                                     return new_list
                 if x == "S":
                     new_list = ways.copy()
-                if isinstance(ways[0], Cells):
-                    new_list[0] = cell_list[ways[0].index_list + change_line]
-                    if isinstance(new_list[0], Cells):
-                        if not new_list[0].is_solved:
-                            new_list[0].is_solved = True
-                            new_list.append("S")
-                            all_ways.append(new_list)
-                            if new_list[0].is_exit:
-                                is_exit_find = True
-                                return new_list
+                    if isinstance(ways[0], Cells):
+                        new_list[0] = cell_list[
+                            ways[0].index_list + change_line
+                        ]
+                        if isinstance(new_list[0], Cells):
+                            if not new_list[0].is_solved:
+                                new_list[0].is_solved = True
+                                new_list.append("S")
+                                all_ways.append(new_list)
+                                if new_list[0].is_exit:
+                                    is_exit_find = True
+                                    return new_list
                 if x == "E":
                     new_list = ways.copy()
                     if isinstance(ways[0], Cells):
