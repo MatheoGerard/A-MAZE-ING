@@ -35,6 +35,8 @@ def game_fucntion(
     current: Cells | None = find_start(cells_list)
     exit_cell: Cells | None = find_finish(cells_list)
 
+    console.clear()
+    print("\033[H", end="")
     title_print(console)
     visu(lab_lst, color_set, console)
     print_input(console)
@@ -44,25 +46,25 @@ def game_fucntion(
         match key:
             case "w":
                 current = go_north(current, cells_list, size_values, lab_lst)
-                console.clear()
+                print("\033[H", end="")
                 title_print(console)
                 visu(lab_lst, color_set, console)
                 print_input(console)
             case "s":
                 current = go_south(current, cells_list, size_values, lab_lst)
-                console.clear()
+                print("\033[H", end="")
                 title_print(console)
                 visu(lab_lst, color_set, console)
                 print_input(console)
             case "d":
                 current = go_east(current, cells_list, size_values, lab_lst)
-                console.clear()
+                print("\033[H", end="")
                 title_print(console)
                 visu(lab_lst, color_set, console)
                 print_input(console)
             case "a":
                 current = go_west(current, cells_list, size_values, lab_lst)
-                console.clear()
+                print("\033[H", end="")
                 title_print(console)
                 visu(lab_lst, color_set, console)
                 print_input(console)
@@ -72,7 +74,10 @@ def game_fucntion(
                 lab_lst[current.index_str] = "e"
                 break
             case _:
-                console.clear()
+                print("\033[H", end="")
+                title_print(console)
+                visu(lab_lst, color_set, console)
+                print_input(console)
                 print("Not a correct direction! (use 'w', 'a', 's', 'd')")
                 print_input(console)
 

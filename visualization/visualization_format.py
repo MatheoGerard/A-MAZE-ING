@@ -1,4 +1,5 @@
 from sys import argv
+from pygame.mixer import music
 from rich.text import Text
 from rich.panel import Panel
 from rich.console import Console
@@ -6,6 +7,87 @@ from rich.columns import Columns
 from rich import print
 from parsing import parsing_config
 from typing import Any
+from music import get_music_volume, get_music_state
+
+
+def music_player_print(is_play: bool, volume: float) -> Panel:
+    music_player: str = ""
+    if not is_play:
+        if round(volume, 1) == 0.0:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [     ] o
+        P
+    """
+        if round(volume, 1) == 0.2:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [-    ] o
+        P
+    """
+        if round(volume, 1) == 0.4:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [--   ] o
+        P
+    """
+        if round(volume, 1) == 0.6:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [---  ] o
+        P
+    """
+        if round(volume, 1) == 0.8:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [---- ] o
+        P
+    """
+        if round(volume, 1) == 1.0:
+            music_player = r"""
+MUSIC_PLAYER:
+        ▶︎       🕪  i [-----] o
+        P
+    """
+    if is_play:
+        if round(volume, 1) == 0.0:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [     ] o
+        P
+    """
+        if round(volume, 1) == 0.2:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [-    ] o
+        P
+    """
+        if round(volume, 1) == 0.4:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [--   ] o
+        P
+    """
+        if round(volume, 1) == 0.6:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [---  ] o
+        P
+    """
+        if round(volume, 1) == 0.8:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [---- ] o
+        P
+    """
+        if round(volume, 1) == 1.0:
+            music_player = r"""
+MUSIC_PLAYER:
+        ⏸       🕪  i [-----] o
+        P
+    """
+
+    return Panel(music_player, expand=False, border_style="green")
 
 
 def stat_print(stats: int) -> Panel:
@@ -56,6 +138,7 @@ def visualizatoin_format(
             [
                 Panel(txt_obj, expand=False, border_style="purple"),
                 stat_print(move_nb + 1),
+                music_player_print(get_music_state(), get_music_volume()),
             ]
         ),
     )

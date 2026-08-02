@@ -5,6 +5,7 @@ from rich import print
 from rich.console import Console
 from rich.panel import Panel
 from algo.generator import unperfect
+from music.music_manager import music_pause
 import parsing
 from classes import Cells
 from typing import Any
@@ -12,12 +13,13 @@ import algo
 import solver
 import visualization as visu
 from gameplay import game_fucntion
+import music
 
 console = Console()
 
 
 def input_panel() -> None:
-    inputs: str = "Change color: 0\nChange center: 1\nRegenerate maze: 2\nDisplay soluce: 3\nAnim mode: 4\nExit: 9"
+    inputs: str = "Change color: 0\nChange center: 1\nRegenerate maze: 2\nDisplay soluce: 3\nAnim mode: 4\nGame mode: 5\nExit: 9"
     input_panel = Panel(inputs, expand=False, border_style="green")
     console.print(input_panel)
 
@@ -157,6 +159,7 @@ def init_lab(
 
 
 def loop_gameplay() -> None:
+    music.music_player()
     color_set: list[str] = [
         "red-gold1-orange1-yellow1-chartreuse1-deep_pink2-cyan1-dark_orange3",
         "grey15-grey35-grey58-grey78-white-steel_blue1-orchid1-deep_pink2",
@@ -177,6 +180,10 @@ def loop_gameplay() -> None:
     last_gen_soluce: list[str] = []
     active_cells: list[Cells] = []
     size_values: list[int] = []
+
+    is_music_pause: bool = False
+    volume: float = 0.6
+    music.music_set_volume(volume)
 
     is_soluce_print: bool = True
 
@@ -297,6 +304,39 @@ def loop_gameplay() -> None:
                 visu.visualizatoin_format(
                     last_gen_soluce, color_set[color_index], console
                 )
+                input_panel()
+            case "p":
+                is_music_pause = music_pause(is_music_pause)
+                console.clear()
+                visu.title_print(console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
+                input_panel()
+            case "o":
+                volume = music.music_set_volume_up(volume)
+                console.clear()
+                visu.title_print(console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
+                input_panel()
+            case "i":
+                volume = music.music_set_volume_down(volume)
+                console.clear()
+                visu.title_print(console)
+                if not is_soluce_print:
+                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                else:
+                    visu.visualizatoin_format(
+                        last_gen_soluce, color_set[color_index], console
+                    )
                 input_panel()
             case "0":
                 if color_index == len(color_set) - 1:
