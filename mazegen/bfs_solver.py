@@ -2,6 +2,19 @@ from .cells_class import Cells
 
 
 def find_start(cell_list: list[Cells]) -> Cells:
+    """
+    Find the starting cell of the maze.
+
+    The function searches through the list of cells and returns the first cell
+    marked as the entry point. If no entry cell is found, it returns the first
+    cell in the list as a fallback.
+
+    Args:
+        cell_list: List of all cells composing the maze.
+
+    Returns:
+        The cell representing the maze starting point.
+    """
     default_return: Cells = cell_list[0]
     for c in cell_list:
         if c.is_entry:
@@ -10,6 +23,19 @@ def find_start(cell_list: list[Cells]) -> Cells:
 
 
 def find_finish(cell_list: list[Cells]) -> Cells:
+    """
+    Find the finishing cell of the maze.
+
+    The function searches through the list of cells and returns the first cell
+    marked as the exit point. If no exit cell is found, it returns the first
+    cell in the list as a fallback.
+
+    Args:
+        cell_list: List of all cells composing the maze.
+
+    Returns:
+        The cell representing the maze finishing point.
+    """
     default_return: Cells = cell_list[0]
     for c in cell_list:
         if c.is_exit:
@@ -18,6 +44,18 @@ def find_finish(cell_list: list[Cells]) -> Cells:
 
 
 def finish_check(finish_cell: Cells) -> bool:
+    """
+    Check whether the finish cell has been reached.
+
+    The function determines if the exit cell has already been used, which
+    indicates that the player has reached the end of the maze.
+
+    Args:
+        finish_cell: The maze cell representing the exit.
+
+    Returns:
+        ``True`` if the finish cell has been reached, otherwise ``False``.
+    """
     if finish_cell.is_used:
         return True
 
@@ -27,6 +65,22 @@ def finish_check(finish_cell: Cells) -> bool:
 def find_possibilities(
     cell_list: list[Cells], current: Cells, size_values: list[int]
 ) -> list[str]:
+    """
+    Find all possible movements from the current cell.
+
+    The function checks the neighboring cells of the current position and
+    returns the directions where movement is possible. A direction is valid
+    when the adjacent cell is inside the maze boundaries and is walkable.
+
+    Args:
+        cell_list: List of all cells composing the maze.
+        current: The current cell from which possible moves are checked.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        A list of available directions represented by their cardinal letters
+        (``N``, ``S``, ``E``, ``W``).
+    """
     list_direction: list[str] = []
     change_line: int = (size_values[0] * 2) - 1
 
@@ -61,6 +115,21 @@ def find_possibilities(
 def bfs_function(
     cell_list: list[Cells], size_values: list[int]
 ) -> list[Cells | str]:
+    """
+    Find the shortest path from the maze entry to the exit using BFS.
+
+    The function applies a Breadth-First Search algorithm to explore the maze
+    from the starting cell. It keeps track of visited cells, explores possible
+    directions, and returns the first path that reaches the exit.
+
+    Args:
+        cell_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        A list containing the cells and directions composing the shortest path
+        to the exit. Returns an empty list if no path is found.
+    """
     start: Cells = find_start(cell_list)
     change_line: int = (size_values[0] * 2) - 1
     is_exit_find: bool = False
@@ -140,3 +209,4 @@ def bfs_function(
                                     is_exit_find = True
                                     return new_list
     return default_return
+

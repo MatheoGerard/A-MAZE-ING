@@ -11,6 +11,20 @@ import time
 
 
 def music_player_print(is_play: bool, volume: float) -> Panel:
+    """
+    Create a panel displaying the current music player status.
+
+    The function generates an ASCII representation of the music player,
+    indicating whether playback is active or paused as well as the current
+    volume level, then returns it as a Rich panel.
+
+    Args:
+        is_play: Indicates whether the music is currently playing.
+        volume: The current music volume.
+
+    Returns:
+        A Rich panel containing the music player interface.
+    """
     music_player: str = ""
     if not is_play:
         if round(volume, 1) == 0.0:
@@ -91,6 +105,19 @@ MUSIC_PLAYER:
 
 
 def stat_print(stats: int) -> Panel:
+    """
+    Create a panel displaying maze statistics.
+
+    The function reads the maze configuration and generates a Rich panel
+    containing the maze dimensions and the number of moves required by the
+    solution.
+
+    Args:
+        stats: The number of moves in the maze solution.
+
+    Returns:
+        A Rich panel containing the maze statistics.
+    """
     data: dict[str, Any] = parsing_config(argv[1])
     stats_str: str = rf"""
 STATISTIQUES:
@@ -105,6 +132,21 @@ def visualizatoin_format(
     color_set: str,
     console: Console,
 ) -> None:
+    """
+    Render the formatted maze and related information in the console.
+
+    The function converts the maze representation into colored blocks,
+    displays the maze alongside the statistics and music player panels, and
+    prints the legend for the selected color set.
+
+    Args:
+        to_display: List representing the maze to display.
+        color_set: Color theme used to render the maze.
+        console: The Rich console used to display the interface.
+
+    Returns:
+        None
+    """
     colors: list[str] = color_set.split("-")
     move_nb: int = 0
 
@@ -146,6 +188,19 @@ def visualizatoin_format(
 
 
 def legende_print(color_set: str) -> None:
+    """
+    Display the maze legend with the corresponding colors.
+
+    The function generates a legend showing the meaning of the different
+    maze elements (entry, exit, and path) using the colors defined in the
+    selected color set.
+
+    Args:
+        color_set: Color theme used to display the legend.
+
+    Returns:
+        None
+    """
     colors: list[str] = color_set.split("-")
 
     char_map: dict[str, str] = {
@@ -167,6 +222,18 @@ def legende_print(color_set: str) -> None:
 
 
 def title_print(console: Console) -> None:
+    """
+    Display the project title in the console.
+
+    The function renders the ASCII title inside a Rich panel with a yellow
+    border.
+
+    Args:
+        console: The Rich console used to display the title.
+
+    Returns:
+        None
+    """
     title: str = r"""
 _______       ______  ________________________   ____________   __________
 ___    |      ___   |/  /__    |__  /__  ____/   ____  _/__  | / /_  ____/
@@ -187,6 +254,27 @@ def solver_print(
     console: Console,
     is_anim: bool,
 ) -> list[str]:
+    """
+    Display the maze solution path.
+
+    The function follows the solution steps from the entry cell, updates the
+    maze representation by marking the solution path, and optionally displays
+    the path creation as an animation.
+
+    Args:
+        entry: The starting cell of the maze.
+        soluce: List containing the solution path directions.
+        lab_lst: List representing the current maze state.
+        cell_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        color_set: Color theme used to display the maze.
+        console: The Rich console used to render the maze.
+        is_anim: Indicates whether the solution path should be displayed
+            progressively.
+
+    Returns:
+        The updated maze representation containing the solution path.
+    """
     change_line: int = (size_values[0] * 2) - 1
     current: Cells = entry
 
@@ -215,6 +303,3 @@ def solver_print(
             time.sleep(0.0005)
 
     return lab_lst
-
-
-

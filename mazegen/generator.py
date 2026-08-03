@@ -9,6 +9,24 @@ def back_track(
     direction_history: list[str],
     size_values: list[int],
 ) -> Cells:
+    """
+    Move backwards through the generated path to find a cell with available
+    directions.
+
+    The function performs a backtracking operation by following the reverse of
+    the previously taken directions until it reaches a cell where a new path
+    can be explored or until there are no more directions to undo.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        cell: Current cell from which the backtracking starts.
+        direction_history: List containing the history of visited directions.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        The last cell reached during backtracking where a new direction can be
+        chosen.
+    """
     change_line: int = (size_values[0] * 2) - 1
     current_cell: Cells = cell
     last_dir: str = ""
@@ -40,6 +58,22 @@ def choice_direction(
     cell: Cells,
     size_values: list[int],
 ) -> str:
+    """
+    Choose a random available direction from the current cell.
+
+    The function checks the possible neighboring cells, removes invalid or
+    already visited directions, and randomly selects one of the remaining
+    directions.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        cell: Current cell from which a direction is chosen.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        A randomly selected direction (``N``, ``S``, ``E``, or ``W``).
+        Returns an empty string if no direction is available.
+    """
     dir: str = ""
     dir_list: list[str] = []
 
@@ -87,6 +121,23 @@ def change_cell_state(
     cells_list: list[Cells],
     lab_lst: list[str],
 ) -> None:
+    """
+    Update the state of a neighboring cell during maze generation.
+
+    The function removes the wall between the current cell and the selected
+    neighboring direction by updating the cell character and the maze string
+    representation.
+
+    Args:
+        cell: Current cell from which the wall is removed.
+        dir: Direction of the neighboring cell to open.
+        size_values: Dimensions of the maze.
+        cells_list: List of all cells composing the maze.
+        lab_lst: List representing the current maze state.
+
+    Returns:
+        None
+    """
     change_line: int = (size_values[0] * 2) - 1
 
     if dir == "N":
@@ -104,6 +155,19 @@ def change_cell_state(
 
 
 def finish_check(cell_list: list[Cells]) -> bool:
+    """
+    Check whether the maze generation is complete.
+
+    The function verifies that all valid maze cells have been visited during
+    generation. A maze is considered finished when every non-wall cell with
+    valid coordinates has been marked as used.
+
+    Args:
+        cell_list: List of all cells composing the maze.
+
+    Returns:
+        ``True`` if all maze cells have been visited, otherwise ``False``.
+    """
     for c in cell_list:
         if c.position[0] % 2 == 0 and c.position[1] % 2 == 0:
             if not c.is_used:
@@ -115,6 +179,21 @@ def finish_check(cell_list: list[Cells]) -> bool:
 def change_current_cell(
     cell: Cells, cells_list: list[Cells], size_values: list[int], dir: str
 ) -> Cells:
+    """
+    Get the neighboring cell in the specified direction.
+
+    The function calculates and returns the cell located in the given
+    direction from the current cell based on the maze dimensions.
+
+    Args:
+        cell: Current cell from which the movement starts.
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        dir: Direction of movement (``N``, ``E``, ``S``, or ``W``).
+
+    Returns:
+        The cell located in the selected direction.
+    """
     change_line: int = (size_values[0] * 2) - 1
 
     if dir == "N":
@@ -130,6 +209,20 @@ def change_current_cell(
 def check_north(
     current: Cells, cells_list: list[Cells], size_values: list[int]
 ) -> bool:
+    """
+    Check whether movement to the north is possible.
+
+    The function verifies that there is no wall blocking the north direction
+    and that the neighboring cell is a valid walkable cell.
+
+    Args:
+        current: Current cell from which the movement is checked.
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        ``True`` if the north direction is available, otherwise ``False``.
+    """
     if not current.walls["N"]:
         return False
 
@@ -148,6 +241,20 @@ def check_north(
 def check_south(
     current: Cells, cells_list: list[Cells], size_values: list[int]
 ) -> bool:
+    """
+    Check whether movement to the south is possible.
+
+    The function verifies that there is no wall blocking the south direction
+    and that the neighboring cell is a valid walkable cell.
+
+    Args:
+        current: Current cell from which the movement is checked.
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        ``True`` if the south direction is available, otherwise ``False``.
+    """
     if not current.walls["S"]:
         return False
 
@@ -164,6 +271,19 @@ def check_south(
 
 
 def check_east(current: Cells, cells_list: list[Cells]) -> bool:
+    """
+    Check whether movement to the east is possible.
+
+    The function verifies that there is no wall blocking the east direction
+    and that the neighboring cell is a valid walkable cell.
+
+    Args:
+        current: Current cell from which the movement is checked.
+        cells_list: List of all cells composing the maze.
+
+    Returns:
+        ``True`` if the east direction is available, otherwise ``False``.
+    """
     if not current.walls["E"]:
         return False
 
@@ -178,6 +298,19 @@ def check_east(current: Cells, cells_list: list[Cells]) -> bool:
 
 
 def check_west(current: Cells, cells_list: list[Cells]) -> bool:
+    """
+    Check whether movement to the west is possible.
+
+    The function verifies that there is no wall blocking the west direction
+    and that the neighboring cell is a valid walkable cell.
+
+    Args:
+        current: Current cell from which the movement is checked.
+        cells_list: List of all cells composing the maze.
+
+    Returns:
+        ``True`` if the west direction is available, otherwise ``False``.
+    """
     if not current.walls["W"]:
         return False
 
@@ -194,6 +327,24 @@ def check_west(current: Cells, cells_list: list[Cells]) -> bool:
 def check_dead_ends(
     current: Cells, cells_list: list[Cells], size_values: list[int]
 ) -> tuple[bool, str | None]:
+    """
+    Check whether the current cell is a dead end.
+
+    The function checks all available neighboring cells and determines if the
+    current cell has only one possible direction to continue. A dead end is
+    identified when exactly one valid direction is available.
+
+    Args:
+        current: Current cell to check.
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        A tuple containing:
+            - A boolean indicating whether the cell is a dead end.
+            - The only available direction if it is a dead end, otherwise
+              ``None``.
+    """
     nb_direction: list[str] = []
     change_line: int = (size_values[0] * 2) - 1
 
@@ -237,6 +388,22 @@ def destroy_dead_ends(
     size_values: list[int],
     lab_lst: list[str],
 ) -> None:
+    """
+    Remove dead ends by opening an additional path.
+
+    The function detects if the current cell is a dead end and, when possible,
+    randomly opens a connection to another available direction to reduce maze
+    dead ends.
+
+    Args:
+        current: Current cell from which dead-end removal is attempted.
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_lst: List representing the current maze state.
+
+    Returns:
+        None
+    """
     list_direction: list[str] = []
     check: tuple[bool, str | None] = check_dead_ends(
         current, cells_list, size_values
@@ -299,6 +466,21 @@ def center_driller(
 def unperfect(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
+    """
+    Convert a perfect maze into an imperfect maze.
+
+    The function removes some dead ends by opening additional paths between
+    cells, then modifies the center area of the maze to create more complex
+    passages.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_lst: List representing the current maze state.
+
+    Returns:
+        None
+    """
     for c in cells_list:
         if c.char == " " or c.char == "E" or c.char == "e":
             destroy_dead_ends(c, cells_list, size_values, lab_lst)
@@ -308,6 +490,22 @@ def unperfect(
 def gen_maze(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> list[str]:
+    """
+    Generate the maze using a backtracking algorithm.
+
+    The function creates a maze by exploring available directions from each
+    cell, opening passages between cells, and using backtracking when no
+    further movement is possible. The process continues until all maze cells
+    have been visited.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_lst: List representing the current maze state.
+
+    Returns:
+        The updated maze representation containing the generated paths.
+    """
     current: Cells = cells_list[0]
     direction_history: list[str] = []
     current.is_used = True

@@ -8,6 +8,18 @@ from visualization import title_print
 
 
 def print_input(console: Console) -> None:
+    """
+    Display the available keyboard controls in the console.
+
+    The function prints a set of panels showing the keys used for movement
+    (W, A, S, D) and the key to quit the application.
+
+    Args:
+        console: The Rich console used to render the controls.
+
+    Returns:
+        None
+    """
     console.print(
         Columns(
             [
@@ -28,6 +40,23 @@ def game_fucntion(
     color_set: str,
     console: Console,
 ) -> None:
+    """
+    Run the main game loop.
+
+    The function initializes the player and exit positions, displays the maze,
+    and continuously reads keyboard input to move the player until the exit is
+    reached or the user chooses to quit.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_lst: List representing the current maze state.
+        color_set: Color theme used to display the maze.
+        console: The Rich console used to render the game.
+
+    Returns:
+        None
+    """
     is_win: bool = False
     key: str = ""
     current: Cells = find_start(cells_list)
