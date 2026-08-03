@@ -1,7 +1,4 @@
-import time
-from classes import Cells
-import visualization as visu
-from rich.console import Console
+from .cells_class import Cells
 
 
 def find_start(cell_list: list[Cells]) -> Cells:
@@ -143,43 +140,3 @@ def bfs_function(
                                     is_exit_find = True
                                     return new_list
     return default_return
-
-
-def solver_print(
-    entry: Cells,
-    soluce: list[Cells | str],
-    lab_lst: list[str],
-    cell_list: list[Cells],
-    size_values: list[int],
-    color_set: str,
-    console: Console,
-    is_anim: bool,
-) -> list[str]:
-    change_line: int = (size_values[0] * 2) - 1
-    current: Cells = entry
-
-    for w in soluce[1:-1]:
-        match w:
-            case "N":
-                cell_list[current.index_list - change_line].char = "S"
-                lab_lst[current.index_str - change_line - 3] = "S"
-                current = cell_list[current.index_list - change_line]
-            case "S":
-                cell_list[current.index_list + change_line].char = "S"
-                lab_lst[current.index_str + change_line + 3] = "S"
-                current = cell_list[current.index_list + change_line]
-            case "E":
-                cell_list[current.index_list + 1].char = "S"
-                lab_lst[current.index_str + 1] = "S"
-                current = cell_list[current.index_list + 1]
-            case "W":
-                cell_list[current.index_list - 1].char = "S"
-                lab_lst[current.index_str - 1] = "S"
-                current = cell_list[current.index_list - 1]
-        if is_anim:
-            print("\033[H", end="")
-            visu.title_print(console)
-            visu.visualizatoin_format(lab_lst, color_set, console)
-            time.sleep(0.0005)
-
-    return lab_lst

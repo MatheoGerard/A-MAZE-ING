@@ -1,6 +1,5 @@
-from solver import find_start, find_finish
+from mazegen import find_start, find_finish, Cells
 from .input_reader import go_north, go_east, go_south, go_west, input_read
-from classes import Cells
 from visualization import visualizatoin_format as visu
 from rich.console import Console
 from rich.panel import Panel

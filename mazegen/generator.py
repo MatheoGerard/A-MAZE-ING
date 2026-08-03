@@ -1,5 +1,5 @@
-from algo import find_center
-from classes import Cells
+from .print42 import find_center
+from .cells_class import Cells
 import random
 
 

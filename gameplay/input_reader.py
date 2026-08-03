@@ -1,5 +1,5 @@
 import readchar
-from classes import Cells
+from mazegen import Cells
 
 
 def input_read() -> str:

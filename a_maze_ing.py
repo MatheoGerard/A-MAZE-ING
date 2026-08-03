@@ -1,19 +1,13 @@
 import readchar
-import sys
-import random
 from rich import print
 from rich.console import Console
 from rich.panel import Panel
-from algo.generator import unperfect
 from music.music_manager import music_pause
-import parsing
-from classes import Cells
 from typing import Any
-import algo
-import solver
 import visualization as visu
 from gameplay import game_fucntion
 import music
+from mazegen import init_lab, find_start, return_parsed_values, change_symbole, Cells, find_start, MazeGenerator
 
 console = Console()
 
@@ -31,145 +25,9 @@ def input_panel() -> None:
     console.print(input_panel)
 
 
-def draw_lab_size(
-    size: list[int], entry_val: list[int], exit_val: list[int]
-) -> tuple[str, list[Cells]]:
-    cells_list: list[Cells] = []
-    buffer: str = ""
-    width_total: int = size[0] * 2
-    height_total: int = (size[1] * 2) + 2
-
-    range_width = range(0, width_total)
-    range_height = range(0, height_total - 1)
-
-    is_finish: bool = False
-
-    while not is_finish:
-        for x in range_height:
-            buffer += "."
-            if x == 0:
-                for _ in range_width:
-                    buffer += "."
-                buffer += "\n"
-                continue
-
-            if x == height_total - 2:
-                for _ in range_width:
-                    buffer += "."
-                buffer += "\n"
-                continue
-
-            if x % 2 == 0:
-                for j in range_width:
-                    if j == width_total - 1:
-                        buffer += "."
-                        break
-                    new_cell: Cells = Cells(True, len(buffer), j, x - 1, size)
-                    if new_cell.position == entry_val:
-                        new_cell.char = "E"
-                        new_cell.is_entry = True
-                    elif new_cell.position == exit_val:
-                        new_cell.char = "e"
-                        new_cell.is_exit = True
-                    cells_list.append(new_cell)
-                    buffer += new_cell.char
-            else:
-                for y in range_width:
-                    if y == width_total - 1:
-                        buffer += "."
-                        break
-                    if y % 2 != 0:
-                        new_cell = Cells(True, len(buffer), y, x - 1, size)
-                        if new_cell.position == entry_val:
-                            new_cell.char = "E"
-                            new_cell.is_entry = True
-                        elif new_cell.position == exit_val:
-                            new_cell.char = "e"
-                            new_cell.is_exit = True
-                        cells_list.append(new_cell)
-                        buffer += new_cell.char
-                    else:
-                        new_cell = Cells(False, len(buffer), y, x - 1, size)
-                        if new_cell.position == entry_val:
-                            new_cell.char = "E"
-                            new_cell.is_entry = True
-                        elif new_cell.position == exit_val:
-                            new_cell.char = "e"
-                            new_cell.is_exit = True
-                        cells_list.append(new_cell)
-                        buffer += new_cell.char
-
-            buffer += "\n"
-        is_finish = True
-
-    return (buffer, cells_list)
-
-
-def set_cells_index(cells_list: list[Cells]) -> None:
-    index: int = 0
-
-    for c in cells_list:
-        c.index_list = index
-        index += 1
-
-
-def entry_exit_in_symbol(
-    entry_exit: list[list[int]], cells_list: list[Cells]
-) -> None:
-    for c in cells_list:
-        if c.position == entry_exit[0]:
-            raise ValueError("Entry in middle symbol")
-        elif c.position == entry_exit[1]:
-            raise ValueError("Exit in middle symbol")
-
-
-def init_lab(
-    index: int, color_set: list[str], symbol_index: int
-) -> tuple[list[str], list[Cells | str], list[Cells], list[int]]:
-    parse_data: dict[str, Any] = parsing.parsing_config(sys.argv[1])
-    parsing.validate_config(parse_data)
-    size_values: list[int] = parsing.validate_size_value(parse_data)
-    entry_exit: list[list[int]] = parsing.validate_entry_exit(
-        parse_data, size_values
-    )
-    perfect: bool = parsing.validate_perfect(parse_data)
-    parsing.validate_output_name(parse_data)
-    seed: None | str = parsing.seed_parsing(parse_data)
-    if seed:
-        random.seed(seed)
-    console.clear()
-    lab_data: tuple[str, list[Cells]] = draw_lab_size(
-        size_values, entry_exit[0], entry_exit[1]
-    )
-    lab_data_str: str = lab_data[0]
-    active_cell: list[Cells] = lab_data[1]
-    set_cells_index(active_cell)
-    lab_data_lst: list[str] = list(lab_data_str)
-    if size_values[0] > 8 and size_values[1] > 6:
-        symbol_lst: list[Cells] = algo.symbol_logic(
-            active_cell, size_values, lab_data_lst, symbol_index
-        )
-    else:
-        print("[red]Not enough space for 42 symbol![/red]")
-    lab_data_lst = algo.gen_maze(active_cell, size_values, lab_data_lst)
-    if not perfect:
-        unperfect(active_cell, size_values, lab_data_lst)
-    soluce: list[Cells | str] = solver.bfs_function(active_cell, size_values)
-    algo.hex_trad(
-        active_cell,
-        size_values,
-        parse_data["OUTPUT_FILE"],
-        parse_data["ENTRY"],
-        parse_data["EXIT"],
-        soluce,
-    )
-    if size_values[0] > 8 and size_values[1] > 6:
-        entry_exit_in_symbol(entry_exit, symbol_lst)
-
-    return lab_data_lst, soluce, active_cell, size_values
-
-
 def loop_gameplay() -> None:
+    console.clear()
+    data: dict[str, Any] = return_parsed_values()
     music.music_player()
     color_set: list[str] = [
         "red-gold1-orange1-yellow1-chartreuse1-deep_pink2-cyan1-dark_orange3",
@@ -202,13 +60,20 @@ def loop_gameplay() -> None:
 
     is_soluce_print: bool = True
 
-    last_gen, soluce, active_cells, size_values = init_lab(
-        color_index, color_set, symbol_index
-    )
+    maze = MazeGenerator(data["WIDTH"], data["HEIGHT"], data["ENTRY"], data["EXIT"], data["OUTPUT_FILE"], data["PERFECT"], data["SEED"], 1)
+
+    # last_gen, soluce, active_cells, size_values = init_lab(
+    #     color_index, color_set, symbol_index, data
+    # )
+
+    last_gen = maze.lab_format_lst
+    soluce = maze.soluce_lst
+    active_cells = maze.cells_lst
+    size_values = maze.size
 
     lab_data_cpy: list[str] = last_gen.copy()
-    last_gen_soluce = solver.solver_print(
-        solver.find_start(active_cells),
+    last_gen_soluce = visu.solver_print(
+        find_start(active_cells),
         soluce,
         lab_data_cpy,
         active_cells,
@@ -228,14 +93,14 @@ def loop_gameplay() -> None:
                 is_exit = True
                 print("Exit...")
             case "1":
-                symbol_index = algo.change_symbole(symbol_index, symbol_nb)
+                symbol_index = change_symbole(symbol_index, symbol_nb)
                 console.clear()
                 last_gen, soluce, active_cells, size_values = init_lab(
-                    color_index, color_set, symbol_index
+                    symbol_index, data
                 )
                 lab_data_cpy = last_gen.copy()
-                last_gen_soluce = solver.solver_print(
-                    solver.find_start(active_cells),
+                last_gen_soluce = visu.solver_print(
+                    find_start(active_cells),
                     soluce,
                     lab_data_cpy,
                     active_cells,
@@ -257,11 +122,11 @@ def loop_gameplay() -> None:
             case "2":
                 console.clear()
                 last_gen, soluce, active_cells, size_values = init_lab(
-                    color_index, color_set, symbol_index
+                    symbol_index, data
                 )
                 lab_data_cpy = last_gen.copy()
-                last_gen_soluce = solver.solver_print(
-                    solver.find_start(active_cells),
+                last_gen_soluce = visu.solver_print(
+                    find_start(active_cells),
                     soluce,
                     lab_data_cpy,
                     active_cells,
@@ -298,8 +163,8 @@ def loop_gameplay() -> None:
                 console.clear()
                 lab_data_cpy = last_gen.copy()
                 visu.title_print(console)
-                last_gen_soluce = solver.solver_print(
-                    solver.find_start(active_cells),
+                last_gen_soluce = visu.solver_print(
+                    find_start(active_cells),
                     soluce,
                     lab_data_cpy,
                     active_cells,

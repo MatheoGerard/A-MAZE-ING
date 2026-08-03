@@ -1,4 +1,4 @@
-from classes import Cells
+from .cells_class import Cells
 
 
 def hex_trad(

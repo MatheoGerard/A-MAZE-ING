@@ -1,4 +1,5 @@
 from typing import Any
+import sys
 
 
 def equal_count(line: str) -> int:
@@ -103,6 +104,10 @@ def seed_parsing(data: dict[str, Any]) -> None | str:
         return None
     else:
         return str(data["SEED"])
+
+
+def return_parsed_values() -> dict[str, Any]:
+    return parsing_config(sys.argv[1])
 
 
 if __name__ == "__main__":

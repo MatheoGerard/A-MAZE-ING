@@ -1,4 +1,4 @@
-from classes import Cells
+from .cells_class import Cells
 from .wall_destroyer import change_state
 
 

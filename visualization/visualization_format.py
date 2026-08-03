@@ -3,10 +3,11 @@ from rich.text import Text
 from rich.panel import Panel
 from rich.console import Console
 from rich.columns import Columns
-from rich import print
-from parsing import parsing_config
+from rich import print as richprint
 from typing import Any
 from music import get_music_volume, get_music_state
+from mazegen import Cells, parsing_config
+import time
 
 
 def music_player_print(is_play: bool, volume: float) -> Panel:
@@ -158,21 +159,11 @@ def legende_print(color_set: str) -> None:
         "S": colors[7],
     }
 
-    print(
+    richprint(
         f"[{char_map['E']}]██[/{char_map['E']}] entry   "
         f"[{char_map['e']}]██[/{char_map['e']}] exit  "
         f"[{char_map['S']}]██[/{char_map['S']}] path"
     )
-
-
-# def title_print(console: Console) -> None:
-#   console.print(
-#      Panel(
-#         text2art("A-MAZE-ING", "larry 3d 2", chr_ignore=True),
-#        expand=False,
-#       border_style="yellow",
-#  )
-# )
 
 
 def title_print(console: Console) -> None:
@@ -184,3 +175,46 @@ _  ___ |/_____/  /  / / _  ___ |  /__  /___/_____/_/ /  _  /|  / / /_/ /
 /_/  |_|      /_/  /_/  /_/  |_/____/_____/      /___/  /_/ |_/  \____/
 """
     console.print(Panel(title, expand=False, border_style="yellow"))
+
+
+def solver_print(
+    entry: Cells,
+    soluce: list[Cells | str],
+    lab_lst: list[str],
+    cell_list: list[Cells],
+    size_values: list[int],
+    color_set: str,
+    console: Console,
+    is_anim: bool,
+) -> list[str]:
+    change_line: int = (size_values[0] * 2) - 1
+    current: Cells = entry
+
+    for w in soluce[1:-1]:
+        match w:
+            case "N":
+                cell_list[current.index_list - change_line].char = "S"
+                lab_lst[current.index_str - change_line - 3] = "S"
+                current = cell_list[current.index_list - change_line]
+            case "S":
+                cell_list[current.index_list + change_line].char = "S"
+                lab_lst[current.index_str + change_line + 3] = "S"
+                current = cell_list[current.index_list + change_line]
+            case "E":
+                cell_list[current.index_list + 1].char = "S"
+                lab_lst[current.index_str + 1] = "S"
+                current = cell_list[current.index_list + 1]
+            case "W":
+                cell_list[current.index_list - 1].char = "S"
+                lab_lst[current.index_str - 1] = "S"
+                current = cell_list[current.index_list - 1]
+        if is_anim:
+            print("\033[H", end="")
+            title_print(console)
+            visualizatoin_format(lab_lst, color_set, console)
+            time.sleep(0.0005)
+
+    return lab_lst
+
+
+
