@@ -7,8 +7,8 @@ from typing import Any
 import visualization as visu
 from gameplay import game_fucntion
 import music
-from mazegen import init_lab, find_start, return_parsed_values, change_symbole, Cells, find_start, MazeGenerator
-
+from mazegen import init_lab, find_start, return_parsed_values
+from mazegen import change_symbole, Cells, MazeGenerator
 console = Console()
 
 
@@ -30,18 +30,33 @@ def loop_gameplay() -> None:
     data: dict[str, Any] = return_parsed_values()
     music.music_player()
     color_set: list[str] = [
-        "red-gold1-orange1-yellow1-chartreuse1-deep_pink2-cyan1-dark_orange3",
-        "grey15-grey35-grey58-grey78-white-steel_blue1-orchid1-deep_pink2",
-        "deep_sky_blue1-steel_blue1-cyan1-medium_spring_green-chartreuse1"
-        "-gold1-dark_orange-red1",
+        "red-gold1-yellow1-chartreuse1-chartreuse3-deep_pink2-"
+        "cyan1-dark_orange3",
+        "dark_violet-orchid2-plum1-chartreuse1-chartreuse3-steel_blue1"
+        "-orchid1-deep_pink2",
+        "dark_blue-sky_blue3-dodger_blue2-chartreuse1-chartreuse3-"
+        "medium_violet_red-deep_pink4-red3",
         "purple-blue_violet-royal_blue1-cornflower_blue-steel_blue1-"
         "sky_blue1-light_sky_blue1-white",
-        "deep_pink2-hot_pink-orchid1-plum1-medium_orchid1-violet"
-        "-thistle1-white",
-        "dark_red-red3-orange3-gold3-yellow3-chartreuse3-green3-dark_green",
-        "grey3-grey23-grey42-grey62-grey82-grey93-white-grey1",
+        "deep_pink2-hot_pink-orchid1-plum1-medium_orchid1-bright_white"
+        "-bright_magenta-blue_violet",
+        "dark_red-red3-magenta2-gold3-yellow3-magenta2-magenta3-plum1",
         "navy_blue-deep_sky_blue4-deep_sky_blue1-cyan1-medium_spring_green"
         "-green1-chartreuse1-yellow1",
+        "dark_red-red3-dark_orange3-orange1-gold1-yellow1-"
+        "deep_pink2-bright_white",
+        "navy_blue-blue4-deep_sky_blue4-cyan3-turquoise2-"
+        "aquamarine1-white-light_cyan1",
+        "grey7-dark_red-red3-red1-dark_orange3-gold3-yellow3-white",
+        "hot_pink-deep_pink2-plum1-medium_purple1-"
+        "sky_blue1-cyan1-yellow1-white",
+        "navy_blue-blue3-royal_blue1-medium_purple1-"
+        "plum1-gold1-white-yellow1",
+        "grey7-purple4-blue_violet-bright_cyan-deep_pink2-"
+        "hot_pink-yellow1-white",
+        "grey11-dark_red-red3-red1-hot_pink-deep_pink2-white-bright_white",
+        "red-dark_orange-orange1-yellow1-chartreuse1-cyan1-"
+        "blue_violet-magenta1",
     ]
 
     is_exit: bool = False
@@ -60,7 +75,9 @@ def loop_gameplay() -> None:
 
     is_soluce_print: bool = True
 
-    maze = MazeGenerator(data["WIDTH"], data["HEIGHT"], data["ENTRY"], data["EXIT"], data["OUTPUT_FILE"], data["PERFECT"], data["SEED"], 1)
+    maze = MazeGenerator(data["WIDTH"], data["HEIGHT"], data["ENTRY"],
+                         data["EXIT"], data["OUTPUT_FILE"], data["PERFECT"],
+                         data["SEED"], 1)
 
     # last_gen, soluce, active_cells, size_values = init_lab(
     #     color_index, color_set, symbol_index, data
