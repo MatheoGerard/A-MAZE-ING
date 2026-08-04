@@ -13,7 +13,3 @@ def change_state(
     elif cell.char == "#":
         lab_lst[cell.index_str] = " "
         cell.char = " "
-
-
-def generator(cells: list[Cells]) -> None:
-    pass
