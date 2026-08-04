@@ -3,6 +3,18 @@ import sys
 
 
 def equal_count(line: str) -> int:
+    """
+    Count the number of equal signs in a string.
+
+    The function iterates through the provided string and counts how many
+    ``=`` characters it contains.
+
+    Args:
+        line: String to inspect.
+
+    Returns:
+        The number of equal signs found in the string.
+    """
     equal_counter: int = 0
     for c in line:
         if c == "=":
@@ -11,6 +23,19 @@ def equal_count(line: str) -> int:
 
 
 def parsing_config(file_name: str) -> dict[str, Any]:
+    """
+    Parse a maze configuration file.
+
+    The function reads the configuration file, ignores comments and empty
+    lines, validates the format of each entry, and stores the resulting
+    key-value pairs in a dictionary.
+
+    Args:
+        file_name: Name of the configuration file.
+
+    Returns:
+        A dictionary containing the parsed configuration values.
+    """
     data: dict[str, Any] = {}
     with open(file_name) as file:
         for line in file:
@@ -28,6 +53,18 @@ def parsing_config(file_name: str) -> dict[str, Any]:
 
 
 def validate_config(data: dict[str, Any]) -> None:
+    """
+    Validate the required configuration parameters.
+
+    The function checks that all mandatory configuration keys are present in
+    the parsed configuration data.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+
+    Returns:
+        None
+    """
     mandatory: list[str] = [
         "WIDTH",
         "HEIGHT",
@@ -43,6 +80,18 @@ def validate_config(data: dict[str, Any]) -> None:
 
 
 def validate_size_value(data: dict[str, Any]) -> list[int]:
+    """
+    Extract the maze dimensions from the configuration.
+
+    The function converts the width and height values into integers and
+    returns them as a list.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+
+    Returns:
+        A list containing the maze width and height.
+    """
     size: list[int] = []
     size.append(int(data["WIDTH"]))
     size.append(int(data["HEIGHT"]))
@@ -52,6 +101,20 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
 def validate_entry_exit(
     data: dict[str, Any], size: list[int]
 ) -> list[list[int]]:
+    """
+    Validate the maze entry and exit positions.
+
+    The function checks that the entry and exit coordinates are correctly
+    formatted, located inside the maze boundaries, and are not identical.
+    The validated coordinates are converted to the internal maze format.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+        size: Dimensions of the maze.
+
+    Returns:
+        A list containing the converted entry and exit coordinates.
+    """
     if data["ENTRY"] == data["EXIT"]:
         raise ValueError("Entry and exit in same place")
 
@@ -86,6 +149,18 @@ def validate_entry_exit(
 
 
 def validate_perfect(data: dict[str, Any]) -> bool:
+    """
+    Validate the perfect maze option.
+
+    The function checks that the ``PERFECT`` value is either ``True`` or
+    ``False`` and returns the corresponding boolean value.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+
+    Returns:
+        ``True`` if a perfect maze should be generated, otherwise ``False``.
+    """
     if data["PERFECT"] != "True" and data["PERFECT"] != "False":
         raise ValueError("PERFECT must be 'True' or 'False'")
     if data["PERFECT"] == "True":
@@ -95,11 +170,35 @@ def validate_perfect(data: dict[str, Any]) -> bool:
 
 
 def validate_output_name(data: dict[str, Any]) -> None:
+    """
+    Validate the output file name.
+
+    The function verifies that the configured output file name matches the
+    expected value.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+
+    Returns:
+        None
+    """
     if data["OUTPUT_FILE"] != "maze.txt":
         raise ValueError("OUTPUT_FILE must be maze.txt")
 
 
 def seed_parsing(data: dict[str, Any]) -> None | str:
+    """
+    Parse the random generation seed.
+
+    The function returns the configured seed if one is provided. Otherwise,
+    it returns ``None``.
+
+    Args:
+        data: Dictionary containing the parsed configuration values.
+
+    Returns:
+        The seed as a string, or ``None`` if no seed is specified.
+    """
     if data["SEED"] == "":
         return None
     else:
@@ -107,6 +206,15 @@ def seed_parsing(data: dict[str, Any]) -> None | str:
 
 
 def return_parsed_values() -> dict[str, Any]:
+    """
+    Parse the configuration file passed as a command-line argument.
+
+    The function reads the configuration file specified in ``sys.argv`` and
+    returns the parsed configuration values.
+
+    Returns:
+        A dictionary containing the parsed configuration values.
+    """
     return parsing_config(sys.argv[1])
 
 

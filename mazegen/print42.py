@@ -3,6 +3,20 @@ from .wall_destroyer import change_state
 
 
 def find_center(cells_list: list[Cells], size_values: list[int]) -> Cells:
+    """
+    Find the center cell of the maze.
+
+    The function calculates the center coordinates according to the maze
+    dimensions and returns the corresponding cell. It handles both even and
+    odd maze sizes to locate the correct central position.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        The cell located at the center of the maze.
+    """
     default_return: Cells = cells_list[0]
 
     x_range: int = size_values[0] * 2
@@ -29,6 +43,19 @@ def find_center(cells_list: list[Cells], size_values: list[int]) -> Cells:
 
 
 def change_symbole(index: int, symbole_nb: int) -> int:
+    """
+    Change the current symbol index.
+
+    The function increments the symbol index and resets it to zero when the
+    last available symbol is reached.
+
+    Args:
+        index: Current symbol index.
+        symbole_nb: Number of available symbols.
+
+    Returns:
+        The updated symbol index.
+    """
     if index == symbole_nb - 1:
         return 0
     else:
@@ -41,6 +68,22 @@ def center_symbol(
     lab_str: list[str],
     symbole_index: int,
 ) -> list[Cells]:
+    """
+    Draw a symbol in the center of the maze.
+
+    The function selects a predefined symbol pattern, modifies the maze cells
+    around the center, and updates the maze representation by opening the
+    required passages.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_str: List representing the current maze state.
+        symbole_index: Index of the symbol to draw.
+
+    Returns:
+        A list of cells used by the selected symbol.
+    """
     cell_center: Cells = find_center(cells_list, size_values)
     change_line: int = (size_values[0] * 2) - 1
     list_symbole: list[list[Cells]] = []
@@ -193,6 +236,20 @@ def center_symbol(
 def change_wall_cell(
     cells_list: list[Cells], symbol_lst: list[Cells], size_values: list[int]
 ) -> None:
+    """
+    Remove walls around symbol cells.
+
+    The function updates the wall states of cells surrounding the selected
+    symbol cells to create open passages in the maze.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        symbol_lst: List of cells forming the symbol.
+        size_values: Dimensions of the maze.
+
+    Returns:
+        None
+    """
     change_line: int = (size_values[0] * 2) - 1
 
     for c in symbol_lst:
@@ -212,4 +269,19 @@ def symbol_logic(
     lab_str: list[str],
     symbole_index: int,
 ) -> list[Cells]:
+    """
+    Apply the selected center symbol to the maze.
+
+    The function acts as a wrapper around the center symbol generation logic
+    and returns the cells modified by the symbol.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_str: List representing the current maze state.
+        symbole_index: Index of the symbol to apply.
+
+    Returns:
+        A list of cells modified by the selected symbol.
+    """
     return center_symbol(cells_list, size_values, lab_str, symbole_index)

@@ -444,6 +444,22 @@ def destroy_dead_ends(
 def center_driller(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
+    """
+    Create an opening in the center of the maze.
+
+    The function locates the maze center and, if it is currently a wall,
+    removes it along with several adjacent walls to create a larger central
+    passage. This helps reduce bottlenecks and makes the maze less linear.
+
+    Args:
+        cells_list: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        lab_lst: List representing the current maze state.
+
+    Returns:
+        None
+    """
+
     center: Cells = find_center(cells_list, size_values)
     change_line: int = (size_values[0] * 2) - 1
     current: Cells = center

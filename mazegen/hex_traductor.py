@@ -9,6 +9,24 @@ def hex_trad(
     exit_value: str,
     soluce: list[Cells | str],
 ) -> None:
+    """
+    Convert the maze into its hexadecimal representation.
+
+    The function analyzes the open passages around each maze cell and updates
+    its hexadecimal value accordingly. Once all cells have been converted, the
+    resulting maze is written to the specified output file.
+
+    Args:
+        cell_lst: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        file_name: Name of the output file.
+        entry: Entry coordinates of the maze.
+        exit_value: Exit coordinates of the maze.
+        soluce: List containing the solution path.
+
+    Returns:
+        None
+    """
     change_line: int = (size_values[0] * 2) - 1
 
     for c in cell_lst:
@@ -54,6 +72,24 @@ def output_file_generator(
     exit_value: str,
     soluce: list[Cells | str],
 ) -> None:
+    """
+    Write the hexadecimal maze representation to a file.
+
+    The function creates the output file and writes the hexadecimal value of
+    each maze cell, followed by the entry and exit coordinates and the
+    solution path.
+
+    Args:
+        cell_lst: List of all cells composing the maze.
+        size_values: Dimensions of the maze.
+        file_name: Name of the output file.
+        entry: Entry coordinates of the maze.
+        exit_value: Exit coordinates of the maze.
+        soluce: List containing the solution path.
+
+    Returns:
+        None
+    """
     str_list: list[str] = []
     open(file_name, "w").close()
     with open(file_name, "a") as file:
