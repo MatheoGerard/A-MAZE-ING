@@ -42,8 +42,8 @@ class Cells:
         Initialize a maze cell.
 
         The constructor creates a cell, sets its display character, defines its
-        position, initializes its state flags, and configures the walls depending
-        on whether the cell is a wall or its location in the maze.
+        position, initializes its state flags, and configures the walls
+        depending on whether the cell is a wall or its location in the maze.
 
         Args:
             is_wall: Indicates whether the cell represents a wall.
@@ -81,8 +81,8 @@ class Cells:
         """
         Set the display character of the cell.
 
-        The function assigns a wall character if the cell is a wall, otherwise it
-        assigns an empty space character for a walkable cell.
+        The function assigns a wall character if the cell is a wall,
+        otherwise it assigns an empty space character for a walkable cell.
 
         Args:
             is_wall: Indicates whether the cell is a wall.
@@ -99,8 +99,8 @@ class Cells:
         """
         Set the coordinates of the cell.
 
-        The function validates that the provided coordinates are integers and then
-        stores them as the cell position.
+        The function validates that the provided coordinates are integers and
+        then stores them as the cell position.
 
         Args:
             x: Horizontal coordinate of the cell.
@@ -124,9 +124,9 @@ class Cells:
         """
         Define the available walls of the cell.
 
-        The function initializes the wall states of the cell. Wall cells have all
-        directions disabled, while walkable cells have their borders disabled when
-        they are located on the edge of the maze.
+        The function initializes the wall states of the cell. Wall cells
+        have all directions disabled, while walkable cells have their borders
+        disabled when they are located on the edge of the maze.
 
         Args:
             is_wall: Indicates whether the cell is a wall.

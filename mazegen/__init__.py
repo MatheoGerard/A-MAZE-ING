@@ -5,4 +5,6 @@ from .parsing_config import return_parsed_values, parsing_config
 from .print42 import change_symbole
 from .maze_generator import MazeGenerator
 
-__all__ = ["init_lab", "Cells", "find_start", "return_parsed_values", "change_symbole", "parsing_config", "find_finish", "MazeGenerator"]
+__all__ = ["init_lab", "Cells", "find_start", "return_parsed_values",
+           "change_symbole", "parsing_config", "find_finish",
+           "MazeGenerator"]

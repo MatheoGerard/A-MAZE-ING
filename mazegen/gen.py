@@ -141,7 +141,8 @@ def entry_exit_in_symbol(
         cells_list: List of maze cells to check.
 
     Raises:
-        ValueError: If the entry or exit position is located on a middle symbol.
+        ValueError: If the entry or exit position is located on a middle
+        symbol.
 
     Returns:
         None

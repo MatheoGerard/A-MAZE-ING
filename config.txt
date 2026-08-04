@@ -1,10 +1,10 @@
 #KEY=value
 
 hjzex=vfjdxsvfikjdzbvh
-WIDTH=15
-HEIGHT=15
+WIDTH=50
+HEIGHT=50
 ENTRY=0,0
-EXIT=14,14
+EXIT=49,49
 OUTPUT_FILE=maze.txt
 PERFECT=False
 SEED=

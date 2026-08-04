@@ -209,4 +209,3 @@ def bfs_function(
                                     is_exit_find = True
                                     return new_list
     return default_return
-

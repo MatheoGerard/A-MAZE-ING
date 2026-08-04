@@ -61,4 +61,9 @@ class MazeGenerator:
         Returns:
             None
         """
-        self.lab_format_lst, self.soluce_lst, self.cells_lst, self.size  = init_lab(self.symbole, self.data)
+        (
+            self.lab_format_lst,
+            self.soluce_lst,
+            self.cells_lst,
+            self.size,
+        ) = init_lab(self.symbole, self.data)
