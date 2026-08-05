@@ -121,18 +121,11 @@ Example:
 ```txt
 WIDTH=31
 HEIGHT=21
-ENTRY=LEFT
-EXIT=RIGHT
+ENTRY=0,0
+EXIT=30,20
 PERFECT=True
 SEED=42
 OUTPUT_FILE=maze.txt
-
-SYMBOLE_WALL=█
-SYMBOLE_CELL=
-SYMBOLE_BORDER=▓
-SYMBOLE_ENTRY=E
-SYMBOLE_EXIT=S
-SYMBOLE_PATH=·
 ```
 
 ## Parameters
@@ -197,17 +190,44 @@ Breadth-First Search guarantees the shortest path between the entrance and the e
 # Project Structure
 
 ```
-A-MAZE-ING/
+AMAZEING/
+│
+├── assets/
+│   └── 06. Unknown Planet.mp3
+│
+├── gameplay/
+│   ├── __init__.py
+│   ├── game.py
+│   └── input_reader.py
+│
+├── mazegen/
+│   ├── __init__.py
+│   ├── bfs_solver.py
+│   ├── cells_class.py
+│   ├── gen.py
+│   ├── generator.py
+│   ├── hex_traductor.py
+│   ├── maze_generator.py
+│   ├── parsing_config.py
+│   ├── print42.py
+│   └── wall_destroyer.py
+│
+├── music/
+│   ├── __init__.py
+│   └── music_manager.py
+│
+├── visualization/
+│   ├── __init__.py
+│   └── visualization_format.py
 │
 ├── a_maze_ing.py
-├── maze_generator.py
-├── maze_solver.py
-├── parser_config.py
-├── utils.py
-├── music.py
+├── config.txt
+├── maze.txt
 ├── requirements.txt
+├── pyproject.toml
+├── Makefile
 ├── README.md
-└── ...
+└── LICENSE.md
 ```
 
 (The exact structure may differ depending on your implementation.)
@@ -229,10 +249,6 @@ The generator is independent from the display and can generate mazes for another
 ## Maze solver
 
 The solving algorithm can be reused on any compatible maze representation.
-
-## Display utilities
-
-Rich-based display functions can be integrated into other terminal projects.
 
 ---
 
@@ -339,4 +355,24 @@ https://en.wikipedia.org/wiki/Maze-solving_algorithm
 
 # License
 
-This project was developed for educational purposes as part of the 42 curriculum.
+MIT License
+
+Copyright (c) 2026 dmonseur, mgerard
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
