@@ -1,35 +1,3 @@
-Metadata-Version: 2.4
-Name: mazegen
-Version: 1.0.0
-Summary: Reusable maze generation library
-Author: dmonseur, mgerard
-License: MIT License
-        
-        Copyright (c) 2026 dmonseur, mgerard
-        
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
-        
-        The above copyright notice and this permission notice shall be included in all
-        copies or substantial portions of the Software.
-        
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-        SOFTWARE.
-        
-Requires-Python: >=3.10
-Description-Content-Type: text/markdown
-License-File: LICENSE.md
-Dynamic: license-file
-
 *This project has been created as part of the 42 curriculum by mgerard, dmonseur.*
 
 # A-MAZE-ING
@@ -59,6 +27,8 @@ The program generates a maze according to a configuration file, displays it in t
 
 # Instructions
 
+A Python maze generator and solver.
+
 ## Requirements
 
 - Python 3.10+
@@ -70,29 +40,75 @@ Clone the repository:
 
 ```bash
 git clone <repository_url>
-cd <repository_url>
+cd A-Maze-ing
 ```
 
 Install dependencies:
 
 ```bash
 pip install -r requirements.txt
-or make install
 ```
 
-Run the project:
+or:
+
+```bash
+make install
+```
+
+## Run the project
+
+Start the maze generator:
 
 ```bash
 python3 a_maze_ing.py
-or make run
 ```
 
-Export the Maze as package:
+or:
+
+```bash
+make run
+```
+
+## Export the Maze Generator as a package
+
+Install the build dependency:
 
 ```bash
 pip install build
+```
+
+Build the package:
+
+```bash
 python3 -m build
 ```
+
+The generated package will be available in the `dist/` folder.
+
+## Use the package
+
+Install the generated wheel:
+
+```bash
+pip install dist/mazegen-1.0.0-py3-none-any.whl
+```
+
+Create a `test.py` file and use the generator:
+```python
+import mazegen
+
+maze = mazegen.MazeGenerator(
+    25,
+    25,
+    "0, 0",
+    "24, 24",
+    "maze.txt",
+    "False",
+    None
+)
+```
+
+The output file will be generated using the provided parameters.
 
 ---
 
@@ -270,10 +286,10 @@ Throughout the project, the planning evolved as we continuously improved the pro
 
 ## What Could Be Improved
 
-- Introduce automated tests earlier.
+- Plan Maze Genator earlier.
 - Plan bonus features sooner.
 - Improve performance on very large mazes.
-- Add additional generation algorithms.
+
 
 ## Tools Used
 
@@ -313,13 +329,11 @@ Depth-First Search
 
 https://en.wikipedia.org/wiki/Depth-first_search
 
-Maze Generation Algorithms
+Maze Algorithms
 
 https://en.wikipedia.org/wiki/Maze_generation_algorithm
+https://en.wikipedia.org/wiki/Maze-solving_algorithm
 
-Breadth-first search
-
-https://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
 
 ---
 
