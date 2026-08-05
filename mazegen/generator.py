@@ -1,4 +1,3 @@
-from .print42 import find_center
 from .cells_class import Cells
 import random
 

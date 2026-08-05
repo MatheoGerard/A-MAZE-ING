@@ -32,23 +32,24 @@ def loop_gameplay() -> None:
     is_confirmed: bool = False
 
     try:
-        if (int)(data.get("WIDTH")) > 100 or (int)(data.get("HEIGHT")) > 100:
+        if (int)(data["WIDTH"]) > 100 or (int)(data["HEIGHT"]) > 100:
             print("[red]Large labyrinth detected!\nContinue: 'y/n'[/red]")
             while not is_confirmed:
-                key = readchar.readkey()
+                key: str = readchar.readkey()
                 if key == "y":
                     break
                 else:
                     print("Exit...")
                     return
-    except ValueError:
+    except (KeyError, ValueError):
         raise ValueError(
             "Width and height must be present in config file and must be int"
         )
 
     music.music_player()
     color_set: list[str] = [
-        "red-gold1-yellow1-chartreuse1-chartreuse3-deep_pink2-cyan1-dark_orange3",
+        "red-gold1-yellow1-chartreuse1-chartreuse3-deep_pink2-cyan1-"
+        "dark_orange3",
         "dark_violet-orchid2-plum1-chartreuse1-chartreuse3-steel_blue1"
         "-orchid1-deep_pink2",
         "dark_blue-sky_blue3-dodger_blue2-chartreuse1-chartreuse3-"
@@ -60,14 +61,19 @@ def loop_gameplay() -> None:
         "dark_red-red3-magenta2-gold3-yellow3-magenta2-magenta3-plum1",
         "navy_blue-deep_sky_blue4-deep_sky_blue1-cyan1-medium_spring_green"
         "-green1-chartreuse1-yellow1",
-        "dark_red-red3-dark_orange3-orange1-gold1-yellow1-deep_pink2-bright_white",
-        "navy_blue-blue4-deep_sky_blue4-cyan3-turquoise2-aquamarine1-white-light_cyan1",
+        "dark_red-red3-dark_orange3-orange1-gold1-yellow1-deep_pink2-"
+        "bright_white",
+        "navy_blue-blue4-deep_sky_blue4-cyan3-turquoise2-aquamarine1-"
+        "white-light_cyan1",
         "grey7-dark_red-red3-red1-dark_orange3-gold3-yellow3-white",
-        "hot_pink-deep_pink2-plum1-medium_purple1-sky_blue1-cyan1-yellow1-white",
+        "hot_pink-deep_pink2-plum1-medium_purple1-sky_blue1-cyan1-yellow1"
+        "-white",
         "navy_blue-blue3-royal_blue1-medium_purple1-plum1-gold1-white-yellow1",
-        "grey7-purple4-blue_violet-bright_cyan-deep_pink2-hot_pink-yellow1-white",
+        "grey7-purple4-blue_violet-bright_cyan-deep_pink2-hot_pink-yellow1"
+        "-white",
         "grey11-dark_red-red3-red1-hot_pink-deep_pink2-white-bright_white",
-        "red-dark_orange-orange1-yellow1-chartreuse1-cyan1-blue_violet-magenta1",
+        "red-dark_orange-orange1-yellow1-chartreuse1-cyan1-blue_violet"
+        "-magenta1",
     ]
 
     is_exit: bool = False
@@ -118,7 +124,7 @@ def loop_gameplay() -> None:
     visu.visualizatoin_format(last_gen_soluce, color_set[color_index], console)
     input_panel()
     while not is_exit:
-        key: str = readchar.readkey()
+        key = readchar.readkey()
         match key:
             case "9":
                 is_exit = True
