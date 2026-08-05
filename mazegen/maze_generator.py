@@ -5,12 +5,12 @@ from mazegen import init_lab, Cells
 class MazeGenerator:
     def __init__(
         self,
-        width: int,
-        height: int,
-        entry_value: list[int],
-        exit_value: list[int],
-        output_file: str,
-        perfect: bool,
+        width: int | None,
+        height: int | None,
+        entry_value: list[int] | None,
+        exit_value: list[int] | None,
+        output_file: str | None,
+        perfect: bool | None = False,
         seed: str | None = None,
         symbole: int = 0,
     ) -> None:

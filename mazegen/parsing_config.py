@@ -40,9 +40,9 @@ def parsing_config(file_name: str) -> dict[str, Any]:
     with open(file_name) as file:
         for line in file:
             line_without_space: str = line.strip(" ")
-            if line_without_space.startswith(
-                "#"
-            ) or line_without_space.startswith("\n"):
+            if line_without_space.startswith("#") or line_without_space.startswith(
+                "\n"
+            ):
                 continue
             line_clean: str = line_without_space.strip("\n")
             if equal_count(line_without_space) != 1:
@@ -77,6 +77,8 @@ def validate_config(data: dict[str, Any]) -> None:
     for params in mandatory:
         if params not in data.keys():
             raise ValueError(f"{params} not found")
+        if not data.get(params):
+            raise ValueError(f"{params} must be not NONE")
 
 
 def validate_size_value(data: dict[str, Any]) -> list[int]:
@@ -93,14 +95,24 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
         A list containing the maze width and height.
     """
     size: list[int] = []
-    size.append(int(data["WIDTH"]))
-    size.append(int(data["HEIGHT"]))
+    try:
+        size.append(int(data["WIDTH"]))
+    except Exception:
+        raise TypeError("WIDTH must be a int")
+    try:
+        size.append(int(data["HEIGHT"]))
+    except Exception:
+        raise TypeError("HEIGHT must be a int")
+
+    if size[0] < 0:
+        raise ValueError("WIDTH must be positive")
+    if size[1] < 0:
+        raise ValueError("HEIGHT must be positive")
+
     return size
 
 
-def validate_entry_exit(
-    data: dict[str, Any], size: list[int]
-) -> list[list[int]]:
+def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]]:
     """
     Validate the maze entry and exit positions.
 
