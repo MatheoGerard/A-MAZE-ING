@@ -441,44 +441,6 @@ def destroy_dead_ends(
             lab_lst[current.index_str + 1] = " "
 
 
-def center_driller(
-    cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
-) -> None:
-    """
-    Create an opening in the center of the maze.
-
-    The function locates the maze center and, if it is currently a wall,
-    removes it along with several adjacent walls to create a larger central
-    passage. This helps reduce bottlenecks and makes the maze less linear.
-
-    Args:
-        cells_list: List of all cells composing the maze.
-        size_values: Dimensions of the maze.
-        lab_lst: List representing the current maze state.
-
-    Returns:
-        None
-    """
-
-    center: Cells = find_center(cells_list, size_values)
-    change_line: int = (size_values[0] * 2) - 1
-    current: Cells = center
-
-    if current.char == "#":
-        center.char = " "
-        lab_lst[center.index_str] = " "
-
-        cells_list[center.index_list + change_line].char = " "
-        cells_list[center.index_list + (change_line * 2)].char = " "
-        cells_list[center.index_list + (change_line * 3)].char = " "
-        cells_list[center.index_list - change_line].char = " "
-
-        lab_lst[center.index_str + change_line + 3] = " "
-        lab_lst[center.index_str + (change_line * 2) + 6] = " "
-        lab_lst[center.index_str + (change_line * 3) + 9] = " "
-        lab_lst[center.index_str - change_line - 3] = " "
-
-
 def unperfect(
     cells_list: list[Cells], size_values: list[int], lab_lst: list[str]
 ) -> None:
@@ -500,7 +462,6 @@ def unperfect(
     for c in cells_list:
         if c.char == " " or c.char == "E" or c.char == "e":
             destroy_dead_ends(c, cells_list, size_values, lab_lst)
-    center_driller(cells_list, size_values, lab_lst)
 
 
 def gen_maze(

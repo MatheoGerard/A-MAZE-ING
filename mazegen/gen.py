@@ -1,7 +1,6 @@
 from .parsing_config import (
     validate_config,
     validate_entry_exit,
-    validate_output_name,
     validate_perfect,
     validate_size_value,
     seed_parsing,
@@ -180,7 +179,6 @@ def init_lab(
     size_values: list[int] = validate_size_value(parse_data)
     entry_exit: list[list[int]] = validate_entry_exit(parse_data, size_values)
     perfect: bool = validate_perfect(parse_data)
-    validate_output_name(parse_data)
     seed: None | str = seed_parsing(parse_data)
     if seed:
         random.seed(seed)

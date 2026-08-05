@@ -1,0 +1,16 @@
+LICENSE.md
+pyproject.toml
+mazegen/__init__.py
+mazegen/bfs_solver.py
+mazegen/cells_class.py
+mazegen/gen.py
+mazegen/generator.py
+mazegen/hex_traductor.py
+mazegen/maze_generator.py
+mazegen/parsing_config.py
+mazegen/print42.py
+mazegen/wall_destroyer.py
+mazegen.egg-info/PKG-INFO
+mazegen.egg-info/SOURCES.txt
+mazegen.egg-info/dependency_links.txt
+mazegen.egg-info/top_level.txt

@@ -31,15 +31,20 @@ def loop_gameplay() -> None:
     data: dict[str, Any] = return_parsed_values()
     is_confirmed: bool = False
 
-    if (int)(data.get("WIDTH")) > 100 or (int)(data.get("HEIGHT")) > 100:
-        print("[red]Large labirynthe detected!\nContinue: 'y/n'[/red]")
-        while not is_confirmed:
-            key = readchar.readkey()
-            if key == "y":
-                break
-            else:
-                print("Exit...")
-                return
+    try:
+        if (int)(data.get("WIDTH")) > 100 or (int)(data.get("HEIGHT")) > 100:
+            print("[red]Large labyrinth detected!\nContinue: 'y/n'[/red]")
+            while not is_confirmed:
+                key = readchar.readkey()
+                if key == "y":
+                    break
+                else:
+                    print("Exit...")
+                    return
+    except ValueError:
+        raise ValueError(
+            "Width and height must be present in config file and must be int"
+        )
 
     music.music_player()
     color_set: list[str] = [
@@ -137,7 +142,9 @@ def loop_gameplay() -> None:
                 )
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -161,7 +168,9 @@ def loop_gameplay() -> None:
                 )
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -176,7 +185,9 @@ def loop_gameplay() -> None:
                     )
                     is_soluce_print = True
                 else:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                     is_soluce_print = False
                 input_panel()
             case "4":
@@ -216,7 +227,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -227,7 +240,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -238,7 +253,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console
@@ -252,7 +269,9 @@ def loop_gameplay() -> None:
                 console.clear()
                 visu.title_print(console)
                 if not is_soluce_print:
-                    visu.visualizatoin_format(last_gen, color_set[color_index], console)
+                    visu.visualizatoin_format(
+                        last_gen, color_set[color_index], console
+                    )
                 else:
                     visu.visualizatoin_format(
                         last_gen_soluce, color_set[color_index], console

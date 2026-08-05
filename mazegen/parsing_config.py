@@ -40,9 +40,9 @@ def parsing_config(file_name: str) -> dict[str, Any]:
     with open(file_name) as file:
         for line in file:
             line_without_space: str = line.strip(" ")
-            if line_without_space.startswith("#") or line_without_space.startswith(
-                "\n"
-            ):
+            if line_without_space.startswith(
+                "#"
+            ) or line_without_space.startswith("\n"):
                 continue
             line_clean: str = line_without_space.strip("\n")
             if equal_count(line_without_space) != 1:
@@ -112,7 +112,9 @@ def validate_size_value(data: dict[str, Any]) -> list[int]:
     return size
 
 
-def validate_entry_exit(data: dict[str, Any], size: list[int]) -> list[list[int]]:
+def validate_entry_exit(
+    data: dict[str, Any], size: list[int]
+) -> list[list[int]]:
     """
     Validate the maze entry and exit positions.
 
@@ -181,23 +183,6 @@ def validate_perfect(data: dict[str, Any]) -> bool:
         return False
 
 
-def validate_output_name(data: dict[str, Any]) -> None:
-    """
-    Validate the output file name.
-
-    The function verifies that the configured output file name matches the
-    expected value.
-
-    Args:
-        data: Dictionary containing the parsed configuration values.
-
-    Returns:
-        None
-    """
-    if data["OUTPUT_FILE"] != "maze.txt":
-        raise ValueError("OUTPUT_FILE must be maze.txt")
-
-
 def seed_parsing(data: dict[str, Any]) -> None | str:
     """
     Parse the random generation seed.
@@ -237,7 +222,6 @@ if __name__ == "__main__":
         size_values: list[int] = validate_size_value(parse_data)
         validate_entry_exit(parse_data, size_values)
         validate_perfect(parse_data)
-        validate_output_name(parse_data)
         print("MAZE GENERATE")
     except Exception as e:
         print(e)

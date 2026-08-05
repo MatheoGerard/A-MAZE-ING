@@ -7,10 +7,10 @@ class MazeGenerator:
         self,
         width: int | None,
         height: int | None,
-        entry_value: list[int] | None,
-        exit_value: list[int] | None,
-        output_file: str | None,
-        perfect: bool | None = False,
+        entry_value: str | None,
+        exit_value: str | None,
+        output_file: str | None = "maze.txt",
+        perfect: str | None = "False",
         seed: str | None = None,
         symbole: int = 0,
     ) -> None:
@@ -24,8 +24,8 @@ class MazeGenerator:
         Args:
             width: Width of the maze.
             height: Height of the maze.
-            entry_value: Coordinates of the maze entry.
-            exit_value: Coordinates of the maze exit.
+            entry_value: Coordinates of the maze entry. "x, y"
+            exit_value: Coordinates of the maze exit. "x, y"
             output_file: Name of the output file.
             perfect: Whether to generate a perfect maze.
             seed: Seed used for random generation.
